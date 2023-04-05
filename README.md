@@ -8,3 +8,7 @@ steps:
 2. pip install pipenv
 3. pipenv install (in the root folder)
 4. pipenv shell
+
+# Run linter locally
+
+inside pipenv shell, execute `ruff check ./`
