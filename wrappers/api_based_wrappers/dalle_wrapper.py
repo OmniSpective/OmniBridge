@@ -21,7 +21,7 @@ class DALLEWrapper(RestAPIWrapper):
     def _get_body(self) -> CompletionsRequestBody:
         return json.dumps({
             "prompt": self.prompt,
-            "n": self.config.images,
+            "n": self.config.num_of_images,
             "size": self.config.resolution
         })
 
