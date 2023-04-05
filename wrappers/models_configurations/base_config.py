@@ -16,3 +16,5 @@ class BaseConfiguration:
         config_path = Path(__file__).parent / f'.config_{self.config_type}'
         with open(config_path, 'w') as f:
             f.write(json.dumps(self.to_dict()))
+
+        return config_path
