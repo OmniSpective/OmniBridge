@@ -9,6 +9,7 @@ ruff = "*"
 
 [packages]
 requests = "*"
+ruff = "*"
 
 [requires]
 python_version = "3.11"
