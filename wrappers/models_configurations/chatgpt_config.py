@@ -9,5 +9,7 @@ chatGptModel = TypeVar('chatGptModel', bound=Literal["gpt-4", "gpt-4-0314",
 class GPTConfiguration(BaseConfiguration):
     def __init__(self, api_key: str, model: chatGptModel) -> None:
         super().__init__(api_key)
-        self.config_type = ConfigTypes.CHATGPT
         self.model = model
+
+    def _get_config_file_name() -> ConfigTypes:
+        return f'.config_{ConfigTypes.CHATGPT}'
