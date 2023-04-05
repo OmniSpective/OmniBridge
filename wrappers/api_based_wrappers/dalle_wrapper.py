@@ -16,8 +16,9 @@ class DALLEConfiguration(BaseConfiguration):
     resolution: str
 
 class CompletionsRequestBody(TypedDict):
-    model: dalleModel
-    messages: list[dict[Literal["role", "content"], str]]
+    prompt: str
+    n: int
+    size: str
 
 
 class DALLEWrapper(RestAPIWrapper):
