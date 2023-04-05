@@ -1,14 +1,11 @@
-from typing import Literal, TypeVar, TypedDict, Dict, Any
+from typing import TypedDict, Dict, Any
 import json
 import requests
 from dataclasses import dataclass
 from .base_api_wrapper import RestAPIWrapper, BaseConfiguration
 
 COMPLETIONS_API_URL = "https://api.openai.com/v1/images/generations"
-dalleModel = TypeVar('dalleModel')
 
-class GPTWrapperException(Exception):
-    pass
 
 @dataclass
 class DALLEConfiguration(BaseConfiguration):
@@ -16,8 +13,9 @@ class DALLEConfiguration(BaseConfiguration):
     resolution: str
 
 class CompletionsRequestBody(TypedDict):
-    model: dalleModel
-    messages: list[dict[Literal["role", "content"], str]]
+    prompt: str
+    n: int
+    size: str
 
 
 class DALLEWrapper(RestAPIWrapper):
