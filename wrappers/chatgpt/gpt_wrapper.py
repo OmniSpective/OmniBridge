@@ -35,8 +35,8 @@ class GPTWrapper:
         return json.dumps({
             "model": self.config.model,
             "messages": [
-                {"role": "user"},
-                {"content": self.prompt}
+                {"role": "user",
+                 "content": self.prompt}
             ]
         })
 
@@ -54,6 +54,7 @@ class GPTWrapper:
         try:
             response.raise_for_status()
         except Exception as e:
-            raise GPTWrapperException(f"Request to chatgpt completions api failed due to {e}")
+            raise GPTWrapperException(f"Request to chatgpt completions api failed due to {e}. \n"
+                                      f"Message response: {response.text}")
         
-        return response.json()['choices']['message']['content']
+        return response.json()['choices'][0]['message']['content']
