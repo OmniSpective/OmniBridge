@@ -1,19 +1,14 @@
-from typing import Literal, TypeVar, TypedDict
+from typing import Literal, TypedDict
 import requests
 import json
 
+from wrappers.models_configurations.chatgpt_config import GPTConfiguration, chatGptModel
+
+
 COMPLETIONS_API_URL = "https://api.openai.com/v1/chat/completions"
-chatGptModel = TypeVar('chatGptModel', bound=Literal["gpt-4", "gpt-4-0314",
-                                                      "gpt-4-32k", "gpt-4-32k-0314",
-                                                        "gpt-3.5-turbo", "gpt-3.5-turbo-0301"])
 
 class GPTWrapperException(Exception):
     pass
-
-class GPTConfiguration:
-    def __init__(self, api_key: str, model: chatGptModel) -> None:
-        self.api_key = api_key
-        self.model = model
 
 class CompletionsRequestBody(TypedDict):
     model: chatGptModel
