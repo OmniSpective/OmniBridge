@@ -4,7 +4,6 @@ from wrappers.api_based_wrappers.hugging_face_wrapper import HuggingFaceConfigur
 
 import argparse
 import os
-import sys
 
 def run_chatgpt_wrapper(prompt: str):
     config = GPTConfiguration(model='gpt-3.5-turbo', api_key=os.getenv("OPENAI_API_KEY"))
@@ -53,9 +52,8 @@ if __name__ == '__main__':
                         default=[])
     
     args = vars(parser.parse_args())
-    print(args)
+
     wrappers_names_to_run = args["run_wrapper"]
-    print(wrappers_names_to_run)
 
     if not wrappers_names_to_run:
         run_chatgpt_wrapper(args["chatgpt_prompt"])
