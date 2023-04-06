@@ -1,5 +1,6 @@
 import argparse
 from wrappers.runners import run_chatgpt_wrapper, run_dalle_wrapper, run_hugging_face_wrapper
+from cli.banner import banner
 
 WRAPPER_TO_FUNC = {
     'chatgpt': run_chatgpt_wrapper,
@@ -36,4 +37,5 @@ def run() -> int:
 
 
 if __name__ == '__main__':
+    print(banner)
     exit(run())
