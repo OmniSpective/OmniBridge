@@ -1,7 +1,5 @@
 name: Publish a Python distribution to PyPI
-permissions:
-  actions:
-    write
+permissions: write-all
 on: [ push ]
 jobs:
   publish:
