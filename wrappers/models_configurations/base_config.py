@@ -1,7 +1,6 @@
 
 from typing import Any
 from pathlib import Path
-from .config_types import ConfigTypes
 import json
 from abc import ABC, abstractmethod
 
@@ -12,7 +11,7 @@ class BaseConfiguration(ABC):
     def to_dict(self) -> dict[str, Any]:
         return self.__dict__
     
-    def write_config_to_file(self) -> Path:
+    def save_to_file(self) -> Path:
         config_path = Path(__file__).parent / self._get_config_file_name()
         with open(config_path, 'w') as f:
             f.write(json.dumps(self.to_dict()))
