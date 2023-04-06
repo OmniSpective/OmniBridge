@@ -57,7 +57,7 @@ def parse_models_configurations_from_file(config_file_path: str) -> dict[ConfigT
         try:
             config = config_object(**config_json[model_name])
             models_configs[model_name] = config
-        except TypeError as e:
+        except TypeError:
             print(f"Config of {model_name} is missing required fields, skipping loading its configuration")
 
     return models_configs
