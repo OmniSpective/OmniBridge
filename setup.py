@@ -1,8 +1,9 @@
 from setuptools import setup
+from src.cli.version import version
 
 setup(
     name='OmniBridge',
-    version='0.1.0',
+    version=version,
     author='OmniSpective',
     author_email='eliran9692@gmail.com',
     description='Bridging AI models',
