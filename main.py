@@ -1,16 +1,39 @@
-from wrappers.chatgpt.gpt_wrapper import GPTConfiguration, GPTWrapper
 import argparse
-import os
+from wrappers.runners import run_chatgpt_wrapper, run_dalle_wrapper, run_hugging_face_wrapper
+
+WRAPPER_TO_FUNC = {
+    'chatgpt': run_chatgpt_wrapper,
+    'dalle': run_dalle_wrapper,
+    'hugging_face': run_hugging_face_wrapper
+}
 
 
-# Temp file for testing requests
+def run() -> int:
+    parser = argparse.ArgumentParser(description='AI integration tool.')
+    parser.add_argument('-m', '--model', help="name of a model to run", action="append", default=[])
+    parser.add_argument('-p', '--prompt', help="prompt for model", action="append", default=[])
+    
+    args = vars(parser.parse_args())
 
-parser = argparse.ArgumentParser(description='ChatGPT integration tool.')
-parser.add_argument('-p', '--prompt', help="prompt for chatgpt", default="hello")
+    models = args["model"]
+    prompts = args["prompt"]
 
-args = vars(parser.parse_args())
+    if len(models) != len(prompts):
+        print("Can't process args, models length is different than prompts length")
+        return 1
 
-config = GPTConfiguration(model='gpt-3.5-turbo', api_key=os.getenv("OPENAI_API_KEY"))
-wrapper = GPTWrapper(prompt=args["prompt"], configuration=config)
 
-print(wrapper())
+    for model, prompt in zip(models, prompts):
+        wrapper_func = WRAPPER_TO_FUNC.get(model)
+
+        if not wrapper_func:
+            print(f"Skipping {model} model as it is not supported")
+            continue
+
+        wrapper_func(prompt)
+
+    return 0
+
+
+if __name__ == '__main__':
+    exit(run())

@@ -1,16 +1,12 @@
 from typing import TypedDict, Dict, Any
 import json
-from dataclasses import dataclass
-from .base_api_wrapper import RestAPIWrapper, BaseConfiguration
+from .base_api_wrapper import RestAPIWrapper
+from wrappers.models_configurations.hugging_face_config import HuggingFaceConfiguration
 
 COMPLETIONS_API_URL = "https://api-inference.huggingface.co/models"
 
 class GPTWrapperException(Exception):
     pass
-
-@dataclass
-class HuggingFaceConfiguration(BaseConfiguration):
-    model_id: str
 
 class CompletionsRequestBody(TypedDict):
     prompt: str

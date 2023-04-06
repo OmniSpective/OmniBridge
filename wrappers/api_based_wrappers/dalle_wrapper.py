@@ -1,16 +1,11 @@
 from typing import TypedDict, Dict, Any
 import json
 import requests
-from dataclasses import dataclass
-from .base_api_wrapper import RestAPIWrapper, BaseConfiguration
+from .base_api_wrapper import RestAPIWrapper
+from wrappers.models_configurations.dalle_config import DALLEConfiguration
 
 COMPLETIONS_API_URL = "https://api.openai.com/v1/images/generations"
 
-
-@dataclass
-class DALLEConfiguration(BaseConfiguration):
-    images: int
-    resolution: str
 
 class CompletionsRequestBody(TypedDict):
     prompt: str
@@ -26,7 +21,7 @@ class DALLEWrapper(RestAPIWrapper):
     def _get_body(self) -> CompletionsRequestBody:
         return json.dumps({
             "prompt": self.prompt,
-            "n": self.config.images,
+            "n": self.config.num_of_images,
             "size": self.config.resolution
         })
 

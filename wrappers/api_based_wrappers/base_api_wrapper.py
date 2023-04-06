@@ -1,14 +1,10 @@
 from typing import Any, Dict
 import requests
-from dataclasses import dataclass
 from abc import ABC, abstractmethod
+from wrappers.models_configurations.base_config import BaseConfiguration
 
 class WrapperException(Exception):
     pass
-
-@dataclass
-class BaseConfiguration:
-    api_key: str
 
 
 class RestAPIWrapper(ABC):
