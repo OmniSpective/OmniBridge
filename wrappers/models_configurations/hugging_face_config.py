@@ -6,5 +6,5 @@ class HuggingFaceConfiguration(BaseConfiguration):
         super().__init__(api_key)
         self.model_id = model_id
 
-    def _get_config_file_name() -> ConfigTypes:
+    def _get_config_file_name() -> str:
         return f'.config_{ConfigTypes.HUGGINGFACE}'

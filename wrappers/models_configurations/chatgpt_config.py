@@ -11,5 +11,5 @@ class GPTConfiguration(BaseConfiguration):
         super().__init__(api_key)
         self.model = model
 
-    def _get_config_file_name() -> ConfigTypes:
+    def _get_config_file_name() -> str:
         return f'.config_{ConfigTypes.CHATGPT}'

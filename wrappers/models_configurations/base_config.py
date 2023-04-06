@@ -12,7 +12,7 @@ class BaseConfiguration(ABC):
     def to_dict(self) -> dict[str, Any]:
         return self.__dict__
     
-    def to_file(self) -> Path:
+    def write_config_to_file(self) -> Path:
         config_path = Path(__file__).parent / self._get_config_file_name()
         with open(config_path, 'w') as f:
             f.write(json.dumps(self.to_dict()))
@@ -20,5 +20,5 @@ class BaseConfiguration(ABC):
         return config_path
     
     @abstractmethod
-    def _get_config_file_name() -> ConfigTypes:
+    def _get_config_file_name() -> str:
         pass
