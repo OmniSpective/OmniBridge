@@ -26,7 +26,7 @@ def run_dalle_wrapper(prompt: str, config: DALLEConfiguration | None = None):
 
 def run_hugging_face_wrapper(prompt: str, config: HuggingFaceConfiguration):
     _config = config if config else HuggingFaceConfiguration(
-        api_key=os.getenv("OPENAI_API_KEY"),
+        api_key=os.getenv("HUGGING_FACE_API_KEY"),
         model_id = "distilbert-base-uncased")        
     wrapper = HuggingFaceWrapper(prompt=prompt, configuration=_config)
     
