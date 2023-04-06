@@ -17,7 +17,7 @@ jobs:
           pipenv install
       - name: bump version
         run: |
-          version=$(grep -oP 'version\s*=\s*"\K[^"]+' version.py)
+          version=$(grep -oP 'version\s*=\s*"\K[^"]+' src/cli/version.py)
           IFS="." read -ra version_parts <<< "$version"
           patch=$(( ${version_parts[2]} + 1 ))
           new_version="${version_parts[0]}.${version_parts[1]}.$patch"
