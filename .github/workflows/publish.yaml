@@ -21,7 +21,7 @@ jobs:
           IFS="." read -ra version_parts <<< "$version"
           patch=$(( ${version_parts[2]} + 1 ))
           new_version="${version_parts[0]}.${version_parts[1]}.$patch"
-          sed -i "s/version = \"${version}\"/version = \"${new_version}\"/" version.py
+          sed -i "s/version = \"${version}\"/version = \"${new_version}\"/" src/cli/version.py
       - name: Commit and push changes
         run: |
           git config user.name "pypi publish workflow"
