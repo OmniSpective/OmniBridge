@@ -29,9 +29,9 @@ jobs:
           git add version.py
           git commit -m "bump version"
           git push
-        - name: Create source distribution
-          run: |
-            python setup.py sdist
+      - name: Create source distribution
+        run: |
+          python setup.py sdist
       - uses: pypa/gh-action-pypi-publish@release/v1
         with:
           password: ${{ secrets.PYPI_API_TOKEN }}
