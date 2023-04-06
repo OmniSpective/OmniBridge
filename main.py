@@ -1,5 +1,7 @@
 import argparse
 from wrappers.runners import run_chatgpt_wrapper, run_dalle_wrapper, run_hugging_face_wrapper
+from wrappers.models_configurations.config_loader import parse_models_configurations_from_file
+from wrappers.models_configurations.config_types import ConfigTypes
 from cli.banner import banner
 
 WRAPPER_TO_FUNC = {
@@ -13,7 +15,8 @@ def run() -> int:
     parser = argparse.ArgumentParser(description='AI integration tool.')
     parser.add_argument('-m', '--model', help="name of a model to run", action="append", default=[])
     parser.add_argument('-p', '--prompt', help="prompt for model", action="append", default=[])
-    
+    parser.add_argument('-l', "--load-config", help="absolute path to models configuration file")
+
     args = vars(parser.parse_args())
 
     models = args["model"]
@@ -23,6 +26,7 @@ def run() -> int:
         print("Can't process args, models length is different than prompts length")
         return 1
 
+    configs = parse_models_configurations_from_file(args["load_config"])
 
     for model, prompt in zip(models, prompts):
         wrapper_func = WRAPPER_TO_FUNC.get(model)
@@ -30,8 +34,9 @@ def run() -> int:
         if not wrapper_func:
             print(f"Skipping {model} model as it is not supported")
             continue
-
-        wrapper_func(prompt)
+        
+        config = configs.get(ConfigTypes(model.upper())) if configs else None
+        wrapper_func(prompt, config)
 
     return 0
 

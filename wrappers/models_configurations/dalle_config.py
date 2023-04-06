@@ -7,5 +7,5 @@ class DALLEConfiguration(BaseConfiguration):
         self.num_of_images = num_of_images
         self.resolution = resolution
 
-    def _get_config_file_name() -> str:
-        return f'.config_{ConfigTypes.DALLE}'
+    def _get_config_type() -> ConfigTypes:
+        return ConfigTypes.DALLE
