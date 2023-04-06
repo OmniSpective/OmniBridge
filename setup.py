@@ -9,11 +9,13 @@ with open(path.join(this_directory, "README.md"), encoding="utf-8") as f:
 
 setup(
     name='OmniBridge',
+    license="Apache License 2.0",
     version=version,
     author='OmniSpective',
     author_email='eliran9692@gmail.com',
     description='Bridging AI models',
     long_description=long_description,
+    long_description_content_type="text/markdown",
     url='https://github.com/tmpOrgName/OmniBridge',
     packages=['src'],
     install_requires=[
