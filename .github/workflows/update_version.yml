@@ -24,7 +24,8 @@ jobs:
     - name: generate branch name
       run: |
         branch_name="update-version-$(date +'%Y%m%d%H%M%S')-$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 8 | head -n 1)"
-
+        echo "BRANCH_NAME=$branch_name" >> $GITHUB_ENV
+        
     - name: Push changes
       uses: ad-m/github-push-action@v0.6.0
       with:
