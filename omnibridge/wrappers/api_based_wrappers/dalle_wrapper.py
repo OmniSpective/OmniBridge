@@ -30,12 +30,16 @@ class DALLEWrapper(RestAPIWrapper):
 
     def _parse_response(self, response: Dict[str, Any]) -> str:
         images = []
+        images_path = []
         data = response['data']
     
         for idx, item in enumerate(data):
             response = requests.get(item['url'])
             images.append(response.content)
+            
             with open(f"image_{idx}.jpg", "wb") as f:
                 f.write(response.content)
+            images_path.append(f"image_{idx}.jpg")
 
-        return images
+        return {'images': images,
+                'images_path': images_path}

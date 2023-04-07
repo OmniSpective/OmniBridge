@@ -1,4 +1,4 @@
-from typing import Literal, TypedDict
+from typing import Literal, TypedDict, Dict
 import requests
 import json
 
@@ -35,7 +35,7 @@ class GPTWrapper:
             ]
         })
 
-    def __call__(self) -> str:
+    def __call__(self) -> Dict[str, str]:
         """
         raises GPTWrapperException if request failed
         returns string response from chatgpt completions api
@@ -52,4 +52,4 @@ class GPTWrapper:
             raise GPTWrapperException(f"Request to chatgpt completions api failed due to {e}. \n"
                                       f"Message response: {response.text}")
         
-        return response.json()['choices'][0]['message']['content']
+        return {'response': response.json()['choices'][0]['message']['content']}
