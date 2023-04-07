@@ -1,4 +1,4 @@
-name: Publish a Python distribution to PypI
+name: Publish a Python distribution to PyPI
 permissions: write-all
 on: [ push ]
 jobs:
