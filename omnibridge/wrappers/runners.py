@@ -1,6 +1,6 @@
-from wrappers.api_based_wrappers.gpt_wrapper import GPTConfiguration, GPTWrapper
-from wrappers.api_based_wrappers.dalle_wrapper import DALLEWrapper, DALLEConfiguration
-from wrappers.api_based_wrappers.hugging_face_wrapper import HuggingFaceConfiguration, HuggingFaceWrapper
+from .api_based_wrappers.gpt_wrapper import GPTConfiguration, GPTWrapper
+from .api_based_wrappers.dalle_wrapper import DALLEWrapper, DALLEConfiguration
+from .api_based_wrappers.hugging_face_wrapper import HuggingFaceConfiguration, HuggingFaceWrapper
 import os
 from typing import Dict, Any
 
@@ -11,10 +11,11 @@ def run_chatgpt_wrapper(prompt: str, config: GPTConfiguration | None = None) -> 
 
     try:
         ret = print(wrapper())
+        return ret
     except Exception as e:
         print(e)
 
-    return ret
+    
 
 def run_dalle_wrapper(prompt: str, config: DALLEConfiguration | None = None) -> Dict[str, Any]:
     _config = config if config else DALLEConfiguration(api_key=os.getenv("OPENAI_API_KEY"),
@@ -24,10 +25,11 @@ def run_dalle_wrapper(prompt: str, config: DALLEConfiguration | None = None) -> 
 
     try:
         ret = wrapper()
+        return ret
     except Exception as e:
         print(e)
 
-    return ret
+    
 
 def run_hugging_face_wrapper(prompt: str, config: HuggingFaceConfiguration) -> Dict[str, Any]:
     _config = config if config else HuggingFaceConfiguration(
@@ -37,7 +39,8 @@ def run_hugging_face_wrapper(prompt: str, config: HuggingFaceConfiguration) -> D
     
     try:
         ret = wrapper()
+        return ret
     except Exception as e:
         print(e)
 
-    return ret
+    
