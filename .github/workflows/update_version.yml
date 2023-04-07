@@ -1,5 +1,6 @@
 name: Update Version
 permissions: write-all
+
 on:
   push:
     branches:
@@ -15,16 +16,20 @@ jobs:
     - name: Increment version
       run: |
         version=$(grep -oP 'version\s*=\s*"\K[^"]+' omnibridge/version.py)
-          IFS="." read -ra version_parts <<< "$version"
-          patch=$(( ${version_parts[2]} + 1 ))
-          new_version="${version_parts[0]}.${version_parts[1]}.$patch"
-          sed -i "s/version = \"${version}\"/version = \"${new_version}\"/" omnibridge/version.py
+        IFS="." read -ra version_parts <<< "$version"
+        patch=$(( ${version_parts[2]} + 1 ))
+        new_version="${version_parts[0]}.${version_parts[1]}.$patch"
+        sed -i "s/version = \"${version}\"/version = \"${new_version}\"/" omnibridge/version.py
+
+    - name: generate branch name
+      run: |
+        branch_name="update-version-$(date +'%Y%m%d%H%M%S')-$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 8 | head -n 1)"
 
     - name: Push changes
       uses: ad-m/github-push-action@v0.6.0
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: update-version
+        branch: ${{ env.branch_name }}
 
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v3
@@ -32,5 +37,5 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         title: "Increment version"
         body: "This PR increments the version in `version.py`."
-        branch: update-version
+        branch: ${{ env.branch_name }}
         labels: "version-update"
