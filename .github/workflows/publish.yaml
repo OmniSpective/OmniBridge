@@ -25,11 +25,11 @@ jobs:
           sed -i "s/version = \"${version}\"/version = \"${new_version}\"/" omnibridge/version.py
       - name: Commit and push changes
         run: |
-          git config user.name "pypi publish workflow"
-          git config user.email "your.email@example.com"
-          git add omnibridge/version.py
-          git commit -m "bump version"
-          git push
+          # git config user.name "pypi publish workflow"
+          # git config user.email "your.email@example.com"
+          # git add omnibridge/version.py
+          git commit -m --reuse-message="HEAD@{1}"
+          git push origin
       - name: Create source distribution
         run: |
           python setup.py sdist
