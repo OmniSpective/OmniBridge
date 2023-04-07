@@ -5,20 +5,14 @@ on:
   push:
     branches:
       - main
+      - '!version-update-*'   # excludes version-update branches from this workflow
 
 jobs:
   increment_version:
     runs-on: ubuntu-latest
-    if: "!contains(fromJson(steps.check_latest_pr.outputs.pr_labels), 'version-update')"
     steps:
     - name: Check out code
       uses: actions/checkout@v2
-      
-    - name: Check latest PR labels
-      id: check_latest_pr
-      run: |
-        pr_labels=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/${{ github.repository }}/pulls?state=closed | jq -r '[.[] | select(.merged_at != null) | .labels[].name] | join(",")')
-        echo "::set-output name=pr_labels::${pr_labels}"
 
     - name: Increment version
       run: |
