@@ -1,4 +1,4 @@
-from ..version import version
+from version import version
 
 banner = r"""
    ____                     _  ____         _      __           

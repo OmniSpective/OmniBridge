@@ -1,7 +1,7 @@
 from typing import TypedDict, Dict, Any
 import json
 from .base_api_wrapper import RestAPIWrapper
-from wrappers.models_configurations.hugging_face_config import HuggingFaceConfiguration
+from ..models_configurations.hugging_face_config import HuggingFaceConfiguration
 
 COMPLETIONS_API_URL = "https://api-inference.huggingface.co/models"
 

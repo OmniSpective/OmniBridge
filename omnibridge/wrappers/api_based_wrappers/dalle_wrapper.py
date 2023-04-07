@@ -2,7 +2,7 @@ from typing import TypedDict, Dict, Any
 import json
 import requests
 from .base_api_wrapper import RestAPIWrapper
-from wrappers.models_configurations.dalle_config import DALLEConfiguration
+from ..models_configurations.dalle_config import DALLEConfiguration
 
 COMPLETIONS_API_URL = "https://api.openai.com/v1/images/generations"
 

@@ -2,7 +2,7 @@ from typing import Literal, TypedDict
 import requests
 import json
 
-from wrappers.models_configurations.chatgpt_config import GPTConfiguration, chatGptModel
+from ..models_configurations.chatgpt_config import GPTConfiguration, chatGptModel
 
 
 COMPLETIONS_API_URL = "https://api.openai.com/v1/chat/completions"

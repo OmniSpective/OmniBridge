@@ -1,7 +1,7 @@
 from typing import Any, Dict
 import requests
 from abc import ABC, abstractmethod
-from wrappers.models_configurations.base_config import BaseConfiguration
+from ..models_configurations.base_config import BaseConfiguration
 
 class WrapperException(Exception):
     pass
