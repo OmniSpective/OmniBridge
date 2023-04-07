@@ -8,8 +8,8 @@ on:
 
 jobs:
   increment_version:
-    if: "!contains(fromJson(steps.check_latest_pr.outputs.pr_labels), 'version-update')"
     runs-on: ubuntu-latest
+    if: "!contains(fromJson(steps.check_latest_pr.outputs.pr_labels), 'version-update')"
     steps:
     - name: Check out code
       uses: actions/checkout@v2
