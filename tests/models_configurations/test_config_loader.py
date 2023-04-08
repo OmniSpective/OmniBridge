@@ -1,4 +1,3 @@
-import pytest
 from pathlib import Path
 
 from omnibridge.wrappers.models_configurations.config_types import ConfigTypes
@@ -23,7 +22,7 @@ def test_parse_models_configurations_from_file_chatgpt_good_config():
     assert gpt_result.model == "mock"
 
 
-def test_parse_models_configurations_from_file_chatgpt_good_config():
+def test_parse_models_configurations_from_file_chatgpt_bad_config():
     # Arrange
     config_file_path = Path(__file__).parent / 'data/chatgpt/bad_chatgpt_config.json'
 
