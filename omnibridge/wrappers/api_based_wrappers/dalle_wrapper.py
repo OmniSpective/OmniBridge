@@ -4,10 +4,10 @@ import requests
 from .base_api_wrapper import RestAPIWrapper
 from ..models_configurations.dalle_config import DALLEConfiguration
 
-COMPLETIONS_API_URL = "https://api.openai.com/v1/images/generations"
+IMAGE_GENARATION_API_URL = "https://api.openai.com/v1/images/generations"
 
 
-class CompletionsRequestBody(TypedDict):
+class ImageGenerationRequestBody(TypedDict):
     prompt: str
     n: int
     size: str
@@ -16,9 +16,9 @@ class CompletionsRequestBody(TypedDict):
 class DALLEWrapper(RestAPIWrapper):
     def __init__(self, prompt: str, configuration: DALLEConfiguration) -> None:
         super().__init__(prompt, configuration)
-        self.api_url = COMPLETIONS_API_URL
+        self.api_url = IMAGE_GENARATION_API_URL
     
-    def _get_body(self) -> CompletionsRequestBody:
+    def _get_body(self) -> ImageGenerationRequestBody:
         return json.dumps({
             "prompt": self.prompt,
             "n": self.config.num_of_images,
