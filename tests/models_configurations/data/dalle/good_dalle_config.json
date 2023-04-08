@@ -1,0 +1,7 @@
+{
+    "dalle": {
+        "api_key": "mock",
+        "num_of_images": 1,
+        "resolution": "mock"
+    }
+}
