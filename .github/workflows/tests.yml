@@ -16,6 +16,7 @@ jobs:
         run: |
           pipenv --python 3.11
           pipenv install
+          pipenv install --dev
           
       - name: Run tests
         run: |
