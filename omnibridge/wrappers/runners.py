@@ -4,6 +4,7 @@ from .api_based_wrappers.hugging_face_wrapper import HuggingFaceConfiguration, H
 import os
 from typing import Dict, Any
 
+
 def run_chatgpt_wrapper(prompt: str, config: GPTConfiguration | None = None) -> Dict[str, Any]:
     _config = config if config else GPTConfiguration(model='gpt-3.5-turbo',
                                                       api_key=os.getenv("OPENAI_API_KEY"))
