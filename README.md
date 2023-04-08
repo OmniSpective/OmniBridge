@@ -1,3 +1,5 @@
+![PyPI - Downloads](https://img.shields.io/pypi/dd/omnibridge?style=plastic)
+
 # Install
 
 requirerments:
