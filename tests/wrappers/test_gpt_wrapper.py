@@ -69,4 +69,6 @@ def test_gpt_wrapper_api_call_fails():
         wrapper()
 
     # Assert
-    assert str(exc_info.value) == "Request to chatgpt completions api failed due to 500 Server Error: Internal Server Error for url: https://api.openai.com/v1/chat/completions. \nMessage response: {}"
+    assert str(exc_info.value) == "Request to chatgpt completions api failed due to 500 Server Error:" \
+                                    "Internal Server Error for url: https://api.openai.com/v1/chat/completions." \
+                                    "\nMessage response: {}"
