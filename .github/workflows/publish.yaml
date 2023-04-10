@@ -2,7 +2,10 @@ name: Publish a Python distribution to PyPI
 
 permissions: write-all
 
-on: [ push ]
+on:
+  push:
+    branches:
+      - main  
 jobs:
   publish:
     runs-on: ubuntu-latest
