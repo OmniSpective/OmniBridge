@@ -1,5 +1,6 @@
 import argparse
-from wrappers.runners import run_prompt_in_chatgpt_wrapper, run_prompt_in_dalle_wrapper, run_prompt_in_hugging_face_wrapper
+from wrappers.runners import run_prompt_in_chatgpt_wrapper, run_prompt_in_dalle_wrapper, \
+    run_prompt_in_hugging_face_wrapper
 from wrappers.models_configurations.config_loader import parse_models_configurations_from_file
 from wrappers.models_configurations.config_types import ConfigTypes
 from cli.banner import banner
