@@ -34,4 +34,4 @@ def test_gpt_wrapper_api_call_fails():
         wrapper.prompt('send_mock')
 
     # Assert
-    assert str(exc_info.value).startswith("Request to api endpoint failed due to ")
+    assert str(exc_info.value).startswith("Request to api endpoint: ")

@@ -1,5 +1,4 @@
 from typing import Literal, TypedDict, Dict, Any
-import requests
 import json
 
 from .base_api_wrapper import RestAPIWrapper
@@ -25,10 +24,10 @@ class GPTWrapper(RestAPIWrapper):
         self.api_url = COMPLETIONS_API_URL
 
     def _get_api_url(self) -> str:
-        pass
+        return self.api_url
 
-    def _parse_response(self, response: Dict[str, Any]) -> str:
-        pass
+    def _parse_response(self, response: Dict[str, Any]) -> Any:
+        return {'response': response['choices'][0]['message']['content']}
 
     def _get_headers(self) -> dict[str, str]:
         return {
@@ -44,22 +43,3 @@ class GPTWrapper(RestAPIWrapper):
                  "content": prompt_message}
             ]
         })
-
-    def prompt(self, prompt_message: str) -> Any:
-        """
-        raises GPTWrapperException if request failed
-        returns string response from chatgpt completions api
-        """
-        response = requests.post(
-            self.api_url,
-            headers=self._get_headers(),
-            data=self._get_body(prompt_message)
-        )
-
-        try:
-            response.raise_for_status()
-        except Exception as e:
-            raise GPTWrapperException(f"Request to chatgpt completions api failed due to {e}. \n"
-                                      f"Message response: {response.text}")
-
-        return {'response': response.json()['choices'][0]['message']['content']}

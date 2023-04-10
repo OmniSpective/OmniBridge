@@ -1,7 +1,8 @@
 import responses
 import pytest
 
-from omnibridge.wrappers.api_based_wrappers.gpt_wrapper import COMPLETIONS_API_URL, GPTWrapper, GPTWrapperException
+from omnibridge.wrappers.api_based_wrappers.base_api_wrapper import WrapperException
+from omnibridge.wrappers.api_based_wrappers.gpt_wrapper import COMPLETIONS_API_URL, GPTWrapper
 from omnibridge.wrappers.models_configurations.chatgpt_config import GPTConfiguration
 
 
@@ -65,10 +66,8 @@ def test_gpt_wrapper_api_call_fails():
     wrapper = GPTWrapper(configuration=GPTConfiguration(api_key='abc', model='gpt-4'))
 
     # Act
-    with pytest.raises(GPTWrapperException) as exc_info:
+    with pytest.raises(WrapperException) as exc_info:
         wrapper.prompt('send_mock')
 
     # Assert
-    assert str(exc_info.value) == "Request to chatgpt completions api failed due to 500 Server Error: " \
-                                  "Internal Server Error for url: https://api.openai.com/v1/chat/completions. " \
-                                  "\nMessage response: {}"
+    assert str(exc_info.value).startswith(f"Request to api endpoint: {COMPLETIONS_API_URL} failed.")
