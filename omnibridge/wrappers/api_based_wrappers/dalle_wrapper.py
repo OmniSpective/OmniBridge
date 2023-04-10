@@ -14,13 +14,13 @@ class ImageGenerationRequestBody(TypedDict):
 
 
 class DALLEWrapper(RestAPIWrapper):
-    def __init__(self, prompt: str, configuration: DALLEConfiguration) -> None:
-        super().__init__(prompt, configuration)
+    def __init__(self, configuration: DALLEConfiguration) -> None:
+        super().__init__(configuration)
         self.api_url = IMAGE_GENARATION_API_URL
     
-    def _get_body(self) -> ImageGenerationRequestBody:
+    def _get_body(self, prompt_message: str) -> ImageGenerationRequestBody:
         return json.dumps({
-            "prompt": self.prompt,
+            "prompt": prompt_message,
             "n": self.config.num_of_images,
             "size": self.config.resolution
         })
@@ -28,7 +28,7 @@ class DALLEWrapper(RestAPIWrapper):
     def _get_api_url(self) -> str:
         return self.api_url
 
-    def _parse_response(self, response: Dict[str, Any]) -> str:
+    def _parse_response(self, response: Dict[str, Any]) -> Any:
         images = []
         images_path = []
         data = response['data']

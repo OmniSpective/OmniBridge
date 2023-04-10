@@ -3,13 +3,13 @@ import requests
 from abc import ABC, abstractmethod
 from ..models_configurations.base_config import BaseConfiguration
 
+
 class WrapperException(Exception):
     pass
 
 
 class RestAPIWrapper(ABC):
-    def __init__(self, prompt: str, configuration: BaseConfiguration) -> None:
-        self.prompt = prompt
+    def __init__(self, configuration: BaseConfiguration) -> None:
         self.config = configuration
 
     def _get_headers(self) -> dict[str, str]:
@@ -19,7 +19,7 @@ class RestAPIWrapper(ABC):
         }
 
     @abstractmethod
-    def _get_body(self) -> Any:
+    def _get_body(self, prompt_message: str) -> Any:
         pass
     
     @abstractmethod
@@ -30,7 +30,7 @@ class RestAPIWrapper(ABC):
     def _parse_response(self, response: Dict[str, Any]) -> str:
         pass
 
-    def __call__(self) -> str:
+    def prompt(self, prompt_message: str) -> Any:
         """
         raises GPTWrapperException if request failed
         returns string response from chatgpt completions api
@@ -38,7 +38,7 @@ class RestAPIWrapper(ABC):
         response = requests.post(
             self._get_api_url(),
             headers=self._get_headers(),
-            data=self._get_body()
+            data=self._get_body(prompt_message)
         )
 
         try:
