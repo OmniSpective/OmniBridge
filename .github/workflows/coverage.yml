@@ -27,9 +27,7 @@ jobs:
     - name: Install dependencies
       run: |
         pipenv --python 3.11
-        pipenv install
-        pipenv install --dev
-        pipenv install coverage
+        pipenv install --dev --deploy
 
     - name: Run tests with coverage
       run: coverage run -m pytest
