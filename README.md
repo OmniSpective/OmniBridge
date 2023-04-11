@@ -1,3 +1,4 @@
+[![codecov](https://codecov.io/gh/OmniSpective/OmniBridge/branch/main/graph/badge.svg)](https://codecov.io/gh/OmniSpective/OmniBridge)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/OmniSpective/OmniBridge/tests.yml)
 ![PyPI - License](https://img.shields.io/pypi/l/omnibridge)
 ![GitHub Pipenv locked Python version](https://img.shields.io/github/pipenv/locked/python-version/OmniSpective/OmniBridge)
