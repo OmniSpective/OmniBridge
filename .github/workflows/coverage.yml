@@ -30,10 +30,10 @@ jobs:
         pipenv install --dev --deploy
 
     - name: Run tests with coverage
-      run: coverage run -m pytest
+      run: pipenv run coverage run -m pytest
 
     - name: Generate coverage report
-      run: coverage report -m
+      run: pipenv run coverage report -m
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
