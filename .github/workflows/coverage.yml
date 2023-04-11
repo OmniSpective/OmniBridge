@@ -36,7 +36,7 @@ jobs:
       run: pipenv run coverage report -m
 
     - name: Save coverage report xml
-      run : 
+      run : |
       mkdir .coverage
       pipenv run coverage xml -o .coverage/report.xml
 
