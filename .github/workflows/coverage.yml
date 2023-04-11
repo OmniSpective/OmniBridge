@@ -36,8 +36,4 @@ jobs:
       run: pipenv run coverage report -m
 
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v2
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }} # Only required for private repos
-        files: ./coverage.xml
-        fail_ci_if_error: false
+      uses: codecov/codecov-action@v3
