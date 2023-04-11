@@ -37,11 +37,9 @@ jobs:
 
     - name: Save coverage report xml
       run : |
-        mkdir .coverage
-        pipenv run coverage xml -o .coverage/report.xml
+        pipenv run coverage xml
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
-        directory: ./.coverage
-        files: ./report.xml
+        files: ./coverage.xml
