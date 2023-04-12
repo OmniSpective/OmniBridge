@@ -2,15 +2,16 @@ from typing import Any, Dict
 import requests
 from abc import ABC, abstractmethod
 from ..models_configurations.base_config import BaseConfiguration
-
+import logging
 
 class WrapperException(Exception):
     pass
 
 
 class RestAPIWrapper(ABC):
-    def __init__(self, configuration: BaseConfiguration) -> None:
+    def __init__(self, configuration: BaseConfiguration, logger: logging.Logger=logging.getLogger()) -> None:
         self.config = configuration
+        self.logger = logger
 
     def _get_headers(self) -> dict[str, str]:
         return {
@@ -35,6 +36,7 @@ class RestAPIWrapper(ABC):
         raises GPTWrapperException if request failed
         returns string response from chatgpt completions api
         """
+        self.logger.debug(f'Sending prompt to API: {prompt_message}')
         response = requests.post(
             self._get_api_url(),
             headers=self._get_headers(),
@@ -44,8 +46,10 @@ class RestAPIWrapper(ABC):
         try:
             response.raise_for_status()
         except Exception as e:
-            raise WrapperException(f"Request to api endpoint: {self._get_api_url()} failed.\n"
-                                   f"Response message: {response.text}.\n"
-                                   f"Exception caught: {e}")
+            error_message = f"Request to api endpoint: {self._get_api_url()} failed.\n" \
+                                   f"Response message: {response.text}.\n" \
+                                   f"Exception caught: {e}"
+            self.logger.error(error_message)
+            raise WrapperException(error_message)
         
         return self._parse_response(response.json())
