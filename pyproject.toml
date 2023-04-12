@@ -45,8 +45,9 @@ max-complexity = 10
 
 [tool.mypy]
 files = "omnibridge"
-# strict = true
+strict = true
 show_error_codes = true
+exclude ="^tests/"
 
 [[tool.mypy.overrides]]
 module = "requests"

@@ -1,4 +1,4 @@
-from typing import TypedDict, Any
+from typing import cast, Any
 import json
 import logging
 from .base_api_wrapper import RestAPIWrapper
@@ -7,13 +7,9 @@ from ..models_configurations.hugging_face_config import HuggingFaceConfiguration
 HUGGING_FACE_BASE_URL = "https://api-inference.huggingface.co/models"
 
 
-class HuggingFaceModelRequestBody(TypedDict):
-    prompt: str
-    n: int
-    size: str
-
-
 class HuggingFaceWrapper(RestAPIWrapper):
+    config: HuggingFaceConfiguration
+
     def __init__(self, configuration: HuggingFaceConfiguration, logger: logging.Logger=logging.getLogger()) -> None:
         super().__init__(configuration, logger)
         self.api_url = HUGGING_FACE_BASE_URL

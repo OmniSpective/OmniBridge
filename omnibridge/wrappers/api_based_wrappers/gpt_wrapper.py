@@ -8,12 +8,8 @@ import logging
 COMPLETIONS_API_URL = "https://api.openai.com/v1/chat/completions"
 
 
-class CompletionsRequestBody(TypedDict):
-    model: chatGptModel
-    messages: list[dict[Literal["role", "content"], str]]
-
-
 class GPTWrapper(TextualRestAPIWrapper):
+    config: GPTConfiguration
 
     def __init__(self, configuration: GPTConfiguration, logger: logging.Logger=logging.getLogger()) -> None:
         super().__init__(configuration, logger)

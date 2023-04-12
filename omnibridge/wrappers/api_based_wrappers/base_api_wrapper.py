@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, cast
 import requests
 from abc import ABC, abstractmethod
 from ..models_configurations.base_config import BaseConfiguration
@@ -56,7 +56,7 @@ class RestAPIWrapper(ABC):
 
 class TextualRestAPIWrapper(RestAPIWrapper, TextualModelWrapper):
     @abstractmethod
-    def _parse_response(self, response_json) -> Any:
+    def _parse_response(self, response_json: Any) -> str:
         pass
 
     def prompt_and_get_response(self, prompt: str) -> str:

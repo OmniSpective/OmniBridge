@@ -1,6 +1,6 @@
 import logging
 from datetime import datetime
-
+from typing import Any
 
 class LogManager:
     """
@@ -26,7 +26,8 @@ class LogManager:
         logger.error("This is an error message.")
         logger.critical("This is a critical message.")
     """
-    _instance = None
+    _instance: Any = None
+    _initialized: bool = False
 
     FORMATTER = logging.Formatter('%(asctime)s [%(levelname)s]: %(message)s')
     STREAM_LOG_LEVEL = logging.ERROR
@@ -34,7 +35,7 @@ class LogManager:
     LOG_FILE_NAME = ".log-" + datetime.today().strftime('%d-%m-%Y')
     LOGGER_NAME = "OmniSpectiveLogger"
 
-    def __new__(cls):
+    def __new__(cls: Any) -> Any:
         if cls._instance is None:
             cls._instance = super().__new__(cls)
             cls._instance._initialized = False
@@ -63,5 +64,5 @@ class LogManager:
         self._initialized = True
 
     @property
-    def logger(self):
+    def logger(self) -> logging.Logger:
         return self._logger

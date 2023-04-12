@@ -16,6 +16,8 @@ class ImageGenerationRequestBody(TypedDict):
 
 
 class DALLEWrapper(RestAPIWrapper, FileGenModelWrapper):
+    config: DALLEConfiguration
+    
     def __init__(self, configuration: DALLEConfiguration, logger: logging.Logger=logging.getLogger()) -> None:
         super().__init__(configuration, logger)
         self.api_url = IMAGE_GENARATION_API_URL
