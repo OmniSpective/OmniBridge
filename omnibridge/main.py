@@ -1,9 +1,9 @@
 import argparse
-from wrappers.runners import run_prompt_in_chatgpt_wrapper, run_prompt_in_dalle_wrapper, \
+from omnibridge.wrappers.runners import run_prompt_in_chatgpt_wrapper, run_prompt_in_dalle_wrapper, \
     run_prompt_in_hugging_face_wrapper
-from wrappers.models_configurations.config_loader import parse_models_configurations_from_file
-from wrappers.models_configurations.config_types import ConfigTypes
-from cli.banner import banner
+from omnibridge.wrappers.models_configurations.config_loader import parse_models_configurations_from_file
+from omnibridge.wrappers.models_configurations.config_types import ConfigTypes
+from omnibridge.cli.banner import banner
 
 WRAPPER_TO_FUNC = {
     'chatgpt': run_prompt_in_chatgpt_wrapper,

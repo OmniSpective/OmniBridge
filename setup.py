@@ -10,8 +10,8 @@ with open(path.join(this_directory, "README.md"), encoding="utf-8") as f:
 spec = util.spec_from_file_location(
     "omnibridge.version", os.path.join("omnibridge", "version.py")
 )
-mod = util.module_from_spec(spec)
-spec.loader.exec_module(mod)
+mod = util.module_from_spec(spec)  # type: ignore[arg-type]
+spec.loader.exec_module(mod)  # type: ignore[union-attr]
 version = mod.version
 
 

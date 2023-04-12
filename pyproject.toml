@@ -42,3 +42,21 @@ target-version = "py310"
 [tool.ruff.mccabe]
 # Unlike Flake8, default to a complexity level of 10.
 max-complexity = 10
+
+[tool.mypy]
+files = "omnibridge"
+# strict = true
+show_error_codes = true
+
+[[tool.mypy.overrides]]
+module = "requests"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "setuptools"
+ignore_missing_imports = true
+
+[tool.coverage.run]
+omit = [
+    "tests/*",
+]

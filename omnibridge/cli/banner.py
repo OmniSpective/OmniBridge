@@ -1,4 +1,4 @@
-from version import version
+from omnibridge.version import version
 
 banner = r"""
    ____                     _  ____         _      __           

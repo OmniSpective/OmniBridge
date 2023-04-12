@@ -8,6 +8,7 @@ pytest = "*"
 ruff = "*"
 responses = "*"
 coverage = "*"
+mypy = "*"
 
 [packages]
 requests = "*"

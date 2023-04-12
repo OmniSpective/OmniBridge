@@ -39,7 +39,7 @@ def parse_models_configurations_from_file(config_file_path: str) -> dict[ConfigT
     """
     if not config_file_path or not os.path.exists(config_file_path):
         print(f"Config file not set or doesn't exist, got: {config_file_path}, defaulting to runtime configurations")
-        return []
+        return {}
 
     with open(config_file_path, "r") as f:
         config_json = json.load(f)

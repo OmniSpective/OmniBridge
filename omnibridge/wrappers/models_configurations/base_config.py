@@ -20,5 +20,5 @@ class BaseConfiguration(ABC):
         return config_path
     
     @abstractmethod
-    def _get_config_type() -> ConfigTypes:
+    def _get_config_type(self) -> ConfigTypes:
         pass
