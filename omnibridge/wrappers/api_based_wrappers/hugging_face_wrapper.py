@@ -1,4 +1,4 @@
-from typing import TypedDict, Dict, Any
+from typing import TypedDict, Any
 import json
 from .base_api_wrapper import RestAPIWrapper
 from ..models_configurations.hugging_face_config import HuggingFaceConfiguration

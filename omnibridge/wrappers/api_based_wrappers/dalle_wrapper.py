@@ -1,4 +1,4 @@
-from typing import TypedDict, Dict, Any
+from typing import TypedDict, Any
 import json
 import requests
 from .base_api_wrapper import RestAPIWrapper

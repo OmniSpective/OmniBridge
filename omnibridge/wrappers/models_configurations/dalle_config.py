@@ -1,7 +1,6 @@
-from abc import abstractmethod
-
 from .base_config import BaseConfiguration
 from .config_types import ConfigTypes
+
 
 class DALLEConfiguration(BaseConfiguration):
     def __init__(self, api_key: str, num_of_images: int, resolution: str) -> None:
