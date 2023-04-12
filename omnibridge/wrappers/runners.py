@@ -8,27 +8,27 @@ from typing import Dict, Any
 logger = LogManager().logger
 
 
-def run_prompt_in_chatgpt_wrapper(prompt: str, config: GPTConfiguration | None = None) -> Dict[str, Any]:
+def run_prompt_in_chatgpt_wrapper(prompt: str, config: GPTConfiguration | None = None) -> Any:
     _config = config if config else GPTConfiguration(model='gpt-3.5-turbo',
                                                      api_key=os.getenv("OPENAI_API_KEY"))
     wrapper = GPTWrapper(configuration=_config, logger=logger)
 
     try:
-        response = wrapper.prompt(prompt)
+        response = wrapper.prompt_and_get_response(prompt)
         print(response)
         return response
     except Exception as e:
         print(e)
 
 
-def run_prompt_in_dalle_wrapper(prompt: str, config: DALLEConfiguration | None = None) -> Dict[str, Any]:
+def run_prompt_in_dalle_wrapper(prompt: str, config: DALLEConfiguration | None = None) -> Any:
     _config = config if config else DALLEConfiguration(api_key=os.getenv("OPENAI_API_KEY"),
                                                        resolution='256x256',
                                                        num_of_images=4)
     wrapper = DALLEWrapper(configuration=_config, logger=logger)
 
     try:
-        ret = wrapper.prompt(prompt)
+        ret = wrapper.prompt_and_generate_files(prompt)
         return ret
     except Exception as e:
         print(e)

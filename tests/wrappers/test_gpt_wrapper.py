@@ -37,7 +37,7 @@ def test_gpt_wrapper(well_structured_response):
     wrapper = GPTWrapper(configuration=GPTConfiguration(api_key='abc', model='gpt-4'))
 
     # Act
-    res = wrapper.prompt('send_mock')
+    res = wrapper.prompt_and_get_response('send_mock')
 
     # Assert
     assert len(responses.calls) == 1
@@ -53,7 +53,7 @@ def test_gpt_wrapper_fail(bad_structured_response):
 
     # Act
     with pytest.raises(KeyError) as exc_info:
-        wrapper.prompt('send_mock')
+        wrapper.prompt_and_get_response('send_mock')
 
     # Assert
     assert exc_info.value.args[0] == "choices"

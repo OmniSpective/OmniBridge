@@ -1,15 +1,18 @@
-from typing import Any, Dict
+from typing import Any
 import requests
 from abc import ABC, abstractmethod
 from ..models_configurations.base_config import BaseConfiguration
+from ..wrapper_interfaces.textual_model_wrapper import TextualModelWrapper
+
 import logging
+
 
 class WrapperException(Exception):
     pass
 
 
 class RestAPIWrapper(ABC):
-    def __init__(self, configuration: BaseConfiguration, logger: logging.Logger=logging.getLogger()) -> None:
+    def __init__(self, configuration: BaseConfiguration, logger: logging.Logger = logging.getLogger()) -> None:
         self.config = configuration
         self.logger = logger
 
@@ -22,13 +25,9 @@ class RestAPIWrapper(ABC):
     @abstractmethod
     def _get_body(self, prompt_message: str) -> Any:
         pass
-    
-    @abstractmethod
-    def _get_api_url(self) -> str:
-        pass
 
     @abstractmethod
-    def _parse_response(self, response: Dict[str, Any]) -> Any:
+    def _get_api_url(self) -> str:
         pass
 
     def prompt(self, prompt_message: str) -> Any:
@@ -47,9 +46,18 @@ class RestAPIWrapper(ABC):
             response.raise_for_status()
         except Exception as e:
             error_message = f"Request to api endpoint: {self._get_api_url()} failed.\n" \
-                                   f"Response message: {response.text}.\n" \
-                                   f"Exception caught: {e}"
+                            f"Response message: {response.text}.\n" \
+                            f"Exception caught: {e}"
             self.logger.error(error_message)
             raise WrapperException(error_message)
-        
-        return self._parse_response(response.json())
+
+        return response.json()
+
+
+class TextualRestAPIWrapper(RestAPIWrapper, TextualModelWrapper):
+    @abstractmethod
+    def _parse_response(self, response_json) -> Any:
+        pass
+
+    def prompt_and_get_response(self, prompt: str) -> str:
+        return self._parse_response(self.prompt(prompt))
