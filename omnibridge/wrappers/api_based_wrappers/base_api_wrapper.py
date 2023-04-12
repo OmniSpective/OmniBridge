@@ -21,7 +21,7 @@ class RestAPIWrapper(ABC):
     @abstractmethod
     def _get_body(self, prompt_message: str) -> Any:
         pass
-
+    
     @abstractmethod
     def _get_api_url(self) -> str:
         pass
@@ -40,6 +40,8 @@ class RestAPIWrapper(ABC):
         try:
             response.raise_for_status()
         except Exception as e:
-            raise WrapperException(f"Request to api endpoint failed due to {e}")
+            raise WrapperException(f"Request to api endpoint: {self._get_api_url()} failed.\n"
+                                   f"Response message: {response.text}.\n"
+                                   f"Exception caught: {e}")
 
-        return response.json()
+        return self._parse_response(response.json())
