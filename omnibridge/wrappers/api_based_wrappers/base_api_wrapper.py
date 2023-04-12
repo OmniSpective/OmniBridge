@@ -1,4 +1,4 @@
-from typing import Any, cast
+from typing import Any
 import requests
 from abc import ABC, abstractmethod
 from ..models_configurations.base_config import BaseConfiguration

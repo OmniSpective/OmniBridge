@@ -4,7 +4,7 @@ from omnibridge.wrappers.runners import run_prompt_in_chatgpt_wrapper, run_promp
 from omnibridge.wrappers.models_configurations.config_loader import parse_models_configurations_from_file
 from omnibridge.wrappers.models_configurations.config_types import ConfigTypes
 from omnibridge.cli.banner import banner
-from typing import Callable, Any, Optional, TypeVar
+from typing import Callable, Any, Optional
 from omnibridge.wrappers.models_configurations.base_config import BaseConfiguration
 
 
