@@ -12,13 +12,6 @@ class BaseConfiguration(ABC):
     def to_dict(self) -> dict[str, Any]:
         return self.__dict__
 
-    def save_to_file(self) -> Path:
-        config_path = Path(__file__).parent / '.config'
-        with open(config_path, 'w') as f:
-            f.write(json.dumps(self.to_dict()))
-
-        return config_path
-
     @abstractmethod
     def _get_config_type(self) -> ConfigTypes:
         pass

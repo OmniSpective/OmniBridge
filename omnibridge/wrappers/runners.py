@@ -1,16 +1,24 @@
-from .api_based_wrappers.gpt_wrapper import GPTConfiguration, GPTWrapper
-from .api_based_wrappers.dalle_wrapper import DALLEWrapper, DALLEConfiguration
-from .api_based_wrappers.hugging_face_wrapper import HuggingFaceConfiguration, HuggingFaceWrapper
+from omnibridge.wrappers.api_based_wrappers.gpt_wrapper import GPTWrapper
+from omnibridge.wrappers.api_based_wrappers.dalle_wrapper import DALLEWrapper
+from omnibridge.wrappers.api_based_wrappers.hugging_face_wrapper import HuggingFaceWrapper
+from omnibridge.wrappers.models_configurations.base_config import BaseConfiguration
+from omnibridge.wrappers.models_configurations.chatgpt_config import GPTConfiguration
+from omnibridge.wrappers.models_configurations.dalle_config import DALLEConfiguration
+from omnibridge.wrappers.models_configurations.hugging_face_config import HuggingFaceConfiguration
 from omnibridge.common.logging.log_manager import LogManager
 import os
-from typing import Dict, Any
+from typing import Any, cast
 
 logger = LogManager().logger
 
-def run_prompt_in_chatgpt_wrapper(prompt: str, config: GPTConfiguration | None = None) -> Any:
-    _config = config if config else GPTConfiguration(model='gpt-3.5-turbo',
-                                                     api_key=os.getenv("OPENAI_API_KEY", ""))
-    wrapper = GPTWrapper(configuration=_config)
+def run_prompt_in_chatgpt_wrapper(prompt: str, config: BaseConfiguration | None = None) -> Any:
+    if config:
+        config = cast(GPTConfiguration, config)
+    else:
+        config = GPTConfiguration(model='gpt-3.5-turbo', 
+                                  api_key=os.getenv("OPENAI_API_KEY", ""))
+        
+    wrapper = GPTWrapper(configuration=config)
 
     try:
         response = wrapper.prompt_and_get_response(prompt)
@@ -22,11 +30,15 @@ def run_prompt_in_chatgpt_wrapper(prompt: str, config: GPTConfiguration | None =
     return None
 
 
-def run_prompt_in_dalle_wrapper(prompt: str, config: DALLEConfiguration | None = None) -> Any:
-    _config = config if config else DALLEConfiguration(api_key=os.getenv("OPENAI_API_KEY", ""),
+def run_prompt_in_dalle_wrapper(prompt: str, config: BaseConfiguration | None = None) -> Any:
+    if config:
+        config = cast(DALLEConfiguration, config)
+    else:
+        config = DALLEConfiguration(api_key=os.getenv("OPENAI_API_KEY", ""),
                                                        resolution='256x256',
                                                        num_of_images=4)
-    wrapper = DALLEWrapper(configuration=_config, logger=logger)
+        
+    wrapper = DALLEWrapper(configuration=config, logger=logger)
 
     try:
         ret = wrapper.prompt_and_generate_files(prompt)
@@ -37,11 +49,14 @@ def run_prompt_in_dalle_wrapper(prompt: str, config: DALLEConfiguration | None =
     return None
 
 
-def run_prompt_in_hugging_face_wrapper(prompt: str, config: HuggingFaceConfiguration) -> Any:
-    _config = config if config else HuggingFaceConfiguration(
-        api_key=os.getenv("HUGGING_FACE_API_KEY", ""),
-        model_id="distilbert-base-uncased")
-    wrapper = HuggingFaceWrapper(configuration=_config, logger=logger)
+def run_prompt_in_hugging_face_wrapper(prompt: str, config: BaseConfiguration | None = None) -> Any:
+    if config:
+        config = cast(HuggingFaceConfiguration, config)
+    else:
+        config = HuggingFaceConfiguration(api_key=os.getenv("HUGGING_FACE_API_KEY", ""), 
+                                          model_id="distilbert-base-uncased")
+
+    wrapper = HuggingFaceWrapper(configuration=config, logger=logger)
 
     try:
         ret = wrapper.prompt(prompt)
