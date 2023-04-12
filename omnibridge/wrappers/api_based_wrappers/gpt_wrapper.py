@@ -18,7 +18,6 @@ class CompletionsRequestBody(TypedDict):
 
 
 class GPTWrapper(RestAPIWrapper):
-
     def __init__(self, configuration: GPTConfiguration) -> None:
         super().__init__(configuration)
         self.config = configuration

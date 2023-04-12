@@ -1,3 +1,5 @@
+from abc import abstractmethod
+
 from .base_config import BaseConfiguration
 from .config_types import ConfigTypes
 
@@ -7,5 +9,5 @@ class DALLEConfiguration(BaseConfiguration):
         self.num_of_images = num_of_images
         self.resolution = resolution
 
-    def _get_config_type() -> ConfigTypes:
+    def _get_config_type(self) -> ConfigTypes:
         return ConfigTypes.DALLE

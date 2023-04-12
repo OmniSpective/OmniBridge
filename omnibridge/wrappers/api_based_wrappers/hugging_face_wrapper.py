@@ -24,6 +24,3 @@ class HuggingFaceWrapper(RestAPIWrapper):
 
     def _get_api_url(self) -> str:
         return f"{self.api_url}/{self.config.model_id}"
-
-    def _parse_response(self, response: Dict[str, Any]) -> Dict[str, Any]:
-        return response
