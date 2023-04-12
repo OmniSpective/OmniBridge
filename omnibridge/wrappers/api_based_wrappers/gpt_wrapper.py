@@ -3,6 +3,7 @@ import json
 
 from .base_api_wrapper import RestAPIWrapper
 from ..models_configurations.chatgpt_config import GPTConfiguration, chatGptModel
+import logging
 
 COMPLETIONS_API_URL = "https://api.openai.com/v1/chat/completions"
 
@@ -18,8 +19,8 @@ class CompletionsRequestBody(TypedDict):
 
 class GPTWrapper(RestAPIWrapper):
 
-    def __init__(self, configuration: GPTConfiguration) -> None:
-        super().__init__(configuration)
+    def __init__(self, configuration: GPTConfiguration, logger: logging.Logger=logging.getLogger()) -> None:
+        super().__init__(configuration, logger)
         self.config = configuration
         self.api_url = COMPLETIONS_API_URL
 
