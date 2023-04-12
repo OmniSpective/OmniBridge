@@ -1,14 +1,10 @@
 from typing import Literal, TypedDict, Dict, Any
 import json
 
-from .base_api_wrapper import RestAPIWrapper
+from .base_api_wrapper import TextualRestAPIWrapper
 from ..models_configurations.chatgpt_config import GPTConfiguration, chatGptModel
 
 COMPLETIONS_API_URL = "https://api.openai.com/v1/chat/completions"
-
-
-class GPTWrapperException(Exception):
-    pass
 
 
 class CompletionsRequestBody(TypedDict):
@@ -16,7 +12,7 @@ class CompletionsRequestBody(TypedDict):
     messages: list[dict[Literal["role", "content"], str]]
 
 
-class GPTWrapper(RestAPIWrapper):
+class GPTWrapper(TextualRestAPIWrapper):
     def __init__(self, configuration: GPTConfiguration) -> None:
         super().__init__(configuration)
         self.config = configuration
@@ -34,7 +30,7 @@ class GPTWrapper(RestAPIWrapper):
             "Authorization": f"Bearer {self.config.api_key}"
         }
 
-    def _get_body(self, prompt_message: str) -> CompletionsRequestBody:
+    def _get_body(self, prompt_message: str) -> Any:
         return json.dumps({
             "model": self.config.model,
             "messages": [

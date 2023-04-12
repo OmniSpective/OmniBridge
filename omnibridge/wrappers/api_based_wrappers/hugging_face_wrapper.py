@@ -17,7 +17,7 @@ class HuggingFaceWrapper(RestAPIWrapper):
         super().__init__(configuration)
         self.api_url = HUGGING_FACE_BASE_URL
 
-    def _get_body(self, prompt_message: str) -> HuggingFaceModelRequestBody:
+    def _get_body(self, prompt_message: str) -> Any:
         return json.dumps({
             "inputs": prompt_message,
         })

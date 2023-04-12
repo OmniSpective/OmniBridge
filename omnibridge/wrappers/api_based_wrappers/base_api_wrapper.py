@@ -2,6 +2,8 @@ from typing import Any, Dict
 import requests
 from abc import ABC, abstractmethod
 from ..models_configurations.base_config import BaseConfiguration
+from ..wrapper_interfaces.file_generating_model_wrapper import FileGenModelWrapper
+from ..wrapper_interfaces.textual_model_wrapper import TextualModelWrapper
 
 
 class WrapperException(Exception):
@@ -44,4 +46,13 @@ class RestAPIWrapper(ABC):
                                    f"Response message: {response.text}.\n"
                                    f"Exception caught: {e}")
 
-        return self._parse_response(response.json())
+        return response.json()
+
+
+class TextualRestAPIWrapper(RestAPIWrapper, TextualModelWrapper):
+    @abstractmethod
+    def _parse_response(self, response_json) -> Any:
+        pass
+
+    def prompt_and_get_response(self, prompt: str) -> str:
+        return self._parse_response(self.prompt(prompt))
