@@ -1,6 +1,7 @@
 from typing import TypedDict, Any
 import json
 import requests
+import logging
 from .base_api_wrapper import RestAPIWrapper
 from ..models_configurations.dalle_config import DALLEConfiguration
 from ..wrapper_interfaces.file_generating_model_wrapper import FileGenModelWrapper
@@ -15,8 +16,8 @@ class ImageGenerationRequestBody(TypedDict):
 
 
 class DALLEWrapper(RestAPIWrapper, FileGenModelWrapper):
-    def __init__(self, configuration: DALLEConfiguration) -> None:
-        super().__init__(configuration)
+    def __init__(self, configuration: DALLEConfiguration, logger: logging.Logger=logging.getLogger()) -> None:
+        super().__init__(configuration, logger)
         self.api_url = IMAGE_GENARATION_API_URL
     
     def _get_body(self, prompt_message: str) -> Any:

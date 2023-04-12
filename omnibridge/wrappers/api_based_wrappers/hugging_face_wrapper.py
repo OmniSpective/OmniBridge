@@ -1,5 +1,6 @@
 from typing import TypedDict, Any
 import json
+import logging
 from .base_api_wrapper import RestAPIWrapper
 from ..models_configurations.hugging_face_config import HuggingFaceConfiguration
 
@@ -13,8 +14,8 @@ class HuggingFaceModelRequestBody(TypedDict):
 
 
 class HuggingFaceWrapper(RestAPIWrapper):
-    def __init__(self, configuration: HuggingFaceConfiguration) -> None:
-        super().__init__(configuration)
+    def __init__(self, configuration: HuggingFaceConfiguration, logger: logging.Logger=logging.getLogger()) -> None:
+        super().__init__(configuration, logger)
         self.api_url = HUGGING_FACE_BASE_URL
 
     def _get_body(self, prompt_message: str) -> Any:
