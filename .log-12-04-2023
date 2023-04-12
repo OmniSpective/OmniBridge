@@ -1,0 +1,5 @@
+2023-04-12 09:52:24,683 [DEBUG]: Sending prompt to API: mock
+2023-04-12 09:52:24,685 [DEBUG]: Sending prompt to API: mock
+2023-04-12 09:52:24,686 [ERROR]: Request to api endpoint: https://api.openai.com/v1/chat/completions failed.
+Response message: {}.
+Exception caught: 500 Server Error: Internal Server Error for url: https://api.openai.com/v1/chat/completions

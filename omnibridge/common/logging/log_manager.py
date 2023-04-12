@@ -58,7 +58,7 @@ class LogManager:
         logger.addHandler(stream_handler)
         logger.addHandler(file_handler)
 
-        self.logger = logger
+        self._logger = logger
 
         self._initialized = True
 
