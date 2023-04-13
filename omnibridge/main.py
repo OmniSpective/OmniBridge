@@ -1,3 +1,4 @@
+from __future__ import annotations
 import argparse
 from omnibridge.wrappers.runners import run_prompt_in_chatgpt_wrapper, run_prompt_in_dalle_wrapper, \
     run_prompt_in_hugging_face_wrapper

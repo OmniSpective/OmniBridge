@@ -1,3 +1,4 @@
+from __future__ import annotations
 from fastapi import APIRouter
 from omnibridge.api.app.schemas.ai_model import AIModel
 from pathlib import Path
