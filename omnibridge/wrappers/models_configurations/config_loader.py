@@ -1,3 +1,4 @@
+from __future__ import annotations
 from .base_config import BaseConfiguration
 from .chatgpt_config import GPTConfiguration
 from .dalle_config import DALLEConfiguration
