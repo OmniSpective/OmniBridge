@@ -5,17 +5,13 @@ name = "pypi"
 
 [dev-packages]
 pytest = "*"
-ruff = "*"
-responses = "*"
-coverage = "*"
-mypy = "*"
 
 [packages]
-requests = "*"
-ruff = "*"
-argparse = "*"
-pydantic = "*"
+omnibridge = "*"
 fastapi = "*"
+uvicorn = "*"
+pydantic = "*"
+
 
 [requires]
 python_version = "3.11"

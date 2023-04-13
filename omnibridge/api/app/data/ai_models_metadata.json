@@ -1,0 +1,14 @@
+[
+    { 
+        "id": 1, 
+        "name": "ChatGPT", 
+        "type": "chat_bot",
+        "description": "Ask any question"
+    },
+    { 
+        "id": 2, 
+        "name": "DALLE-2", 
+        "type": "chat_to_image",
+        "description": "Create your own image"
+    }
+]
