@@ -1,11 +1,11 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "d93967136adee19624c745e229d56473aaf55b6791316c3aceef0ff5ac409feb"
+            "sha256": "e91b2b4e6affa208b33e2663cb856872815eac4c18b32624754a5c5dcbd2084a"
         },
         "pipfile-spec": 6,
         "requires": {
-            "python_version": "3.11"
+            "python_version": "3.8"
         },
         "sources": [
             {
@@ -162,10 +162,10 @@
         },
         "omnibridge": {
             "hashes": [
-                "sha256:f8eaaef44a163434ba3ae894f2e59cc2a3ef2517658bd8b621040ea889af351c"
+                "sha256:37e745fecbb7c5eb7b5d3a83414fb645a81fdb4cd04cdb5754bc70182c18602c"
             ],
             "index": "pypi",
-            "version": "==0.1.30"
+            "version": "==0.1.47"
         },
         "pydantic": {
             "hashes": [
@@ -290,6 +290,14 @@
             "markers": "platform_system == 'Windows'",
             "version": "==0.4.6"
         },
+        "exceptiongroup": {
+            "hashes": [
+                "sha256:232c37c63e4f682982c8b6459f33a8981039e5fb8756b2074364e5055c498c9e",
+                "sha256:d484c3090ba2889ae2928419117447a14daf3c1231d5e30d0aae34f354f01785"
+            ],
+            "markers": "python_version < '3.11'",
+            "version": "==1.1.1"
+        },
         "iniconfig": {
             "hashes": [
                 "sha256:2d91e135bf72d31a410b17c16da610a82cb55f6b0477d1a902134b24a455b8b3",
@@ -300,11 +308,11 @@
         },
         "packaging": {
             "hashes": [
-                "sha256:714ac14496c3e68c99c29b00845f7a2b85f3bb6f1078fd9f72fd20f0570002b2",
-                "sha256:b6ad297f8907de0fa2fe1ccbd26fdaf387f5f47c7275fedf8cce89f99446cf97"
+                "sha256:994793af429502c4ea2ebf6bf664629d07c1a9fe974af92966e4b8d2df7edc61",
+                "sha256:a392980d2b6cffa644431898be54b0045151319d1e7ec34f0cfed48767dd334f"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==23.0"
+            "version": "==23.1"
         },
         "pluggy": {
             "hashes": [
@@ -321,6 +329,14 @@
             ],
             "index": "pypi",
             "version": "==7.3.0"
+        },
+        "tomli": {
+            "hashes": [
+                "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc",
+                "sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f"
+            ],
+            "markers": "python_version < '3.11'",
+            "version": "==2.0.1"
         }
     }
 }
