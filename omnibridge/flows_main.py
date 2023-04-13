@@ -1,11 +1,11 @@
 from typing import Any
 
 from omnibridge.flows.sequential_flow import SequentialFlow
-from omnibridge.models_units.textual_model_unit import TextualModel
-from omnibridge.models_units.image_gen_model_unit import ImageGenModel
+from omnibridge.model_entities.textual_model_entity import TextualModel
+from omnibridge.model_entities.image_gen_model_entity import ImageGenModel
 from omnibridge.wrappers.wrapper_interfaces.textual_model_wrapper import TextualModelWrapper
 from omnibridge.wrappers.wrapper_interfaces.file_generating_model_wrapper import FileGenModelWrapper
-from omnibridge.models_units.models_io.base_model_io import TextualIO
+from omnibridge.model_entities.models_io.base_model_io import TextualIO
 
 
 class MockedGPTWrapper(TextualModelWrapper):

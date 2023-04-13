@@ -2,7 +2,7 @@ from __future__ import annotations
 from typing import Any
 import requests
 from abc import ABC, abstractmethod
-from ..models_configurations.base_config import BaseConfiguration
+from ..wrapper_instance_configurations.base_config import BaseConfiguration
 from ..wrapper_interfaces.textual_model_wrapper import TextualModelWrapper
 
 import logging

@@ -2,7 +2,7 @@ from typing import Any
 import json
 import logging
 from .base_api_wrapper import RestAPIWrapper
-from ..models_configurations.hugging_face_config import HuggingFaceConfiguration
+from ..wrapper_instance_configurations.hugging_face_config import HuggingFaceConfiguration
 
 HUGGING_FACE_BASE_URL = "https://api-inference.huggingface.co/models"
 

@@ -1,11 +1,11 @@
 from __future__ import annotations
-from omnibridge.wrappers.api_based_wrappers.gpt_wrapper import GPTWrapper
-from omnibridge.wrappers.api_based_wrappers.dalle_wrapper import DALLEWrapper
-from omnibridge.wrappers.api_based_wrappers.hugging_face_wrapper import HuggingFaceWrapper
-from omnibridge.wrappers.models_configurations.base_config import BaseConfiguration
-from omnibridge.wrappers.models_configurations.chatgpt_config import GPTConfiguration
-from omnibridge.wrappers.models_configurations.dalle_config import DALLEConfiguration
-from omnibridge.wrappers.models_configurations.hugging_face_config import HuggingFaceConfiguration
+from omnibridge.wrappers.wrapper_instances.gpt_wrapper import GPTWrapper
+from omnibridge.wrappers.wrapper_instances.dalle_wrapper import DALLEWrapper
+from omnibridge.wrappers.wrapper_instances.hugging_face_wrapper import HuggingFaceWrapper
+from omnibridge.wrappers.wrapper_instance_configurations.base_config import BaseConfiguration
+from omnibridge.wrappers.wrapper_instance_configurations.chatgpt_config import GPTConfiguration
+from omnibridge.wrappers.wrapper_instance_configurations.dalle_config import DALLEConfiguration
+from omnibridge.wrappers.wrapper_instance_configurations.hugging_face_config import HuggingFaceConfiguration
 from omnibridge.common.logging.log_manager import LogManager
 import os
 from typing import Any, cast

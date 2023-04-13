@@ -1,9 +1,9 @@
 import responses
 import pytest
 
-from omnibridge.wrappers.api_based_wrappers.base_api_wrapper import WrapperException
-from omnibridge.wrappers.api_based_wrappers.gpt_wrapper import COMPLETIONS_API_URL, GPTWrapper
-from omnibridge.wrappers.models_configurations.chatgpt_config import GPTConfiguration
+from omnibridge.wrappers.wrapper_instances.base_api_wrapper import WrapperException
+from omnibridge.wrappers.wrapper_instances.gpt_wrapper import COMPLETIONS_API_URL, GPTWrapper
+from omnibridge.wrappers.wrapper_instance_configurations.chatgpt_config import GPTConfiguration
 
 
 @pytest.fixture

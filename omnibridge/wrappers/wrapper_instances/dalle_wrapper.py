@@ -3,7 +3,7 @@ import json
 import requests
 import logging
 from .base_api_wrapper import RestAPIWrapper
-from ..models_configurations.dalle_config import DALLEConfiguration
+from ..wrapper_instance_configurations.dalle_config import DALLEConfiguration
 from ..wrapper_interfaces.file_generating_model_wrapper import FileGenModelWrapper
 
 IMAGE_GENARATION_API_URL = "https://api.openai.com/v1/images/generations"

@@ -2,9 +2,9 @@ from typing import Type
 
 from omnibridge.wrappers.wrapper_interfaces.file_generating_model_wrapper import FileGenModelWrapper
 
-from omnibridge.models_units.base_model_unit import BaseModelUnit
-from omnibridge.models_units.models_io.base_model_io import ModelIO
-from omnibridge.models_units.models_io.base_model_io import TextualIO, FileIO
+from omnibridge.model_entities.base_model_entity import BaseModelUnit
+from omnibridge.model_entities.models_io.base_model_io import ModelIO
+from omnibridge.model_entities.models_io.base_model_io import TextualIO, FileIO
 
 
 class ImageGenModel(BaseModelUnit):

@@ -2,11 +2,11 @@ from __future__ import annotations
 import argparse
 from omnibridge.wrappers.runners import run_prompt_in_chatgpt_wrapper, run_prompt_in_dalle_wrapper, \
     run_prompt_in_hugging_face_wrapper
-from omnibridge.wrappers.models_configurations.config_loader import parse_models_configurations_from_file
-from omnibridge.wrappers.models_configurations.config_types import ConfigTypes
+from omnibridge.wrappers.wrapper_instance_configurations.config_loader import parse_models_configurations_from_file
+from omnibridge.wrappers.wrapper_instance_configurations.config_types import ConfigTypes
 from omnibridge.cli.banner import banner
 from typing import Callable, Any, Optional
-from omnibridge.wrappers.models_configurations.base_config import BaseConfiguration
+from omnibridge.wrappers.wrapper_instance_configurations.base_config import BaseConfiguration
 
 
 WRAPPER_TO_FUNC: dict[str, Callable[[str, Optional[BaseConfiguration]], Any]] = {

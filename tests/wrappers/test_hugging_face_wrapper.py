@@ -1,9 +1,9 @@
 import responses
 import pytest
 
-from omnibridge.wrappers.api_based_wrappers.hugging_face_wrapper import HUGGING_FACE_BASE_URL, HuggingFaceWrapper
-from omnibridge.wrappers.models_configurations.hugging_face_config import HuggingFaceConfiguration
-from omnibridge.wrappers.api_based_wrappers.base_api_wrapper import WrapperException
+from omnibridge.wrappers.wrapper_instances.hugging_face_wrapper import HUGGING_FACE_BASE_URL, HuggingFaceWrapper
+from omnibridge.wrappers.wrapper_instance_configurations.hugging_face_config import HuggingFaceConfiguration
+from omnibridge.wrappers.wrapper_instances.base_api_wrapper import WrapperException
 
 
 @responses.activate

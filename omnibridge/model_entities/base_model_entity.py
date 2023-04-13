@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Any, Type
 
-from omnibridge.models_units.models_io.base_model_io import ModelIO
+from omnibridge.model_entities.models_io.base_model_io import ModelIO
 
 
 class BaseModelUnit(ABC):

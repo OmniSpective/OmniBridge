@@ -1,6 +1,6 @@
 from omnibridge.wrappers.runners import run_prompt_in_chatgpt_wrapper
-from omnibridge.wrappers.api_based_wrappers.gpt_wrapper import COMPLETIONS_API_URL
-from omnibridge.wrappers.models_configurations.chatgpt_config import GPTConfiguration
+from omnibridge.wrappers.wrapper_instances.gpt_wrapper import COMPLETIONS_API_URL
+from omnibridge.wrappers.wrapper_instance_configurations.chatgpt_config import GPTConfiguration
 import responses
 import pytest
 

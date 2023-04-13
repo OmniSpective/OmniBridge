@@ -1,7 +1,7 @@
 from typing import List
 
-from omnibridge.models_units.base_model_unit import BaseModelUnit
-from omnibridge.models_units.models_io.base_model_io import ModelIO
+from omnibridge.model_entities.base_model_entity import BaseModelUnit
+from omnibridge.model_entities.models_io.base_model_io import ModelIO
 
 
 class SequentialFlow:

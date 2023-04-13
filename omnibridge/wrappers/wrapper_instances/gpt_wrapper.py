@@ -3,7 +3,7 @@ from typing import Dict, Any
 import json
 
 from .base_api_wrapper import TextualRestAPIWrapper
-from ..models_configurations.chatgpt_config import GPTConfiguration
+from ..wrapper_instance_configurations.chatgpt_config import GPTConfiguration
 import logging
 
 COMPLETIONS_API_URL = "https://api.openai.com/v1/chat/completions"
