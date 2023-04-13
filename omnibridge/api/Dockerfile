@@ -1,4 +1,4 @@
-FROM python:3.11
+FROM python:3.8
 
 COPY Pipfile /code/Pipfile
 COPY Pipfile.lock /code/Pipfile.lock

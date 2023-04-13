@@ -59,7 +59,7 @@ For example:
 # Contribute:
 
 requirerments:
-* Python 3.11
+* Python >=3.8
 
 steps:
 1. Fork and clone this repository
