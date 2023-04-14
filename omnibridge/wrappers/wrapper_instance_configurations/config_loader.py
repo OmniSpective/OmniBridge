@@ -1,4 +1,3 @@
-from __future__ import annotations
 from .base_config import BaseConfiguration
 from .chatgpt_config import GPTConfiguration
 from .dalle_config import DALLEConfiguration
@@ -6,6 +5,7 @@ from .hugging_face_config import HuggingFaceConfiguration
 from .config_types import ConfigTypes
 import os
 import json
+from typing import Dict
 
 
 CONFIG_TYPE_TO_OBJECT = {
@@ -15,7 +15,7 @@ CONFIG_TYPE_TO_OBJECT = {
 }
 
 
-def parse_models_configurations_from_file(config_file_path: str) -> dict[ConfigTypes, BaseConfiguration]:
+def parse_models_configurations_from_file(config_file_path: str) -> Dict[ConfigTypes, BaseConfiguration]:
     """
     Assumes the following JSON structure:
     {

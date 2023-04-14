@@ -1,4 +1,3 @@
-from __future__ import annotations
 from omnibridge.wrappers.wrapper_instances.gpt_wrapper import GPTWrapper
 from omnibridge.wrappers.wrapper_instances.dalle_wrapper import DALLEWrapper
 from omnibridge.wrappers.wrapper_instances.hugging_face_wrapper import HuggingFaceWrapper
