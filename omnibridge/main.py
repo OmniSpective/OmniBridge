@@ -55,6 +55,10 @@ def run() -> int:
     return 0
 
 
-if __name__ == '__main__':
+def main():
     print(banner)
     exit(run())
+
+
+if __name__ == '__main__':
+    main()
