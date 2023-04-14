@@ -1,6 +1,5 @@
 from omnibridge.wrappers.runners import run_prompt_in_chatgpt_wrapper
 from omnibridge.wrappers.wrapper_instances.gpt_wrapper import COMPLETIONS_API_URL
-from omnibridge.wrappers.wrapper_instance_configurations.chatgpt_config import GPTConfiguration
 import responses
 import pytest
 
@@ -22,10 +21,9 @@ def gpt_response():
 def test_run_chatgpt_wrapper(gpt_response):
     # Arrange
     responses.add(responses.POST, COMPLETIONS_API_URL, json=gpt_response)
-    config = GPTConfiguration(api_key='mock', model='gpt-4')
 
     # Act
-    res = run_prompt_in_chatgpt_wrapper(prompt="mock", config=config)
+    res = run_prompt_in_chatgpt_wrapper(prompt="mock", api_key='mock', model='gpt-4')
 
     # Assert
     res == {'response': 'mock'}
@@ -35,10 +33,9 @@ def test_run_chatgpt_wrapper(gpt_response):
 def test_run_chatgpt_wrapper_api_call_failed():
     # Arrange
     responses.add(responses.POST, COMPLETIONS_API_URL, json={}, status=500)
-    config = GPTConfiguration(api_key='mock', model='gpt-4')
 
     # Act
-    res = run_prompt_in_chatgpt_wrapper(prompt="mock", config=config)
+    res = run_prompt_in_chatgpt_wrapper(prompt="mock", api_key='mock', model='gpt-4')
 
     # Assert
     assert res is None

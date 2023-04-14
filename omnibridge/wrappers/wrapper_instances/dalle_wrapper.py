@@ -1,10 +1,9 @@
-from typing import TypedDict, Any
+from typing import TypedDict, Any, Dict
 import json
 import requests
 import logging
-from .base_api_wrapper import RestAPIWrapper
-from ..wrapper_instance_configurations.dalle_config import DALLEConfiguration
-from ..wrapper_interfaces.file_generating_model_wrapper import FileGenModelWrapper
+from .rest_api_wrapper import RestAPIWrapper
+from ...model_entities.models_io.base_model_io import ModelIO, TextualIO, ImageIO
 
 IMAGE_GENARATION_API_URL = "https://api.openai.com/v1/images/generations"
 
@@ -15,25 +14,50 @@ class ImageGenerationRequestBody(TypedDict):
     size: str
 
 
-class DALLEWrapper(RestAPIWrapper, FileGenModelWrapper):
-    config: DALLEConfiguration
-    
-    def __init__(self, configuration: DALLEConfiguration, logger: logging.Logger=logging.getLogger()) -> None:
-        super().__init__(configuration, logger)
+class DALLEWrapper(RestAPIWrapper):
+    def __init__(self, api_key: str, number_of_images: int, resolution: str,
+                 logger: logging.Logger = logging.getLogger()) -> None:
+        super().__init__(logger)
         self.api_url = IMAGE_GENARATION_API_URL
-    
+        self.api_key = api_key
+        self.number_of_images = number_of_images
+        self.resolution = resolution
+
+    def to_json(self) -> Dict[str, str]:
+        return {
+            "api key": self.api_key,
+            "number of images per prompt": self.number_of_images,
+            "resolution": self.resolution,
+            "_class_type": self.get_class_type_field()
+        }
+
+    @classmethod
+    def create_from_json(cls, json_data: Dict[str, str]):
+        return DALLEWrapper(api_key=json_data["api key"],
+                            number_of_images=int(json_data["number of images per prompt"]),
+                            resolution=json_data["resolution"])
+
+    @classmethod
+    def get_class_type_field(cls):
+        return "dalle"
+
     def _get_body(self, prompt_message: str) -> Any:
         return json.dumps({
             "prompt": prompt_message,
-            "n": self.config.num_of_images,
-            "size": self.config.resolution
+            "n": self.number_of_images,
+            "size": self.resolution
         })
 
     def _get_api_url(self) -> str:
         return self.api_url
 
-    def prompt_and_generate_files(self, prompt: str) -> Any:
-        response = self.prompt(prompt)
+    def _get_api_key(self) -> str:
+        return self.api_key
+
+    def process(self, model_input: ModelIO) -> ImageIO:
+        if not isinstance(model_input, TextualIO):
+            raise TypeError(f"expected type {type(TextualIO)} but got {type(model_input)}")
+        response = self.prompt(model_input.text)
 
         images = []
         images_path = []
@@ -47,5 +71,4 @@ class DALLEWrapper(RestAPIWrapper, FileGenModelWrapper):
                 f.write(response.content)
             images_path.append(f"image_{idx}.jpg")
 
-        return {'images': images,
-                'images_path': images_path}
+        return ImageIO(images_path)

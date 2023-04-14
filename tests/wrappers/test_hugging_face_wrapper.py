@@ -2,8 +2,7 @@ import responses
 import pytest
 
 from omnibridge.wrappers.wrapper_instances.hugging_face_wrapper import HUGGING_FACE_BASE_URL, HuggingFaceWrapper
-from omnibridge.wrappers.wrapper_instance_configurations.hugging_face_config import HuggingFaceConfiguration
-from omnibridge.wrappers.wrapper_instances.base_api_wrapper import WrapperException
+from omnibridge.wrappers.wrapper_instances.rest_api_wrapper import WrapperException
 
 
 @responses.activate
@@ -11,7 +10,7 @@ def test_hugging_face_wrapper():
     # Arrange
     model_id = 'mock'
     responses.add(responses.POST, f"{HUGGING_FACE_BASE_URL}/{model_id}", json={'mock': 'mock'})
-    wrapper = HuggingFaceWrapper(configuration=HuggingFaceConfiguration(api_key='abc', model_id=model_id))
+    wrapper = HuggingFaceWrapper(api_key='abc', model=model_id)
 
     # Act
     res = wrapper.prompt('send_mock')
@@ -27,7 +26,7 @@ def test_gpt_wrapper_api_call_fails():
     # Arrange
     model_id = 'mock'
     responses.add(responses.POST, f"{HUGGING_FACE_BASE_URL}/{model_id}", json={}, status=500)
-    wrapper = HuggingFaceWrapper(configuration=HuggingFaceConfiguration(api_key='abc', model_id=model_id))
+    wrapper = HuggingFaceWrapper(api_key='abc', model=model_id)
 
     # Act
     with pytest.raises(WrapperException) as exc_info:

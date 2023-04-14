@@ -1,4 +1,5 @@
 from abc import ABC
+from typing import List
 
 
 class ModelIO(ABC):
@@ -12,6 +13,19 @@ class TextualIO(ModelIO):
     def get_text(self) -> str:
         return self.text
 
+    def __repr__(self):
+        return self.text
+
+
+class ImageIO(ModelIO):
+    def __init__(self, paths: List[str]):
+        self.paths = paths
+
+    def image_paths(self):
+        return self.paths
+
+    def __repr__(self):
+        return f"image paths: {self.paths}"
 
 class FileIO(ModelIO):
     pass
