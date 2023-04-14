@@ -1,11 +1,9 @@
-from typing import TypedDict, Any, Dict, Type
+from typing import TypedDict, Any, Dict
 import json
 import requests
 import logging
 from .base_api_wrapper import RestAPIWrapper
-from ..wrapper_interfaces.file_generating_model_wrapper import FileGenModelWrapper
 from ...model_entities.models_io.base_model_io import ModelIO, TextualIO, ImageIO
-from ...saved_data.json_data_manager import JsonConvertable
 
 IMAGE_GENARATION_API_URL = "https://api.openai.com/v1/images/generations"
 
@@ -41,7 +39,7 @@ class DALLEWrapper(RestAPIWrapper):
 
     @classmethod
     def get_class_type_field(cls):
-        return "dalle_wrapper"
+        return "dalle"
 
     def _get_body(self, prompt_message: str) -> Any:
         return json.dumps({

@@ -33,7 +33,7 @@ class GPTWrapper(RestAPIWrapper):
 
     @classmethod
     def get_class_type_field(cls):
-        return "chat_gpt_wrapper"
+        return "chat_gpt"
 
     def _get_api_url(self) -> str:
         return self.api_url
