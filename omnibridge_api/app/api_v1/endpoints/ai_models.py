@@ -1,6 +1,6 @@
 from fastapi import APIRouter, status
 from fastapi.responses import JSONResponse
-from omnibridge.api.app.schemas.ai_model import AIModel, TextualModelPromptRequest, TextualModelPromptResponse
+from omnibridge_api.app.schemas.ai_model import AIModel, TextualModelPromptRequest, TextualModelPromptResponse
 from omnibridge.main import WRAPPER_TO_FUNC 
 from pathlib import Path
 from typing import Any, List
@@ -9,7 +9,7 @@ import json
 router = APIRouter()
 
 @router.get("/models", response_model=List[AIModel], status_code=status.HTTP_200_OK)
-def get_models() -> Any:
+def get_models() -> JSONResponse:
     models_path = Path(__file__).parents[2] / 'data/ai_models_metadata.json'
 
     try:
@@ -22,7 +22,7 @@ def get_models() -> Any:
 
 
 @router.post("/models/textual/prompts", response_model=TextualModelPromptResponse, status_code=status.HTTP_200_OK)
-def prompt_textual_model(prompt_request: TextualModelPromptRequest) -> str:
+def prompt_textual_model(prompt_request: TextualModelPromptRequest) -> JSONResponse:
     model_name = prompt_request.model_name
     prompt = prompt_request.prompt
 

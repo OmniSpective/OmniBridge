@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 # from omnibridge.api.app.api_v1.endpoints import hello_world
-from omnibridge.api.app.api_v1.endpoints import ai_models
+from omnibridge_api.app.api_v1.endpoints import ai_models
 
 api_router = APIRouter()
 # api_router.include_router(hello_world.router, prefix="/hello", tags=["hello"])
