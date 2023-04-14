@@ -46,7 +46,7 @@ def parse_models_configurations_from_file(config_file_path: str) -> Dict[ConfigT
         config_json = json.load(f)
 
     
-    models_configs: dict[ConfigTypes, BaseConfiguration] = {}
+    models_configs: Dict[ConfigTypes, BaseConfiguration] = {}
 
     for model_name in config_json.keys():
         config_object = CONFIG_TYPE_TO_OBJECT.get(model_name.upper())

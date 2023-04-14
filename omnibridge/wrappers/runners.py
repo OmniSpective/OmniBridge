@@ -7,11 +7,11 @@ from omnibridge.wrappers.wrapper_instance_configurations.dalle_config import DAL
 from omnibridge.wrappers.wrapper_instance_configurations.hugging_face_config import HuggingFaceConfiguration
 from omnibridge.common.logging.log_manager import LogManager
 import os
-from typing import Any, cast
+from typing import Any, cast, Optional
 
 logger = LogManager().logger
 
-def run_prompt_in_chatgpt_wrapper(prompt: str, config: BaseConfiguration | None = None) -> Any:
+def run_prompt_in_chatgpt_wrapper(prompt: str, config: Optional[BaseConfiguration] = None) -> Any:
     if config:
         config = cast(GPTConfiguration, config)
     else:
@@ -30,7 +30,7 @@ def run_prompt_in_chatgpt_wrapper(prompt: str, config: BaseConfiguration | None 
     return None
 
 
-def run_prompt_in_dalle_wrapper(prompt: str, config: BaseConfiguration | None = None) -> Any:
+def run_prompt_in_dalle_wrapper(prompt: str, config: Optional[BaseConfiguration] = None) -> Any:
     if config:
         config = cast(DALLEConfiguration, config)
     else:
@@ -49,7 +49,7 @@ def run_prompt_in_dalle_wrapper(prompt: str, config: BaseConfiguration | None = 
     return None
 
 
-def run_prompt_in_hugging_face_wrapper(prompt: str, config: BaseConfiguration | None = None) -> Any:
+def run_prompt_in_hugging_face_wrapper(prompt: str, config: Optional[BaseConfiguration] = None) -> Any:
     if config:
         config = cast(HuggingFaceConfiguration, config)
     else:
