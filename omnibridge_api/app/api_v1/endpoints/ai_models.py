@@ -34,4 +34,4 @@ def prompt_textual_model(prompt_request: TextualModelPromptRequest) -> JSONRespo
 
 
     return JSONResponse(status_code=status.HTTP_200_OK,
-                         content={"response": wrapper_func(prompt)})
+                         content={"response": wrapper_func(prompt, None)})
