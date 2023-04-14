@@ -17,7 +17,7 @@ class TextualModel(BaseModelUnit):
     def produced_type(self) -> Type[TextualIO]:
         return TextualIO
 
-    def process(self, model_input: TextualIO) -> TextualIO:  # type: ignore
+    def process(self, model_input: TextualIO) -> TextualIO:
         if not self.can_process(model_input):
             raise Exception(f"Cannot process input of type: {type(model_input)}")
 

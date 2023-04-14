@@ -9,7 +9,8 @@ from omnibridge.wrappers.wrapper_instance_configurations.config_types import Con
 from omnibridge.cli.banner import banner
 from typing import Callable, Any, Optional, Dict
 from omnibridge.wrappers.wrapper_instance_configurations.base_config import BaseConfiguration
-
+from omnibridge.wrappers.wrapper_instances.dalle_wrapper import DALLEWrapper
+from omnibridge.wrappers.wrapper_instances.gpt_wrapper import GPTWrapper
 
 WRAPPER_TO_FUNC: Dict[str, Callable[[str, Optional[BaseConfiguration]], Any]] = {
     'chatgpt': run_prompt_in_chatgpt_wrapper,
@@ -21,18 +22,52 @@ WRAPPER_TO_FUNC: Dict[str, Callable[[str, Optional[BaseConfiguration]], Any]] = 
 def run() -> int:
     parser = argparse.ArgumentParser(description='AI integration tool.')
     parser.add_argument('-m', '--model', help="name of a model to run", action="append", default=[])
-    parser.add_argument('-p', '--prompt', help="prompt for model", action="append", default=[])
+    parser.add_argument('-p', '--prompt', help="prompt for model", type=str, default=[])
     parser.add_argument('-l', "--load-config", help="absolute path to models configuration file")
+    parser.add_argument('-n', "--model-name", help="which model to use.")
 
-    subparsers = parser.add_subparsers(help='sub-command help')
-    api_key_parser = subparsers.add_parser("add-key", help="Add an api key to be stored locally")
+    subparsers = parser.add_subparsers(help='sub-command help', dest='command')
+    api_key_parser = subparsers.add_parser("add-key", help="Add an api key.")
     api_key_parser.add_argument('-n', '--name', help="name of the api key.", type=str, required=True)
     api_key_parser.add_argument('-v', '--value', help="value of the api key.", type=str, required=True)
 
+    add_chatgpt_model_parser = subparsers.add_parser("add-chatgpt", help="add chatgpt model connection details.")
+    add_chatgpt_model_parser.add_argument('-n', '--name', type=str, required=True,
+                                          help="name of the model, e.g. my_gpt4.")
+    add_chatgpt_model_parser.add_argument('-k', '--key', type=str, required=True, help="api key name.")
+    add_chatgpt_model_parser.add_argument('-m', '--model', type=str, default="gpt-3.5-turbo",
+                                          help="model, e.g. 3.5 or 4.")
+
+    add_chatgpt_model_parser = subparsers.add_parser("add-dalle", help="add dalle model.")
+    add_chatgpt_model_parser.add_argument('-n', '--name', type=str, required=True, help="name of the model.")
+    add_chatgpt_model_parser.add_argument('-k', '--key', type=str, required=True, help="api key name.")
+    add_chatgpt_model_parser.add_argument('--num-images', type=str, default="4",
+                                          help="number of images per prompt, default 4.")
+    add_chatgpt_model_parser.add_argument('-r', '--res', type=str, default="256x256", help="resolution of images.")
+
     args = vars(parser.parse_args())
     if args['command'] == 'add-key':
-        JsonDataManager.save("api keys", ApiKey(args['name'], args['value']))
+        api_key = ApiKey(args['value'])
+        JsonDataManager.save("api keys", args['name'], api_key)
+        return 0
+    elif args['command'] == 'add-chatgpt':
+        api_key: ApiKey = JsonDataManager.load("api keys", args['key'], ApiKey)
+        wrapper: GPTWrapper = GPTWrapper(api_key.value, args['model'])
+        JsonDataManager.save("models", args['name'], wrapper)
+        return 0
+    elif args['command'] == 'add-dalle':
+        api_key: ApiKey = JsonDataManager.load("api keys", args['key'], ApiKey)
+        wrapper: DALLEWrapper = DALLEWrapper(api_key=api_key.value, number_of_images=args['num_images'],
+                                             resolution=args['res'])
+        JsonDataManager.save("models", args['name'], wrapper)
+        return 0
+    elif args['prompt'] and args['model_name']:
+        print(f"prompt: {args['prompt']} model_name: {args['model_name']}")
+        wrapper: GPTWrapper = JsonDataManager.load("models", args['model_name'], GPTWrapper)
+        print(wrapper.prompt_and_get_response(args['prompt']))
+        return 0
 
+    print(f"prompt: {args['prompt']} model_name: {args['model_name']}")
     models = args["model"]
     prompts = args["prompt"]
 

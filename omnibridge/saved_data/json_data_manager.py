@@ -21,9 +21,9 @@ class JsonConvertable(ABC):
 
 class JsonDataManager:
     @staticmethod
-    def save(nested_key: str, item: JsonConvertable) -> None:
+    def save(nested_path: str, key_name: str, item: JsonConvertable) -> None:
         json_value = item.to_json()
-        keys = nested_key.split('.')
+        keys = nested_path.split('.')
 
         data = {}
         if os.path.isfile(FILE_PATH):
@@ -34,22 +34,22 @@ class JsonDataManager:
                     pass
 
         current_data = data
-        for key in keys[:-1]:
+        for key in keys:
             current_data = current_data.setdefault(key, {})
 
-        current_data[keys[-1]] = json_value
+        current_data[key_name] = json_value
 
         with open(FILE_PATH, 'w') as f:
             json.dump(data, f, indent=2)
 
     @staticmethod
-    def load(nested_key: str, cls: Type[JsonConvertable]):
+    def load(nested_path: str, key_name: str, cls: Type[JsonConvertable]):
         if not os.path.exists(FILE_PATH):
             raise FileNotFoundError("Saved data file cannot be found.")
 
         with open(FILE_PATH, "r") as f:
             data = json.load(f)
-            keys = nested_key.split('.')
+            keys = nested_path.split('.') + [key_name]
             for key in keys:
                 try:
                     data = data[key]

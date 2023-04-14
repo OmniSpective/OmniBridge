@@ -134,3 +134,4 @@ dmypy.json
 
 # local saved data
 omnibridge/saved_data/.saved_data.json
+omnibridge/saved_data/.saved_data_test.json

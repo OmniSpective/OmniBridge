@@ -1,5 +1,4 @@
 from .base_config import BaseConfiguration
-from .chatgpt_config import GPTConfiguration
 from .dalle_config import DALLEConfiguration
 from .hugging_face_config import HuggingFaceConfiguration
 from .config_types import ConfigTypes
@@ -9,7 +8,6 @@ from typing import Dict
 
 
 CONFIG_TYPE_TO_OBJECT = {
-    ConfigTypes.CHATGPT: GPTConfiguration,
     ConfigTypes.DALLE: DALLEConfiguration,
     ConfigTypes.HUGGINGFACE: HuggingFaceConfiguration
 }

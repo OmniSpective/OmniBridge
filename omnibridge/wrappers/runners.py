@@ -2,7 +2,6 @@ from omnibridge.wrappers.wrapper_instances.gpt_wrapper import GPTWrapper
 from omnibridge.wrappers.wrapper_instances.dalle_wrapper import DALLEWrapper
 from omnibridge.wrappers.wrapper_instances.hugging_face_wrapper import HuggingFaceWrapper
 from omnibridge.wrappers.wrapper_instance_configurations.base_config import BaseConfiguration
-from omnibridge.wrappers.wrapper_instance_configurations.chatgpt_config import GPTConfiguration
 from omnibridge.wrappers.wrapper_instance_configurations.dalle_config import DALLEConfiguration
 from omnibridge.wrappers.wrapper_instance_configurations.hugging_face_config import HuggingFaceConfiguration
 from omnibridge.common.logging.log_manager import LogManager
@@ -11,14 +10,9 @@ from typing import Any, cast, Optional
 
 logger = LogManager().logger
 
-def run_prompt_in_chatgpt_wrapper(prompt: str, config: Optional[BaseConfiguration] = None) -> Any:
-    if config:
-        config = cast(GPTConfiguration, config)
-    else:
-        config = GPTConfiguration(model='gpt-3.5-turbo', 
-                                  api_key=os.getenv("OPENAI_API_KEY", ""))
-        
-    wrapper = GPTWrapper(configuration=config)
+
+def run_prompt_in_chatgpt_wrapper(prompt: str, model: str = 'gpt-3.5-turbo', api_key: str = "") -> Any:
+    wrapper = GPTWrapper(model=model, api_key=api_key)
 
     try:
         response = wrapper.prompt_and_get_response(prompt)
@@ -35,9 +29,9 @@ def run_prompt_in_dalle_wrapper(prompt: str, config: Optional[BaseConfiguration]
         config = cast(DALLEConfiguration, config)
     else:
         config = DALLEConfiguration(api_key=os.getenv("OPENAI_API_KEY", ""),
-                                                       resolution='256x256',
-                                                       num_of_images=4)
-        
+                                    resolution='256x256',
+                                    num_of_images=4)
+
     wrapper = DALLEWrapper(configuration=config, logger=logger)
 
     try:
@@ -53,7 +47,7 @@ def run_prompt_in_hugging_face_wrapper(prompt: str, config: Optional[BaseConfigu
     if config:
         config = cast(HuggingFaceConfiguration, config)
     else:
-        config = HuggingFaceConfiguration(api_key=os.getenv("HUGGING_FACE_API_KEY", ""), 
+        config = HuggingFaceConfiguration(api_key=os.getenv("HUGGING_FACE_API_KEY", ""),
                                           model_id="distilbert-base-uncased")
 
     wrapper = HuggingFaceWrapper(configuration=config, logger=logger)

@@ -12,15 +12,19 @@ class WrapperException(Exception):
 
 
 class RestAPIWrapper(ABC):
-    def __init__(self, configuration: BaseConfiguration, logger: logging.Logger = logging.getLogger()) -> None:
+    def __init__(self, configuration: BaseConfiguration = None, logger: logging.Logger = logging.getLogger()) -> None:
         self.config = configuration
         self.logger = logger
 
     def _get_headers(self) -> Dict[str, str]:
         return {
             "Content-Type": "application/json",
-            "Authorization": f"Bearer {self.config.api_key}"
+            "Authorization": f"Bearer {self._get_api_key()}"
         }
+
+    @abstractmethod
+    def _get_api_key(self) -> str:
+        pass
 
     @abstractmethod
     def _get_body(self, prompt_message: str) -> Any:
@@ -57,6 +61,11 @@ class RestAPIWrapper(ABC):
 class TextualRestAPIWrapper(RestAPIWrapper, TextualModelWrapper):
     @abstractmethod
     def _parse_response(self, response_json: Any) -> str:
+        pass
+
+    @classmethod
+    @abstractmethod
+    def _get_class_type_field(cls):
         pass
 
     def prompt_and_get_response(self, prompt: str) -> str:
