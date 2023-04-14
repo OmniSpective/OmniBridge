@@ -1,11 +1,13 @@
-name: Publish a Python distribution to PyPI
+name: Publish OmniBridge
 
 permissions: write-all
 
 on:
   push:
     branches:
-      - main  
+      - main
+    paths:
+      - 'omnibridge/**'
 jobs:
   publish:
     runs-on: ubuntu-latest

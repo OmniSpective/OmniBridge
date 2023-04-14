@@ -3,7 +3,7 @@ from fastapi.responses import JSONResponse
 from omnibridge_api.app.schemas.ai_model import AIModel, TextualModelPromptRequest, TextualModelPromptResponse
 from omnibridge.main import WRAPPER_TO_FUNC 
 from pathlib import Path
-from typing import Any, List
+from typing import List
 import json
 
 router = APIRouter()
