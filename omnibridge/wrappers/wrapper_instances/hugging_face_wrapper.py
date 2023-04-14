@@ -1,7 +1,7 @@
 from typing import Any, Dict
 import json
 import logging
-from .base_api_wrapper import RestAPIWrapper
+from .rest_api_wrapper import RestAPIWrapper
 from ...model_entities.models_io.base_model_io import ModelIO, TextualIO
 
 HUGGING_FACE_BASE_URL = "https://api-inference.huggingface.co/models"
@@ -9,7 +9,7 @@ HUGGING_FACE_BASE_URL = "https://api-inference.huggingface.co/models"
 
 class HuggingFaceWrapper(RestAPIWrapper):
     def __init__(self, api_key: str, model: str, logger: logging.Logger = logging.getLogger()) -> None:
-        super().__init__(None, logger)
+        super().__init__(logger)
         self.api_url = HUGGING_FACE_BASE_URL
         self.api_key = api_key
         self.model = model

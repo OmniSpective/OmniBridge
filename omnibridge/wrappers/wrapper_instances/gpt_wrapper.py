@@ -1,7 +1,7 @@
 from typing import Dict, Any, Type
 import json
 
-from .base_api_wrapper import RestAPIWrapper
+from .rest_api_wrapper import RestAPIWrapper
 import logging
 
 from ...model_entities.models_io.base_model_io import ModelIO, TextualIO
@@ -15,7 +15,7 @@ class GPTWrapper(RestAPIWrapper):
             raise ValueError("api key cannot be None.")
         if not model:
             raise ValueError("model cannot be None.")
-        super().__init__(None, logger)
+        super().__init__(logger)
         self.api_url = COMPLETIONS_API_URL
         self.api_key = api_key
         self.model = model

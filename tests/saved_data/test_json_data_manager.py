@@ -33,8 +33,8 @@ def test_save_and_load_json_succeed():
     my_person = Person(name="jack", age="45")
 
     # Act
-    JsonDataManager.save("", "my_person", my_person)
-    created_person = JsonDataManager.load("", "my_person", Person)
+    JsonDataManager.save(["my_person"], my_person)
+    created_person = JsonDataManager.load(["my_person"], Person)
 
     # Assert
     assert my_person.age == created_person.age and my_person.name == created_person.name
@@ -47,7 +47,7 @@ def test_load_json_file_not_exist_fail():
 
     # Act + Assert
     with pytest.raises(FileNotFoundError):
-        JsonDataManager.load("", "my_person", Person)
+        JsonDataManager.load(["my_person"], Person)
 
 
 def test_load_json_key_not_exist_fail():
@@ -58,10 +58,10 @@ def test_load_json_key_not_exist_fail():
     person = Person("Bruce", "50")
 
     # Act + Assert
-    JsonDataManager.save("", "bruce", person)
+    JsonDataManager.save(["bruce"], person)
 
     with pytest.raises(KeyError):
-        JsonDataManager.load("", "wayne", Person)
+        JsonDataManager.load(["wayne"], Person)
 
 
 def test_save_and_load_multiple_items_json_succeed():
@@ -70,10 +70,10 @@ def test_save_and_load_multiple_items_json_succeed():
     person2 = Person(name="Li", age="32")
 
     # Act
-    JsonDataManager.save("", person1.name, person1)
-    JsonDataManager.save("", person2.name, person2)
-    created_person1 = JsonDataManager.load("", person1.name, Person)
-    created_person2 = JsonDataManager.load("", person2.name, Person)
+    JsonDataManager.save([person1.name], person1)
+    JsonDataManager.save([person2.name], person2)
+    created_person1 = JsonDataManager.load([person1.name], Person)
+    created_person2 = JsonDataManager.load([person2.name], Person)
 
     # Assert
     assert created_person1.age == person1.age and created_person1.name == person1.name
@@ -86,10 +86,10 @@ def test_save_and_load_multiple_nested_items_json_succeed():
     person2 = Person(name="Li", age="32")
 
     # Act
-    JsonDataManager.save("employees", person1.name, person1)
-    JsonDataManager.save("managers", person2.name, person2)
-    created_person1 = JsonDataManager.load("employees", person1.name, Person)
-    created_person2 = JsonDataManager.load("managers", person2.name, Person)
+    JsonDataManager.save(["employees", person1.name], person1)
+    JsonDataManager.save(["managers", person2.name], person2)
+    created_person1 = JsonDataManager.load(["employees", person1.name], Person)
+    created_person2 = JsonDataManager.load(["managers", person2.name], Person)
 
     # Assert
     assert created_person1.age == person1.age and created_person1.name == person1.name
@@ -101,9 +101,9 @@ def test_overwrite_json_succeed():
     updated_person = Person(name="Gal", age="28")
 
     # Act
-    JsonDataManager.save("", "my_person", old_person)
-    JsonDataManager.save("", "my_person", updated_person)
-    created_person = JsonDataManager.load("", "my_person", Person)
+    JsonDataManager.save(["my_person"], old_person)
+    JsonDataManager.save(["my_person"], updated_person)
+    created_person = JsonDataManager.load(["my_person"], Person)
 
     # Assert
     assert updated_person.age == created_person.age and updated_person.name == created_person.name
@@ -128,10 +128,10 @@ def test_save_multiple_classes_json_succeed():
     pet = Pet("dogo")
 
     # Act
-    JsonDataManager.save("", "my_person", person)
-    JsonDataManager.save("", "my_pet", pet)
-    loaded_person = JsonDataManager.load("", "my_person", Person)
-    loaded_pet = JsonDataManager.load("", "my_pet", Pet)
+    JsonDataManager.save(["my_person"], person)
+    JsonDataManager.save(["my_pet"], pet)
+    loaded_person = JsonDataManager.load(["my_person"], Person)
+    loaded_pet = JsonDataManager.load(["my_pet"], Pet)
 
     # Assert
     assert loaded_person.name == person.name and loaded_pet.nickname == pet.nickname

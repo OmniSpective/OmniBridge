@@ -2,7 +2,7 @@ from typing import TypedDict, Any, Dict
 import json
 import requests
 import logging
-from .base_api_wrapper import RestAPIWrapper
+from .rest_api_wrapper import RestAPIWrapper
 from ...model_entities.models_io.base_model_io import ModelIO, TextualIO, ImageIO
 
 IMAGE_GENARATION_API_URL = "https://api.openai.com/v1/images/generations"
@@ -17,7 +17,7 @@ class ImageGenerationRequestBody(TypedDict):
 class DALLEWrapper(RestAPIWrapper):
     def __init__(self, api_key: str, number_of_images: int, resolution: str,
                  logger: logging.Logger = logging.getLogger()) -> None:
-        super().__init__(None, logger)
+        super().__init__(logger)
         self.api_url = IMAGE_GENARATION_API_URL
         self.api_key = api_key
         self.number_of_images = number_of_images
