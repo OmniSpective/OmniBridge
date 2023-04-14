@@ -131,3 +131,6 @@ dmypy.json
 
 # vscode
 .vscode/
+
+# local saved data
+omnibridge/saved_data/.saved_data.json

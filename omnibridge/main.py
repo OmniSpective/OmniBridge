@@ -1,5 +1,8 @@
 from __future__ import annotations
 import argparse
+
+from omnibridge.saved_data.json_data_manager import JsonDataManager
+from omnibridge.wrappers.api_key import ApiKey
 from omnibridge.wrappers.runners import run_prompt_in_chatgpt_wrapper, run_prompt_in_dalle_wrapper, \
     run_prompt_in_hugging_face_wrapper
 from omnibridge.wrappers.wrapper_instance_configurations.config_loader import parse_models_configurations_from_file
@@ -22,7 +25,14 @@ def run() -> int:
     parser.add_argument('-p', '--prompt', help="prompt for model", action="append", default=[])
     parser.add_argument('-l', "--load-config", help="absolute path to models configuration file")
 
+    subparsers = parser.add_subparsers(help='sub-command help')
+    api_key_parser = subparsers.add_parser("add-key", help="Add an api key to be stored locally")
+    api_key_parser.add_argument('-n', '--name', help="name of the api key.", type=str, required=True)
+    api_key_parser.add_argument('-v', '--value', help="value of the api key.", type=str, required=True)
+
     args = vars(parser.parse_args())
+    if args['command'] == 'add-key':
+        JsonDataManager.save("api keys", ApiKey(args['name'], args['value']))
 
     models = args["model"]
     prompts = args["prompt"]
