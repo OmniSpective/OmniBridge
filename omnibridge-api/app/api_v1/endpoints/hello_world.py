@@ -1,8 +1,8 @@
-from __future__ import annotations
+from typing import Dict
 from fastapi import APIRouter
 
 router = APIRouter()
 
 @router.get("/")
-def hello_world() -> dict[str, str]:
+def hello_world() -> Dict[str, str]:
     return {"hello": "world"}
