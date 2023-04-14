@@ -1,7 +1,7 @@
 import json
 import os
 from abc import ABC, abstractmethod
-from typing import Dict, Type
+from typing import Dict, Type, List
 
 FILE_NAME = ".saved_data.json"
 MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -21,9 +21,8 @@ class JsonConvertable(ABC):
 
 class JsonDataManager:
     @staticmethod
-    def save(nested_path: str, key_name: str, item: JsonConvertable) -> None:
+    def save(nested_path: List[str], item: JsonConvertable) -> None:
         json_value = item.to_json()
-        keys = nested_path.split('.')
 
         data = {}
         if os.path.isfile(FILE_PATH):
@@ -34,25 +33,29 @@ class JsonDataManager:
                     pass
 
         current_data = data
-        for key in keys:
+        for key in nested_path[:-1]:
             current_data = current_data.setdefault(key, {})
 
-        current_data[key_name] = json_value
+        current_data[nested_path[-1]] = json_value
 
         with open(FILE_PATH, 'w') as f:
             json.dump(data, f, indent=2)
 
     @staticmethod
-    def load(nested_path: str, key_name: str, cls: Type[JsonConvertable]):
+    def load(nested_path: List[str], cls: Type[JsonConvertable]):
+        data = JsonDataManager.get_json_value(nested_path)
+        return cls.create_from_json(data)
+
+    @staticmethod
+    def get_json_value(nested_path: List[str]):
         if not os.path.exists(FILE_PATH):
             raise FileNotFoundError("Saved data file cannot be found.")
 
         with open(FILE_PATH, "r") as f:
             data = json.load(f)
-            keys = nested_path.split('.') + [key_name]
-            for key in keys:
+            for key in nested_path:
                 try:
                     data = data[key]
                 except KeyError:
                     raise KeyError(f"Key '{key}' not found in JSON data")
-            return cls.create_from_json(data)
+            return data

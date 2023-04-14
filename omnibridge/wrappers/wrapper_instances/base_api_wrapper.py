@@ -1,7 +1,8 @@
 from typing import Any, Dict
 import requests
-from abc import ABC, abstractmethod
+from abc import abstractmethod, ABC
 from ..wrapper_instance_configurations.base_config import BaseConfiguration
+from ..wrapper_interfaces.ModelWrapper import ModelWrapper
 from ..wrapper_interfaces.textual_model_wrapper import TextualModelWrapper
 
 import logging
@@ -11,7 +12,7 @@ class WrapperException(Exception):
     pass
 
 
-class RestAPIWrapper(ABC):
+class RestAPIWrapper(ModelWrapper):
     def __init__(self, configuration: BaseConfiguration = None, logger: logging.Logger = logging.getLogger()) -> None:
         self.config = configuration
         self.logger = logger
@@ -65,7 +66,7 @@ class TextualRestAPIWrapper(RestAPIWrapper, TextualModelWrapper):
 
     @classmethod
     @abstractmethod
-    def _get_class_type_field(cls):
+    def get_class_type_field(cls):
         pass
 
     def prompt_and_get_response(self, prompt: str) -> str:

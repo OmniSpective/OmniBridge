@@ -1,16 +1,16 @@
-from typing import Dict, Any
+from typing import Dict, Any, Type
 import json
 
-from .base_api_wrapper import TextualRestAPIWrapper
+from .base_api_wrapper import RestAPIWrapper
 import logging
 
-from ...saved_data.json_data_manager import JsonConvertable
+from ...model_entities.models_io.base_model_io import ModelIO, TextualIO
 
 COMPLETIONS_API_URL = "https://api.openai.com/v1/chat/completions"
 
 
-class GPTWrapper(TextualRestAPIWrapper, JsonConvertable):
-    def __init__(self, api_key: str, model: str, logger: logging.Logger=logging.getLogger()) -> None:
+class GPTWrapper(RestAPIWrapper):
+    def __init__(self, api_key: str, model: str, logger: logging.Logger = logging.getLogger()) -> None:
         if not api_key:
             raise ValueError("api key cannot be None.")
         if not model:
@@ -24,7 +24,7 @@ class GPTWrapper(TextualRestAPIWrapper, JsonConvertable):
         return {
             'api key': self.api_key,
             'model': self.model,
-            '_class_type': self._get_class_type_field()
+            '_class_type': self.get_class_type_field()
         }
 
     @classmethod
@@ -32,7 +32,8 @@ class GPTWrapper(TextualRestAPIWrapper, JsonConvertable):
         return GPTWrapper(json_data['api key'], json_data['model'])
 
     @classmethod
-    def _get_class_type_field(cls): return "chat_gpt_wrapper"
+    def get_class_type_field(cls):
+        return "chat_gpt_wrapper"
 
     def _get_api_url(self) -> str:
         return self.api_url
@@ -51,3 +52,11 @@ class GPTWrapper(TextualRestAPIWrapper, JsonConvertable):
                  "content": prompt_message}
             ]
         })
+
+    def process(self, model_input: ModelIO) -> ModelIO:
+        if not isinstance(model_input, TextualIO):
+            raise TypeError(f"expected type {type(TextualIO)} but got {type(model_input)}")
+
+        response = self.prompt(model_input.text)
+        chat_answer = response['choices'][0]['message']['content']
+        return TextualIO(chat_answer)

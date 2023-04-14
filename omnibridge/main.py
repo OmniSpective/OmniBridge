@@ -1,5 +1,6 @@
 import argparse
 
+from omnibridge.model_entities.models_io.base_model_io import TextualIO
 from omnibridge.saved_data.json_data_manager import JsonDataManager
 from omnibridge.wrappers.api_key import ApiKey
 from omnibridge.wrappers.runners import run_prompt_in_chatgpt_wrapper, run_prompt_in_dalle_wrapper, \
@@ -11,6 +12,7 @@ from typing import Callable, Any, Optional, Dict
 from omnibridge.wrappers.wrapper_instance_configurations.base_config import BaseConfiguration
 from omnibridge.wrappers.wrapper_instances.dalle_wrapper import DALLEWrapper
 from omnibridge.wrappers.wrapper_instances.gpt_wrapper import GPTWrapper
+from omnibridge.wrappers.wrapper_instances.type_name_to_wrapper import type_names
 
 WRAPPER_TO_FUNC: Dict[str, Callable[[str, Optional[BaseConfiguration]], Any]] = {
     'chatgpt': run_prompt_in_chatgpt_wrapper,
@@ -21,7 +23,6 @@ WRAPPER_TO_FUNC: Dict[str, Callable[[str, Optional[BaseConfiguration]], Any]] = 
 
 def run() -> int:
     parser = argparse.ArgumentParser(description='AI integration tool.')
-    parser.add_argument('-m', '--model', help="name of a model to run", action="append", default=[])
     parser.add_argument('-p', '--prompt', help="prompt for model", type=str, default=[])
     parser.add_argument('-l', "--load-config", help="absolute path to models configuration file")
     parser.add_argument('-n', "--model-name", help="which model to use.")
@@ -48,23 +49,25 @@ def run() -> int:
     args = vars(parser.parse_args())
     if args['command'] == 'add-key':
         api_key = ApiKey(args['value'])
-        JsonDataManager.save("api keys", args['name'], api_key)
+        JsonDataManager.save(["api keys", args['name']], api_key)
         return 0
     elif args['command'] == 'add-chatgpt':
-        api_key: ApiKey = JsonDataManager.load("api keys", args['key'], ApiKey)
+        api_key: ApiKey = JsonDataManager.load(["api keys", args['key']], ApiKey)
         wrapper: GPTWrapper = GPTWrapper(api_key.value, args['model'])
-        JsonDataManager.save("models", args['name'], wrapper)
+        JsonDataManager.save(["models", args['name']], wrapper)
         return 0
     elif args['command'] == 'add-dalle':
-        api_key: ApiKey = JsonDataManager.load("api keys", args['key'], ApiKey)
+        api_key: ApiKey = JsonDataManager.load(["api keys", args['key']], ApiKey)
         wrapper: DALLEWrapper = DALLEWrapper(api_key=api_key.value, number_of_images=args['num_images'],
                                              resolution=args['res'])
-        JsonDataManager.save("models", args['name'], wrapper)
+        JsonDataManager.save(["models", args['name']], wrapper)
         return 0
     elif args['prompt'] and args['model_name']:
-        print(f"prompt: {args['prompt']} model_name: {args['model_name']}")
-        wrapper: GPTWrapper = JsonDataManager.load("models", args['model_name'], GPTWrapper)
-        print(wrapper.prompt_and_get_response(args['prompt']))
+        class_type_name = JsonDataManager.get_json_value(["models", args['model_name'], "_class_type"])
+        wrapper_type = type_names[class_type_name]
+        wrapper = JsonDataManager.load(["models", args['model_name']], wrapper_type)
+        response = wrapper.process(TextualIO(args['prompt']))
+        print(response)
         return 0
 
     print(f"prompt: {args['prompt']} model_name: {args['model_name']}")
