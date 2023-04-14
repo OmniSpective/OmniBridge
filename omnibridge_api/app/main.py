@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from omnibridge.api.app.core.config import settings
-from omnibridge.api.app.api_v1.api import api_router
+from omnibridge_api.app.core.config import settings
+from omnibridge_api.app.api_v1.api import api_router
 
 
 app = FastAPI(

@@ -138,11 +138,11 @@
         },
         "fastapi": {
             "hashes": [
-                "sha256:99d4fdb10e9dd9a24027ac1d0bd4b56702652056ca17a6c8721eec4ad2f14e18",
-                "sha256:daf73bbe844180200be7966f68e8ec9fd8be57079dff1bacb366db32729e6eb5"
+                "sha256:9569f0a381f8a457ec479d90fa01005cfddaae07546eb1f3fa035bc4797ae7d5",
+                "sha256:a870d443e5405982e1667dfe372663abf10754f246866056336d7f01c21dab07"
             ],
             "index": "pypi",
-            "version": "==0.95.0"
+            "version": "==0.95.1"
         },
         "h11": {
             "hashes": [
@@ -162,10 +162,10 @@
         },
         "omnibridge": {
             "hashes": [
-                "sha256:37e745fecbb7c5eb7b5d3a83414fb645a81fdb4cd04cdb5754bc70182c18602c"
+                "sha256:160faf68728bde54043569d3a207ef08a84fdef6a46f5e530fdffc1e78ed6b76"
             ],
             "index": "pypi",
-            "version": "==0.1.47"
+            "version": "==0.1.56"
         },
         "pydantic": {
             "hashes": [

@@ -1,4 +1,3 @@
-from __future__ import annotations
 from typing import Dict, Any
 import json
 
@@ -23,7 +22,7 @@ class GPTWrapper(TextualRestAPIWrapper):
     def _parse_response(self, response: Dict[str, Any]) -> Any:
         return {'response': response['choices'][0]['message']['content']}
 
-    def _get_headers(self) -> dict[str, str]:
+    def _get_headers(self) -> Dict[str, str]:
         return {
             "Content-Type": "application/json",
             "Authorization": f"Bearer {self.config.api_key}"

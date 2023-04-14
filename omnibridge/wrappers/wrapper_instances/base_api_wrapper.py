@@ -1,5 +1,4 @@
-from __future__ import annotations
-from typing import Any
+from typing import Any, Dict
 import requests
 from abc import ABC, abstractmethod
 from ..wrapper_instance_configurations.base_config import BaseConfiguration
@@ -17,7 +16,7 @@ class RestAPIWrapper(ABC):
         self.config = configuration
         self.logger = logger
 
-    def _get_headers(self) -> dict[str, str]:
+    def _get_headers(self) -> Dict[str, str]:
         return {
             "Content-Type": "application/json",
             "Authorization": f"Bearer {self.config.api_key}"

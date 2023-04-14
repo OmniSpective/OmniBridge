@@ -1,4 +1,3 @@
-from __future__ import annotations
 import argparse
 
 from omnibridge.saved_data.json_data_manager import JsonDataManager
@@ -8,11 +7,11 @@ from omnibridge.wrappers.runners import run_prompt_in_chatgpt_wrapper, run_promp
 from omnibridge.wrappers.wrapper_instance_configurations.config_loader import parse_models_configurations_from_file
 from omnibridge.wrappers.wrapper_instance_configurations.config_types import ConfigTypes
 from omnibridge.cli.banner import banner
-from typing import Callable, Any, Optional
+from typing import Callable, Any, Optional, Dict
 from omnibridge.wrappers.wrapper_instance_configurations.base_config import BaseConfiguration
 
 
-WRAPPER_TO_FUNC: dict[str, Callable[[str, Optional[BaseConfiguration]], Any]] = {
+WRAPPER_TO_FUNC: Dict[str, Callable[[str, Optional[BaseConfiguration]], Any]] = {
     'chatgpt': run_prompt_in_chatgpt_wrapper,
     'dalle': run_prompt_in_dalle_wrapper,
     'hugging_face': run_prompt_in_hugging_face_wrapper
