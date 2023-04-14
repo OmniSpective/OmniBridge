@@ -1,4 +1,4 @@
-from typing import Dict, Any, Type
+from typing import Dict, Any
 import json
 
 from .rest_api_wrapper import RestAPIWrapper

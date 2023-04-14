@@ -1,6 +1,6 @@
 from typing import Any, Dict
 import requests
-from abc import abstractmethod, ABC
+from abc import abstractmethod
 from ..wrapper_interfaces.ModelWrapper import ModelWrapper
 
 import logging
