@@ -8,8 +8,8 @@ HUGGING_FACE_BASE_URL = "https://api-inference.huggingface.co/models"
 
 
 class HuggingFaceWrapper(RestAPIWrapper):
-    def __init__(self, api_key: str, model: str, logger: logging.Logger = logging.getLogger()) -> None:
-        super().__init__(logger)
+    def __init__(self, name: str, api_key: str, model: str, logger: logging.Logger = logging.getLogger()) -> None:
+        super().__init__(name, logger)
         self.api_url = HUGGING_FACE_BASE_URL
         self.api_key = api_key
         self.model = model
@@ -17,9 +17,9 @@ class HuggingFaceWrapper(RestAPIWrapper):
     def _get_api_key(self) -> str:
         return self.api_key
 
-    def process(self, model_input: ModelIO) -> Any:
+    def process(self, model_input: ModelIO) -> ModelIO:
         if isinstance(model_input, TextualIO):
-            return self.prompt(prompt_message=model_input.text)
+            return TextualIO(self.prompt(prompt_message=model_input.text))
         else:
             raise NotImplementedError
 
@@ -31,8 +31,8 @@ class HuggingFaceWrapper(RestAPIWrapper):
         }
 
     @classmethod
-    def create_from_json(cls, json_data: Dict[str, str]) -> Any:
-        return HuggingFaceWrapper(api_key=json_data["api key"], model=json_data["model"])
+    def create_from_json(cls, json_key: str, json_data: Dict[str, str]) -> Any:
+        return HuggingFaceWrapper(json_key, api_key=json_data["api key"], model=json_data["model"])
 
     @classmethod
     def get_class_type_field(cls) -> str:
