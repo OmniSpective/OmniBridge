@@ -3,12 +3,16 @@
         "id": 1, 
         "name": "ChatGPT", 
         "type": "chat_bot",
-        "description": "Ask any question"
+        "description": "Ask any question",
+        "input_dtype": "text",
+        "output_dtype": "text"
     },
     { 
         "id": 2, 
         "name": "DALLE-2", 
         "type": "chat_to_image",
-        "description": "Create your own image"
+        "description": "Create your own image",
+        "input_dtype": "text",
+        "output_dtype": "image"
     }
 ]
