@@ -8,8 +8,8 @@ HUGGING_FACE_BASE_URL = "https://api-inference.huggingface.co/models"
 
 
 class HuggingFaceWrapper(RestAPIWrapper):
-    def __init__(self, api_key: str, model: str, logger: logging.Logger = logging.getLogger()) -> None:
-        super().__init__(logger)
+    def __init__(self, name: str, api_key: str, model: str, logger: logging.Logger = logging.getLogger()) -> None:
+        super().__init__(name, logger)
         self.api_url = HUGGING_FACE_BASE_URL
         self.api_key = api_key
         self.model = model
@@ -31,8 +31,8 @@ class HuggingFaceWrapper(RestAPIWrapper):
         }
 
     @classmethod
-    def create_from_json(cls, json_data: Dict[str, str]):
-        return HuggingFaceWrapper(api_key=json_data["api key"], model=json_data["model"])
+    def create_from_json(cls, json_key: str, json_data: Dict[str, str]):
+        return HuggingFaceWrapper(json_key, api_key=json_data["api key"], model=json_data["model"])
 
     @classmethod
     def get_class_type_field(cls):

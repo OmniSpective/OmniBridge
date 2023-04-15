@@ -8,3 +8,12 @@ class ModelWrapper(JsonConvertable):
     @abstractmethod
     def process(self, model_input: ModelIO) -> ModelIO:
         pass
+
+    @abstractmethod
+    def get_name(self):
+        pass
+
+    @classmethod
+    @abstractmethod
+    def get_class_type_field(cls):
+        pass

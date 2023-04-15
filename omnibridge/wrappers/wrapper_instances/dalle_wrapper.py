@@ -15,9 +15,9 @@ class ImageGenerationRequestBody(TypedDict):
 
 
 class DALLEWrapper(RestAPIWrapper):
-    def __init__(self, api_key: str, number_of_images: int, resolution: str,
+    def __init__(self, name: str, api_key: str, number_of_images: int, resolution: str,
                  logger: logging.Logger = logging.getLogger()) -> None:
-        super().__init__(logger)
+        super().__init__(name, logger)
         self.api_url = IMAGE_GENARATION_API_URL
         self.api_key = api_key
         self.number_of_images = number_of_images
@@ -32,8 +32,8 @@ class DALLEWrapper(RestAPIWrapper):
         }
 
     @classmethod
-    def create_from_json(cls, json_data: Dict[str, str]):
-        return DALLEWrapper(api_key=json_data["api key"],
+    def create_from_json(cls, json_key: str, json_data: Dict[str, str]):
+        return DALLEWrapper(json_key, api_key=json_data["api key"],
                             number_of_images=int(json_data["number of images per prompt"]),
                             resolution=json_data["resolution"])
 

@@ -24,7 +24,7 @@ class Person(JsonConvertable):
         }
 
     @classmethod
-    def create_from_json(cls, json_data: Dict[str, str]):
+    def create_from_json(cls, json_key: str, json_data: Dict[str, str]):
         return Person(json_data['name'], json_data['age'])
 
 
@@ -121,7 +121,7 @@ def test_save_multiple_classes_json_succeed():
             }
 
         @classmethod
-        def create_from_json(cls, json_data: Dict[str, str]):
+        def create_from_json(cls, json_key: str, json_data: Dict[str, str]):
             return Pet(json_data['nickname'])
 
     person = Person("owner", "32")

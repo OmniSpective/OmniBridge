@@ -1,12 +1,15 @@
 import argparse
 
+from omnibridge.flows.branching_flow import BranchingFlow
+from omnibridge.flows.flow_loader import FlowLoader
+from omnibridge.flows.sequential_flow import SequentialFlow
 from omnibridge.model_entities.models_io.base_model_io import TextualIO
 from omnibridge.saved_data.json_data_manager import JsonDataManager
 from omnibridge.wrappers.api_key import ApiKey
 from omnibridge.cli.banner import banner
 from omnibridge.wrappers.wrapper_instances.dalle_wrapper import DALLEWrapper
 from omnibridge.wrappers.wrapper_instances.gpt_wrapper import GPTWrapper
-from omnibridge.wrappers.wrapper_instances.type_name_to_wrapper import type_names
+from omnibridge.wrappers.wrapper_instances.type_name_to_wrapper import ModelLoader
 
 
 def run() -> int:
@@ -34,26 +37,54 @@ def run() -> int:
                                           help="number of images per prompt, default 4.")
     add_chatgpt_model_parser.add_argument('-r', '--res', type=str, default="256x256", help="resolution of images.")
 
+    add_chatgpt_model_parser = subparsers.add_parser("add-flow", help="add flow.")
+    add_chatgpt_model_parser.add_argument('-n', '--name', type=str, required=True, help="name of the flow.")
+    add_chatgpt_model_parser.add_argument('-t', '--type', type=str, choices=['seq', 'branching'], default='seq',
+                                          help="type of the flow.")
+    add_chatgpt_model_parser.add_argument('-m', '--model', type=str, action='append', required=True,
+                                          help="name of the models to include.")
+    add_chatgpt_model_parser.add_argument('-i', '--instruction', type=str, action='append', required=True,
+                                          help="instruct the model to do something with the input.")
+
+    add_chatgpt_model_parser = subparsers.add_parser("run-flow", help="run flow.")
+    add_chatgpt_model_parser.add_argument('-n', '--name', type=str, required=True, help="name of the flow.")
+    add_chatgpt_model_parser.add_argument('-p', '--prompt', help="prompt for flow", type=str, required=True)
+
     args = vars(parser.parse_args())
+    if args['command'] == 'run-flow':
+        flow = FlowLoader.load_flow(args['name'])
+        flow_input = TextualIO(args['prompt'])
+        flow_output = flow.process(flow_input)
+        print(flow_output)
+        return 0
+    if args['command'] == 'add-flow':
+        if args['type'] == 'branching':
+            models = [ModelLoader.load_model(model_name) for model_name in args['model']]
+            b_flow = BranchingFlow(args['name'], models[0], models[1:], args['instruction'])
+            JsonDataManager.save(["flows", args["name"]], b_flow)
+            return 0
+        if args['type'] == 'seq':
+            models = [ModelLoader.load_model(model_name) for model_name in args['model']]
+            flow = SequentialFlow(args['name'], models)
+            JsonDataManager.save(["flows", args["name"]], flow)
+            return 0
     if args['command'] == 'add-key':
         api_key = ApiKey(args['value'])
         JsonDataManager.save(["api keys", args['name']], api_key)
         return 0
     elif args['command'] == 'add-chatgpt':
         api_key: ApiKey = JsonDataManager.load(["api keys", args['key']], ApiKey)
-        wrapper: GPTWrapper = GPTWrapper(api_key.value, args['model'])
+        wrapper: GPTWrapper = GPTWrapper(args['name'], api_key.value, args['model'])
         JsonDataManager.save(["models", args['name']], wrapper)
         return 0
     elif args['command'] == 'add-dalle':
         api_key: ApiKey = JsonDataManager.load(["api keys", args['key']], ApiKey)
-        wrapper: DALLEWrapper = DALLEWrapper(api_key=api_key.value, number_of_images=args['num_images'],
-                                             resolution=args['res'])
+        wrapper: DALLEWrapper = DALLEWrapper(name=args['name'], api_key=api_key.value,
+                                             number_of_images=args['num_images'], resolution=args['res'])
         JsonDataManager.save(["models", args['name']], wrapper)
         return 0
     elif args['prompt'] and args['model_name']:
-        class_type_name = JsonDataManager.get_json_value(["models", args['model_name'], "_class_type"])
-        wrapper_type = type_names[class_type_name]
-        wrapper = JsonDataManager.load(["models", args['model_name']], wrapper_type)
+        wrapper = ModelLoader.load_model(model_name=args['model_name'])
         response = wrapper.process(TextualIO(args['prompt']))
         print(response)
         return 0
