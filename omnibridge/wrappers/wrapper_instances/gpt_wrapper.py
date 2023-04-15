@@ -8,13 +8,14 @@ from ...model_entities.models_io.base_model_io import ModelIO, TextualIO
 
 COMPLETIONS_API_URL = "https://api.openai.com/v1/chat/completions"
 
+
 class GPTWrapper(RestAPIWrapper):
-    def __init__(self, api_key: str, model: str, logger: logging.Logger = logging.getLogger()) -> None:
+    def __init__(self, name: str, api_key: str, model: str, logger: logging.Logger = logging.getLogger()) -> None:
         if not api_key:
             raise ValueError("api key cannot be None.")
         if not model:
             raise ValueError("model cannot be None.")
-        super().__init__(logger)
+        super().__init__(name, logger)
         self.api_url = COMPLETIONS_API_URL
         self.api_key = api_key
         self.model = model
@@ -27,8 +28,8 @@ class GPTWrapper(RestAPIWrapper):
         }
 
     @classmethod
-    def create_from_json(cls, json_data: Dict[str, str]) -> Any:
-        return GPTWrapper(json_data['api key'], json_data['model'])
+    def create_from_json(cls, json_key: str, json_data: Dict[str, str]) -> Any:
+        return GPTWrapper(json_key, json_data['api key'], json_data['model'])
 
     @classmethod
     def get_description(cls) -> str:

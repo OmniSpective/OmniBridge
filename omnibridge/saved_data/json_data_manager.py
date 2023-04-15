@@ -15,7 +15,7 @@ class JsonConvertable(ABC):
 
     @classmethod
     @abstractmethod
-    def create_from_json(cls, json_data: Dict[str, str]) -> Any:
+    def create_from_json(cls, json_key: str, json_data: Dict[str, str]) -> Any:
         pass
 
 
@@ -44,7 +44,11 @@ class JsonDataManager:
     @staticmethod
     def load(nested_path: List[str], cls: Type[JsonConvertable], file_path: str = FILE_PATH) -> Any:
         data = JsonDataManager.get_json_value(nested_path, file_path)
-        return cls.create_from_json(data)
+        if len(nested_path) == 0:
+            json_key = ""
+        else:
+            json_key = nested_path[-1]
+        return cls.create_from_json(json_key, data)
 
     @staticmethod
     def get_json_value(nested_path: List[str], file_path: str = FILE_PATH) -> Any:
@@ -58,4 +62,4 @@ class JsonDataManager:
                     data = data[key]
                 except KeyError:
                     raise KeyError(f"Key '{key}' not found in JSON data")
-        return data
+            return data

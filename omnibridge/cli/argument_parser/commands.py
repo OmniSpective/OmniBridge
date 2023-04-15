@@ -19,15 +19,15 @@ def add_key(args: Dict[str, Any], file_path: str = '') -> None:
     JsonDataManager.save(["api keys", args['name']], api_key, file_path=file_path)
 
 
-def add_chatgpt(args: Dict[str, Any], file_path: str = '') -> None:
+def add_chatgpt(name: str, args: Dict[str, Any], file_path: str = '') -> None:
     api_key: ApiKey = JsonDataManager.load(["api keys", args['key']], ApiKey, file_path=file_path)
-    wrapper: GPTWrapper = GPTWrapper(api_key.value, args['model'])
+    wrapper: GPTWrapper = GPTWrapper(name, api_key.value, args['model'])
     JsonDataManager.save(["models", args['name']], wrapper, file_path=file_path)
 
 
-def add_dalle(args: Dict[str, Any], file_path: str = '') -> None:
+def add_dalle(name: str, args: Dict[str, Any], file_path: str = '') -> None:
     api_key: ApiKey = JsonDataManager.load(["api keys", args['key']], ApiKey, file_path=file_path)
-    wrapper: DALLEWrapper = DALLEWrapper(api_key=api_key.value, number_of_images=args['num_images'],
+    wrapper: DALLEWrapper = DALLEWrapper(name, api_key=api_key.value, number_of_images=args['num_images'],
                                             resolution=args['res'])
     JsonDataManager.save(["models", args['name']], wrapper, file_path=file_path)
 
