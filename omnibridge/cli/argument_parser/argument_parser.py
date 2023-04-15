@@ -9,7 +9,8 @@ def add_api_key_arguments(parser: Any) -> Any:
 
 
 def add_chatgpt_arguments(parser: Any) -> Any:
-    add_chatgpt_model_parser = parser.add_parser(Commands.ADD_CHATGPT.value, help="add chatgpt model connection details.")
+    add_chatgpt_model_parser = parser.add_parser(Commands.ADD_CHATGPT.value,
+                                                  help="add chatgpt model connection details.")
     add_chatgpt_model_parser.add_argument('-n', '--name', type=str, required=True,
                                           help="name of the model, e.g. my_gpt4.")
     add_chatgpt_model_parser.add_argument('-k', '--key', type=str, required=True, help="api key name.")
