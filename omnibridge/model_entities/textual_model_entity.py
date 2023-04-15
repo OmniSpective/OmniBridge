@@ -1,7 +1,5 @@
 from typing import Type
 
-from omnibridge.wrappers.wrapper_interfaces import model_wrapper
-
 from omnibridge.model_entities.base_model_entity import BaseModelUnit
 from omnibridge.model_entities.models_io.base_model_io import ModelIO
 from omnibridge.model_entities.models_io.base_model_io import TextualIO

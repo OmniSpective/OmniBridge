@@ -28,7 +28,7 @@ class GPTWrapper(RestAPIWrapper):
         }
 
     @classmethod
-    def create_from_json(cls, json_key, json_data: Dict[str, str]) -> Any:
+    def create_from_json(cls, json_key: str, json_data: Dict[str, str]) -> Any:
         return GPTWrapper(json_key, json_data['api key'], json_data['model'])
 
     @classmethod
