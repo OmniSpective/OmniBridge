@@ -13,7 +13,6 @@ class ImageGenerationRequestBody(TypedDict):
     n: int
     size: str
 
-
 class DALLEWrapper(RestAPIWrapper):
     def __init__(self, api_key: str, number_of_images: int, resolution: str,
                  logger: logging.Logger = logging.getLogger()) -> None:
@@ -36,6 +35,12 @@ class DALLEWrapper(RestAPIWrapper):
         return DALLEWrapper(api_key=json_data["api key"],
                             number_of_images=int(json_data["number of images per prompt"]),
                             resolution=json_data["resolution"])
+
+    @classmethod
+    def get_description(cls) -> str:
+        return """
+            DALLE-2 OpenAI Wrapper, generates an image based on text
+        """
 
     @classmethod
     def get_class_type_field(cls) -> str:

@@ -5,7 +5,7 @@ from omnibridge.saved_data.json_data_manager import JsonDataManager
 from omnibridge.cli.banner import banner
 from omnibridge.wrappers.wrapper_instances.type_name_to_wrapper import type_names
 from omnibridge.cli.argument_parser.argument_parser import add_api_key_arguments, \
-      add_chatgpt_arguments, add_dalle_arguments
+      add_chatgpt_arguments, add_dalle_arguments, add_list_wrappers_arguments
 from omnibridge.cli.argument_parser.commands import COMMAND_TO_FUNCTION
 from omnibridge.saved_data.json_data_manager import FILE_PATH
 
@@ -23,6 +23,7 @@ def run() -> int:
     add_api_key_arguments(subparsers)
     add_chatgpt_arguments(subparsers)
     add_dalle_arguments(subparsers)
+    add_list_wrappers_arguments(subparsers)
 
     args = vars(parser.parse_args())
     command_function = COMMAND_TO_FUNCTION.get(args['command'])

@@ -27,3 +27,8 @@ def add_dalle_arguments(parser: Any) -> Any:
                                           help="number of images per prompt, default 4.")
     add_dalle_model_parser.add_argument('-r', '--res', type=str, default="256x256", help="resolution of images.")
     return add_dalle_model_parser
+
+
+def add_list_wrappers_arguments(parser: Any) -> Any:
+    list_wrappers_parser = parser.add_parser(Commands.LIST_WRAPPERS.value, help="list wrappers.")
+    return list_wrappers_parser
