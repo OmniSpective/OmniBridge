@@ -1,4 +1,4 @@
-from typing import TypedDict, Any, Dict
+from typing import TypedDict, Any, Dict, Union, TypeVar
 import json
 import requests
 import logging
@@ -6,6 +6,8 @@ from .rest_api_wrapper import RestAPIWrapper
 from ...model_entities.models_io.base_model_io import ModelIO, TextualIO, ImageIO
 
 IMAGE_GENARATION_API_URL = "https://api.openai.com/v1/images/generations"
+
+T = TypeVar("T", bound="DALLEWrapper")
 
 
 class ImageGenerationRequestBody(TypedDict):
@@ -23,7 +25,7 @@ class DALLEWrapper(RestAPIWrapper):
         self.number_of_images = number_of_images
         self.resolution = resolution
 
-    def to_json(self) -> Dict[str, str]:
+    def to_json(self) -> Dict[str, Union[str, int]]:
         return {
             "api key": self.api_key,
             "number of images per prompt": self.number_of_images,
@@ -32,13 +34,13 @@ class DALLEWrapper(RestAPIWrapper):
         }
 
     @classmethod
-    def create_from_json(cls, json_data: Dict[str, str]):
+    def create_from_json(cls, json_data: Dict[str, str]) -> Any:
         return DALLEWrapper(api_key=json_data["api key"],
                             number_of_images=int(json_data["number of images per prompt"]),
                             resolution=json_data["resolution"])
 
     @classmethod
-    def get_class_type_field(cls):
+    def get_class_type_field(cls) -> str:
         return "dalle"
 
     def _get_body(self, prompt_message: str) -> Any:

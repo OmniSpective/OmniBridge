@@ -8,7 +8,7 @@ from omnibridge.model_entities.models_io.base_model_io import TextualIO
 
 
 class TextualModel(BaseModelUnit):
-    def __init__(self, textual_model_wrapper: ModelWrapper):
+    def __init__(self, textual_model_wrapper: ModelWrapper):  # type: ignore
         self.wrapper = textual_model_wrapper
 
     def can_process_type(self, model_input_type: Type[ModelIO]) -> bool:
@@ -17,11 +17,11 @@ class TextualModel(BaseModelUnit):
     def produced_type(self) -> Type[TextualIO]:
         return TextualIO
 
-    def process(self, model_input: TextualIO) -> TextualIO:
+    def process(self, model_input: TextualIO) -> TextualIO:  # type: ignore
         if not self.can_process(model_input):
             raise Exception(f"Cannot process input of type: {type(model_input)}")
 
         prompt = model_input.get_text()
-        response = self.wrapper.process(prompt=prompt)
+        response = self.wrapper.process(prompt=prompt)  # type: ignore
         textual_output = TextualIO(response)
         return textual_output
