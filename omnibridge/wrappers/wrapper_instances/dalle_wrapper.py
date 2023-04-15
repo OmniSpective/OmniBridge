@@ -4,7 +4,6 @@ import requests
 import logging
 from .rest_api_wrapper import RestAPIWrapper
 from ...model_entities.models_io.base_model_io import ModelIO, TextualIO, ImageIO
-from .type_name_to_wrapper import register_wrapper
 
 IMAGE_GENARATION_API_URL = "https://api.openai.com/v1/images/generations"
 
@@ -14,7 +13,6 @@ class ImageGenerationRequestBody(TypedDict):
     n: int
     size: str
 
-@register_wrapper
 class DALLEWrapper(RestAPIWrapper):
     def __init__(self, api_key: str, number_of_images: int, resolution: str,
                  logger: logging.Logger = logging.getLogger()) -> None:
@@ -40,7 +38,7 @@ class DALLEWrapper(RestAPIWrapper):
 
     @classmethod
     def get_description(cls) -> str:
-        return f"""
+        return """
             DALLE-2 OpenAI Wrapper, generates an image based on text
         """
 
