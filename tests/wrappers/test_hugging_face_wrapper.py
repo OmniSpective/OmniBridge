@@ -10,7 +10,7 @@ def test_hugging_face_wrapper():
     # Arrange
     model_id = 'mock'
     responses.add(responses.POST, f"{HUGGING_FACE_BASE_URL}/{model_id}", json={'mock': 'mock'})
-    wrapper = HuggingFaceWrapper(api_key='abc', model=model_id)
+    wrapper = HuggingFaceWrapper(name='testhugging', api_key='abc', model=model_id)
 
     # Act
     res = wrapper.prompt('send_mock')
@@ -26,7 +26,7 @@ def test_gpt_wrapper_api_call_fails():
     # Arrange
     model_id = 'mock'
     responses.add(responses.POST, f"{HUGGING_FACE_BASE_URL}/{model_id}", json={}, status=500)
-    wrapper = HuggingFaceWrapper(api_key='abc', model=model_id)
+    wrapper = HuggingFaceWrapper(name='testhugging', api_key='abc', model=model_id)
 
     # Act
     with pytest.raises(WrapperException) as exc_info:
