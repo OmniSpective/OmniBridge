@@ -1,12 +1,14 @@
 from typing import Any, Dict, Union
 import json
 import logging
+from .type_name_to_wrapper import register_wrapper
+
 from .rest_api_wrapper import RestAPIWrapper
 from ...model_entities.models_io.base_model_io import ModelIO, TextualIO
 
 HUGGING_FACE_BASE_URL = "https://api-inference.huggingface.co/models"
 
-
+@register_wrapper
 class HuggingFaceWrapper(RestAPIWrapper):
     def __init__(self, api_key: str, model: str, logger: logging.Logger = logging.getLogger()) -> None:
         super().__init__(logger)

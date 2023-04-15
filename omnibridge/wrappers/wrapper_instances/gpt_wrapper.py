@@ -4,10 +4,12 @@ import json
 from .rest_api_wrapper import RestAPIWrapper
 import logging
 
+from .type_name_to_wrapper import register_wrapper
 from ...model_entities.models_io.base_model_io import ModelIO, TextualIO
 
 COMPLETIONS_API_URL = "https://api.openai.com/v1/chat/completions"
 
+@register_wrapper
 class GPTWrapper(RestAPIWrapper):
     def __init__(self, api_key: str, model: str, logger: logging.Logger = logging.getLogger()) -> None:
         if not api_key:
