@@ -33,6 +33,13 @@ class GPTWrapper(RestAPIWrapper):
         return GPTWrapper(json_data['api key'], json_data['model'])
 
     @classmethod
+    def get_description(cls) -> str:
+        return f"""
+            ChatGPT OpenAI Wrapper, generates textual response given textual prompt.
+            Can access different model versions.
+        """
+
+    @classmethod
     def get_class_type_field(cls) -> str:
         return "chat_gpt"
 

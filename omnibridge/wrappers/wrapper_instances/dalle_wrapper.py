@@ -39,6 +39,12 @@ class DALLEWrapper(RestAPIWrapper):
                             resolution=json_data["resolution"])
 
     @classmethod
+    def get_description(cls) -> str:
+        return f"""
+            DALLE-2 OpenAI Wrapper, generates an image based on text
+        """
+
+    @classmethod
     def get_class_type_field(cls) -> str:
         return "dalle"
 

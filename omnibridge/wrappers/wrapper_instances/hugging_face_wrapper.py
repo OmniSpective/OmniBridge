@@ -37,6 +37,12 @@ class HuggingFaceWrapper(RestAPIWrapper):
         return HuggingFaceWrapper(api_key=json_data["api key"], model=json_data["model"])
 
     @classmethod
+    def get_description(cls) -> str:
+        return f"""
+            Huggin face wrapper, allow accessing any model in hugging face model that supports API endpoint
+        """
+
+    @classmethod
     def get_class_type_field(cls) -> str:
         return "hugging_face"
 
