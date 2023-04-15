@@ -1,7 +1,7 @@
 from typing import Any, Dict
 import requests
 from abc import abstractmethod
-from ..wrapper_interfaces.ModelWrapper import ModelWrapper
+from ..wrapper_interfaces.model_wrapper import ModelWrapper
 
 import logging
 
@@ -33,7 +33,7 @@ class RestAPIWrapper(ModelWrapper):
     def _get_api_url(self) -> str:
         pass
 
-    def get_name(self):
+    def get_name(self) -> str:
         return self.name
 
     def prompt(self, prompt_message: str) -> Any:

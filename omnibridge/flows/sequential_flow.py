@@ -3,7 +3,7 @@ from typing import List, Dict
 from omnibridge.flows.flow import Flow
 from omnibridge.model_entities.models_io.base_model_io import ModelIO
 from omnibridge.wrappers.wrapper_instances.type_name_to_wrapper import ModelLoader
-from omnibridge.wrappers.wrapper_interfaces.ModelWrapper import ModelWrapper
+from omnibridge.wrappers.wrapper_interfaces.model_wrapper import ModelWrapper
 
 
 class SequentialFlow(ModelWrapper, Flow):

@@ -3,7 +3,7 @@ from typing import Dict, List
 from omnibridge.flows.flow import Flow
 from omnibridge.model_entities.models_io.base_model_io import ModelIO, TextualIO, FlowTextIO
 from omnibridge.wrappers.wrapper_instances.type_name_to_wrapper import ModelLoader
-from omnibridge.wrappers.wrapper_interfaces.ModelWrapper import ModelWrapper
+from omnibridge.wrappers.wrapper_interfaces.model_wrapper import ModelWrapper
 
 
 class BranchingFlow(ModelWrapper, Flow):
@@ -12,7 +12,7 @@ class BranchingFlow(ModelWrapper, Flow):
         if branched_models is None:
             self.branched_models = [root_model for _ in range(len(branched_instructions))]
         elif len(branched_instructions) != len(branched_models):
-            raise ValueError(f"Number of models and instructions must be the same.")
+            raise ValueError("Number of models and instructions must be the same.")
         else:
             self.branched_models = branched_models
         self.name = name
@@ -30,7 +30,7 @@ class BranchingFlow(ModelWrapper, Flow):
 
         return flow_output
 
-    def get_name(self):
+    def get_name(self) -> str:
         return self.name
 
     @classmethod

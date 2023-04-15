@@ -1,6 +1,6 @@
 from abc import abstractmethod, ABC
 
-from omnibridge.wrappers.wrapper_interfaces.ModelWrapper import ModelWrapper
+from omnibridge.wrappers.wrapper_interfaces.model_wrapper import ModelWrapper
 
 
 class Flow(ABC):

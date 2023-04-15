@@ -19,7 +19,7 @@ class HuggingFaceWrapper(RestAPIWrapper):
 
     def process(self, model_input: ModelIO) -> ModelIO:
         if isinstance(model_input, TextualIO):
-            return self.prompt(prompt_message=model_input.text)
+            return TextualIO(self.prompt(prompt_message=model_input.text))
         else:
             raise NotImplementedError
 

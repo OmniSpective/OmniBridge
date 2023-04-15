@@ -10,10 +10,10 @@ class ModelWrapper(JsonConvertable):
         pass
 
     @abstractmethod
-    def get_name(self):
+    def get_name(self) -> str:
         pass
 
     @classmethod
     @abstractmethod
-    def get_class_type_field(cls):
+    def get_class_type_field(cls) -> str:
         pass

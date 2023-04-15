@@ -1,7 +1,7 @@
 from omnibridge.flows.branching_flow import BranchingFlow
 from omnibridge.flows.sequential_flow import SequentialFlow
 from omnibridge.saved_data.json_data_manager import JsonDataManager
-from omnibridge.wrappers.wrapper_interfaces.ModelWrapper import ModelWrapper
+from omnibridge.wrappers.wrapper_interfaces.model_wrapper import ModelWrapper
 
 flow_type_names = {
     SequentialFlow.get_class_type_field(): SequentialFlow,

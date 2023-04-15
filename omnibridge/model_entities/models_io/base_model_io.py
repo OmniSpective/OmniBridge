@@ -22,10 +22,10 @@ class FlowTextIO(TextualIO):
         super().__init__(text)
         self.pretty_text = text
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return self.pretty_text
 
-    def __iadd__(self, other):
+    def __iadd__(self, other):  # type: ignore
         if isinstance(other, TextualIO):
             self.text += '\n' + other.get_text()
             self.pretty_text += '\n\n' + ('*' * 100) + '\n\n' + other.get_text()

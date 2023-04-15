@@ -1,11 +1,9 @@
 import os
 
-import pytest
-
 from omnibridge.flows.branching_flow import BranchingFlow
 from omnibridge.flows.sequential_flow import SequentialFlow
 import omnibridge.saved_data.json_data_manager
-from omnibridge.saved_data.json_data_manager import JsonConvertable, JsonDataManager, MODULE_DIR
+from omnibridge.saved_data.json_data_manager import JsonDataManager, MODULE_DIR
 from omnibridge.wrappers.wrapper_instances.gpt_wrapper import GPTWrapper
 
 TEST_FILE_NAME = ".saved_data_test.json"
