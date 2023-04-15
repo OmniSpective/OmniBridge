@@ -13,6 +13,6 @@ class ModelWrapper(JsonConvertable):
     def get_class_type_field(cls) -> str:
         pass
 
-    @classmethod
+    @abstractmethod
     def get_description(cls) -> str:
-        return 'Description not provided'
+        raise NotImplementedError()
