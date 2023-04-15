@@ -1,4 +1,4 @@
-from typing import TypedDict, Any, Dict, Union, TypeVar
+from typing import TypedDict, Any, Dict, Union
 import json
 import requests
 import logging
