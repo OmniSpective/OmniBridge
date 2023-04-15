@@ -1,4 +1,4 @@
-from typing import Dict, Any
+from typing import Dict, Any, Union
 import json
 
 from .rest_api_wrapper import RestAPIWrapper
@@ -7,7 +7,6 @@ import logging
 from ...model_entities.models_io.base_model_io import ModelIO, TextualIO
 
 COMPLETIONS_API_URL = "https://api.openai.com/v1/chat/completions"
-
 
 class GPTWrapper(RestAPIWrapper):
     def __init__(self, api_key: str, model: str, logger: logging.Logger = logging.getLogger()) -> None:
@@ -20,7 +19,7 @@ class GPTWrapper(RestAPIWrapper):
         self.api_key = api_key
         self.model = model
 
-    def to_json(self) -> Dict[str, str]:
+    def to_json(self) -> Dict[str, Union[str, int]]:
         return {
             'api key': self.api_key,
             'model': self.model,
@@ -28,11 +27,11 @@ class GPTWrapper(RestAPIWrapper):
         }
 
     @classmethod
-    def create_from_json(cls, json_data: Dict[str, str]):
+    def create_from_json(cls, json_data: Dict[str, str]) -> Any:
         return GPTWrapper(json_data['api key'], json_data['model'])
 
     @classmethod
-    def get_class_type_field(cls):
+    def get_class_type_field(cls) -> str:
         return "chat_gpt"
 
     def _get_api_url(self) -> str:
