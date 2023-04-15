@@ -35,7 +35,6 @@ def add_dalle(args: Dict[str, Any], file_path: str = '') -> None:
 def list_wrappers(args: Dict[str, Any], file_path: str = '') -> None:
     for type, wrapper in type_names.items():
         print (f'Wrapper: {type}')
-        print (f'Description: {wrapper.get_description()}')
 
 
 COMMAND_TO_FUNCTION: Dict[str, Callable[[Dict[str, Any], str], None]] = {
