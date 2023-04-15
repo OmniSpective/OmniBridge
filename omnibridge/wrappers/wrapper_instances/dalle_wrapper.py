@@ -7,8 +7,6 @@ from ...model_entities.models_io.base_model_io import ModelIO, TextualIO, ImageI
 
 IMAGE_GENARATION_API_URL = "https://api.openai.com/v1/images/generations"
 
-T = TypeVar("T", bound="DALLEWrapper")
-
 
 class ImageGenerationRequestBody(TypedDict):
     prompt: str
