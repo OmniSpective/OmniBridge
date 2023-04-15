@@ -39,12 +39,14 @@ def run() -> int:
 
     add_chatgpt_model_parser = subparsers.add_parser("add-flow", help="add flow.")
     add_chatgpt_model_parser.add_argument('-n', '--name', type=str, required=True, help="name of the flow.")
-    add_chatgpt_model_parser.add_argument('-t', '--type', type=str, choices=['seq', 'branching'], default='seq',
+    add_chatgpt_model_parser.add_argument('-t', '--type', type=str, choices=['seq', 'branching'], default='branching',
                                           help="type of the flow.")
-    add_chatgpt_model_parser.add_argument('-m', '--model', type=str, action='append', required=True,
-                                          help="name of the models to include.")
-    add_chatgpt_model_parser.add_argument('-i', '--instruction', type=str, action='append', required=True,
+    add_chatgpt_model_parser.add_argument('-m', '--model', type=str,
+                                          help="name of the model to use.")
+    add_chatgpt_model_parser.add_argument('-i', '--instruction', nargs='*', type=str,
                                           help="instruct the model to do something with the input.")
+    add_chatgpt_model_parser.add_argument('--multi', nargs='*', type=str,
+                                          help="use multiple models. Currently only supported in sequential flow.")
 
     add_chatgpt_model_parser = subparsers.add_parser("run-flow", help="run flow.")
     add_chatgpt_model_parser.add_argument('-n', '--name', type=str, required=True, help="name of the flow.")
@@ -59,12 +61,13 @@ def run() -> int:
         return 0
     if args['command'] == 'add-flow':
         if args['type'] == 'branching':
-            models = [ModelLoader.load_model(model_name) for model_name in args['model']]
-            b_flow = BranchingFlow(args['name'], models[0], models[1:], args['instruction'])
+            instructions = args['instruction']
+            model = ModelLoader.load_model(args['model'])
+            b_flow = BranchingFlow(args['name'], model, instructions)
             JsonDataManager.save(["flows", args["name"]], b_flow)
             return 0
         if args['type'] == 'seq':
-            models = [ModelLoader.load_model(model_name) for model_name in args['model']]
+            models = [ModelLoader.load_model(model_name) for model_name in args['multi']]
             flow = SequentialFlow(args['name'], models)
             JsonDataManager.save(["flows", args["name"]], flow)
             return 0

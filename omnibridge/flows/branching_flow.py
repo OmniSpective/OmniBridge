@@ -1,33 +1,34 @@
 from typing import Dict, List
 
 from omnibridge.flows.flow import Flow
-from omnibridge.model_entities.models_io.base_model_io import ModelIO, TextualIO
+from omnibridge.model_entities.models_io.base_model_io import ModelIO, TextualIO, FlowTextIO
 from omnibridge.wrappers.wrapper_instances.type_name_to_wrapper import ModelLoader
 from omnibridge.wrappers.wrapper_interfaces.ModelWrapper import ModelWrapper
 
 
 class BranchingFlow(ModelWrapper, Flow):
-    def __init__(self, name: str, root_model: ModelWrapper, branched_models: List[ModelWrapper],
-                 branched_instructions: List[str]):
-        if len(branched_instructions) != len(branched_models):
+    def __init__(self, name: str, root_model: ModelWrapper, branched_instructions: List[str],
+                 branched_models: List[ModelWrapper] = None):
+        if branched_models is None:
+            self.branched_models = [root_model for _ in range(len(branched_instructions))]
+        elif len(branched_instructions) != len(branched_models):
             raise ValueError(f"Number of models and instructions must be the same.")
+        else:
+            self.branched_models = branched_models
         self.name = name
         self.root_model = root_model
-        self.branched_models = branched_models
         self.instructions = branched_instructions
 
     def process(self, model_input: ModelIO) -> ModelIO:
         root_output = self.root_model.process(model_input)
         assert isinstance(root_output, TextualIO)
+        flow_output = FlowTextIO(root_output.get_text())
         for model, instruction in zip(self.branched_models, self.instructions):
-            model_input = TextualIO(root_output.text + " " + instruction)
-            print(f"instruction: {instruction}")
+            model_input = TextualIO(root_output.get_text() + "\n" + instruction)
             model_output = model.process(model_input)
-            print(f"{model_output}")
-            print('\n\n')
-            print('*' * 100)
+            flow_output += model_output
 
-        return root_output  # TODO: merge the branches output to one output
+        return flow_output
 
     def get_name(self):
         return self.name
@@ -51,7 +52,7 @@ class BranchingFlow(ModelWrapper, Flow):
         branched_models_names = json_data['branched_models'].split(', ')
         branched_models = [ModelLoader.load_model(model_name) for model_name in branched_models_names]
         branches_instruction = json_data['instructions'].split('$$$')
-        return BranchingFlow(name, root_model, branched_models, branches_instruction)
+        return BranchingFlow(name, root_model, branches_instruction, branched_models)
 
     def add(self, new_model: ModelWrapper, instruction: str) -> None:
         self.branched_models.append(new_model)
