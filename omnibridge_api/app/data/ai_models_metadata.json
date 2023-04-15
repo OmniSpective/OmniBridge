@@ -3,12 +3,18 @@
         "id": 1, 
         "name": "ChatGPT", 
         "type": "chat_bot",
-        "description": "Ask any question"
+        "description": "Ask any question",
+        "icon": "https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg",
+        "input_dtype": "text",
+        "output_dtype": "text"
     },
     { 
         "id": 2, 
         "name": "DALLE-2", 
         "type": "chat_to_image",
-        "description": "Create your own image"
+        "description": "Create your own image",
+        "icon": "https://preview.redd.it/dtnqgcbhrjt91.png?width=1024&format=png&auto=webp&v=enabled&s=07450d0822d91f94ddad578d8715153aa3ca4c47",
+        "input_dtype": "text",
+        "output_dtype": "image"
     }
 ]

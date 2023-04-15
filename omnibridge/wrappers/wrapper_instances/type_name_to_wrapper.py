@@ -13,6 +13,7 @@ type_names = {
 }
 
 
+
 class ModelLoader:
     @staticmethod
     def load_model(model_name: str) -> ModelWrapper:

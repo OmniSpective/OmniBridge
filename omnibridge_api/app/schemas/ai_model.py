@@ -6,6 +6,8 @@ class AIModel(BaseModel):
     name: str
     type: str
     description: str
+    input_dtype: str
+    output_dtype: str
 
 class TextualModelPromptRequest(BaseModel):
     model_name: str

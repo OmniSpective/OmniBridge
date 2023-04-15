@@ -7,6 +7,7 @@ from omnibridge.model_entities.models_io.base_model_io import TextualIO
 from omnibridge.saved_data.json_data_manager import JsonDataManager
 from omnibridge.wrappers.api_key import ApiKey
 from omnibridge.cli.banner import banner
+
 from omnibridge.wrappers.wrapper_instances.dalle_wrapper import DALLEWrapper
 from omnibridge.wrappers.wrapper_instances.gpt_wrapper import GPTWrapper
 from omnibridge.wrappers.wrapper_instances.type_name_to_wrapper import ModelLoader
@@ -37,6 +38,8 @@ def run() -> int:
                                           help="number of images per prompt, default 4.")
     add_chatgpt_model_parser.add_argument('-r', '--res', type=str, default="256x256", help="resolution of images.")
 
+    
+
     add_chatgpt_model_parser = subparsers.add_parser("add-flow", help="add flow.")
     add_chatgpt_model_parser.add_argument('-n', '--name', type=str, required=True, help="name of the flow.")
     add_chatgpt_model_parser.add_argument('-t', '--type', type=str, choices=['seq', 'branching'], default='branching',
@@ -51,6 +54,8 @@ def run() -> int:
     add_chatgpt_model_parser = subparsers.add_parser("run-flow", help="run flow.")
     add_chatgpt_model_parser.add_argument('-n', '--name', type=str, required=True, help="name of the flow.")
     add_chatgpt_model_parser.add_argument('-p', '--prompt', help="prompt for flow", type=str, required=True)
+
+    subparsers.add_parser("list-wrappers", help="list wrappers.")
 
     args = vars(parser.parse_args())
     if args['command'] == 'run-flow':
