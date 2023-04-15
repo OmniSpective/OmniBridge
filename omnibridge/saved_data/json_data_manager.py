@@ -21,12 +21,12 @@ class JsonConvertable(ABC):
 
 class JsonDataManager:
     @staticmethod
-    def save(nested_path: List[str], item: JsonConvertable) -> None:
+    def save(nested_path: List[str], item: JsonConvertable, file_path: str = FILE_PATH) -> None:
         json_value = item.to_json()
 
         data = {}
-        if os.path.isfile(FILE_PATH):
-            with open(FILE_PATH, 'r') as f:
+        if os.path.isfile(file_path):
+            with open(file_path, 'r') as f:
                 try:
                     data = json.load(f)
                 except json.JSONDecodeError:
@@ -38,20 +38,20 @@ class JsonDataManager:
 
         current_data[nested_path[-1]] = json_value
 
-        with open(FILE_PATH, 'w') as f:
+        with open(file_path, 'w') as f:
             json.dump(data, f, indent=2)
 
     @staticmethod
-    def load(nested_path: List[str], cls: Type[JsonConvertable]):
-        data = JsonDataManager.get_json_value(nested_path)
+    def load(nested_path: List[str], cls: Type[JsonConvertable], file_path: str = FILE_PATH):
+        data = JsonDataManager.get_json_value(nested_path, file_path)
         return cls.create_from_json(data)
 
     @staticmethod
-    def get_json_value(nested_path: List[str]):
-        if not os.path.exists(FILE_PATH):
+    def get_json_value(nested_path: List[str], file_path: str = FILE_PATH):
+        if not os.path.exists(file_path):
             raise FileNotFoundError("Saved data file cannot be found.")
 
-        with open(FILE_PATH, "r") as f:
+        with open(file_path, "r") as f:
             data = json.load(f)
             for key in nested_path:
                 try:
