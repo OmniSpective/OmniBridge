@@ -1,10 +1,11 @@
 from fastapi import APIRouter, status
 from fastapi.responses import JSONResponse
 from omnibridge_api.app.schemas.ai_model import AIModel, TextualModelPromptRequest, TextualModelPromptResponse
-from omnibridge.main import WRAPPER_TO_FUNC 
 from pathlib import Path
-from typing import List
+from typing import List, Dict, Callable
 import json
+
+WRAPPER_TO_FUNC: Dict[str, Callable[[str, None], str]] = {} # TMP until cli implementation stabilizes
 
 router = APIRouter()
 

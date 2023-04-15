@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any, Dict, Union
 import json
 import logging
 from .rest_api_wrapper import RestAPIWrapper
@@ -23,7 +23,7 @@ class HuggingFaceWrapper(RestAPIWrapper):
         else:
             raise NotImplementedError
 
-    def to_json(self) -> Dict[str, str]:
+    def to_json(self) -> Dict[str, Union[str, int]]:
         return {
             "api key": self.api_key,
             "model": self.model,
@@ -31,11 +31,11 @@ class HuggingFaceWrapper(RestAPIWrapper):
         }
 
     @classmethod
-    def create_from_json(cls, json_key: str, json_data: Dict[str, str]):
+    def create_from_json(cls, json_key: str, json_data: Dict[str, str]) -> Any:
         return HuggingFaceWrapper(json_key, api_key=json_data["api key"], model=json_data["model"])
 
     @classmethod
-    def get_class_type_field(cls):
+    def get_class_type_field(cls) -> str:
         return "hugging_face"
 
     def _get_body(self, prompt_message: str) -> Any:
