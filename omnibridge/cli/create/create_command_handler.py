@@ -8,40 +8,48 @@ from omnibridge.wrappers.wrapper_instances.dalle_wrapper import DALLEWrapper
 from omnibridge.wrappers.wrapper_instances.type_name_to_wrapper import ModelLoader
 
 
+def handle_create_command(args: Dict[str, Any]):
+    if args['object_to_create'] == 'model':
+        creation_function = MODEL_TYPE_TO_CREATION_FUNCTION.get(args['model_type'])
+        creation_function(args)
+
+    elif args['object_to_create'] == 'flow':
+        add_flow(args)
+
+    elif args['object_to_create'] == 'key':
+        add_key(args)
+
+
 def add_key(args: Dict[str, Any]) -> None:
     api_key = ApiKey(args['value'])
-    JsonDataManager.save(["api keys", args['name']], api_key, file_path=args['saved_data_file_path'])
+    JsonDataManager.save(["api keys", args['name']], api_key)
 
 
 def add_chatgpt(args: Dict[str, Any]) -> None:
-    print(args)
     name = args['name']
-    file_path = args['saved_data_file_path']
-    api_key: ApiKey = JsonDataManager.load(["api keys", args['key']], ApiKey, file_path=file_path)
+    api_key: ApiKey = JsonDataManager.load(["api keys", args['key']], ApiKey)
     wrapper: GPTWrapper = GPTWrapper(name, api_key.value, args['sub_model'])
-    JsonDataManager.save(["models", name], wrapper, file_path=file_path)
+    JsonDataManager.save(["models", name], wrapper)
 
 
 def add_dalle(args: Dict[str, Any]) -> None:
     name = args['name']
-    file_path = args['saved_data_file_path']
-    api_key: ApiKey = JsonDataManager.load(["api keys", args['key']], ApiKey, file_path=file_path)
+    api_key: ApiKey = JsonDataManager.load(["api keys", args['key']], ApiKey)
     wrapper: DALLEWrapper = DALLEWrapper(name, api_key=api_key.value, number_of_images=args['num_images'],
                                             resolution=args['res'])
-    JsonDataManager.save(["models", name], wrapper, file_path=file_path)
+    JsonDataManager.save(["models", name], wrapper)
 
 
 def add_flow(args: Dict[str, Any]) -> None:
-    file_path = args['saved_data_file_path']
     if args['type'] == 'branching':
             instructions = args['instruction']
             model = ModelLoader.load_model(args['model'])
             b_flow = BranchingFlow(args['name'], model, instructions)
-            JsonDataManager.save(["flows", args["name"]], b_flow, file_path)
+            JsonDataManager.save(["flows", args["name"]], b_flow)
     elif args['type'] == 'seq':
         models = [ModelLoader.load_model(model_name) for model_name in args['multi']]
         flow = SequentialFlow(args['name'], models)
-        JsonDataManager.save(["flows", args["name"]], flow, file_path)
+        JsonDataManager.save(["flows", args["name"]], flow)
 
 
 MODEL_TYPE_TO_CREATION_FUNCTION = {
