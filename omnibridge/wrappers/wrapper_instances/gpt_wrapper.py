@@ -10,7 +10,8 @@ COMPLETIONS_API_URL = "https://api.openai.com/v1/chat/completions"
 
 
 class GPTWrapper(RestAPIWrapper):
-    def __init__(self, name: str, api_key: str, model: str = 'gpt-3.5-turbo', logger: logging.Logger = logging.getLogger()) -> None:
+    def __init__(self, name: str, api_key: str, model: str = 'gpt-3.5-turbo',
+                  logger: logging.Logger = logging.getLogger()) -> None:
         if not api_key:
             raise ValueError("api key cannot be None.")
 

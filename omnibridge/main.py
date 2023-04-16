@@ -1,5 +1,4 @@
 import argparse
-import os
 from omnibridge.model_entities.models_io.base_model_io import TextualIO
 from omnibridge.cli.banner import banner
 from omnibridge.cli.argument_parser.subparsers.create_command import add_create_key_sub_parser, \
