@@ -2,6 +2,12 @@ from omnibridge.common.supported_models import SupportedModels
 from typing import Any
 
 
+def add_create_arguments(parser: Any) -> None:
+    add_create_model_sub_parser(parser)
+    add_create_flow_sub_parser(parser)
+    add_create_key_sub_parser(parser)
+
+
 def add_create_model_sub_parser(parser: Any) -> None:
     create_model_parser = parser.add_parser("model", help="Create a new model.")
     create_model_parser.add_argument('model_type', choices=[m.value for m in SupportedModels],

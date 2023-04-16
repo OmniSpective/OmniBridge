@@ -1,8 +1,7 @@
 import argparse
 from omnibridge.model_entities.models_io.base_model_io import TextualIO
 from omnibridge.cli.banner import banner
-from omnibridge.cli.create.create_parser import add_create_key_sub_parser, \
-    add_create_flow_sub_parser, add_create_model_sub_parser
+from omnibridge.cli.create.create_parser import add_create_arguments
 from omnibridge.cli.run.run_parser import add_run_flow_sub_parser
 from omnibridge.cli.list.list_parser import add_list_arguments
 from omnibridge.cli.create.create_command_handler import handle_create_command
@@ -24,9 +23,7 @@ def run() -> int:
     list_parser = subparsers.add_parser("list", help="List keys/models/flows/wrappers")
     list_subparsers = list_parser.add_subparsers(help="list sub-command help", dest="object_to_list")
 
-    add_create_key_sub_parser(create_subparsers)
-    add_create_model_sub_parser(create_subparsers)
-    add_create_flow_sub_parser(create_subparsers)
+    add_create_arguments(create_subparsers)
     add_run_flow_sub_parser(subparsers)
     add_list_arguments(list_subparsers)
     
