@@ -47,7 +47,7 @@ def test_load_json_file_not_exist_fail():
 
     # Act + Assert
     with pytest.raises(FileNotFoundError):
-        JsonDataManager.load(["my_person"], Person, file_path=TEST_FILE_PATH)
+        JsonDataManager.load(["my_person"], Person)
 
 
 def test_load_json_key_not_exist_fail():

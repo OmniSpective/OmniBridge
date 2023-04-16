@@ -1,18 +1,22 @@
 from pathlib import Path
-from omnibridge.cli.argument_parser.commands import add_key, add_chatgpt, add_dalle
+from omnibridge.cli.create.create_command_handler import add_key, add_chatgpt, add_dalle
+import omnibridge.saved_data.json_data_manager
+
 import json
 
 
-def test_add_key_command(tmp_path: Path):
+
+def test_add_key_command(tmp_path: Path, monkeypatch):
     # Arrange
     file_path = tmp_path / ".saved_data.json"
+    monkeypatch.setattr(omnibridge.saved_data.json_data_manager, "FILE_PATH", file_path)
     args = {
         'value': 'value_mock',
         'name': 'name_mock'
     }
 
     # Act
-    add_key(args, file_path)
+    add_key(args)
 
     with open(file_path, 'r') as f:
         saved_data = json.load(f)
@@ -28,9 +32,10 @@ def test_add_key_command(tmp_path: Path):
     }
 
 
-def test_add_chatgpt_command(api_key_fixture, tmp_path: Path):
+def test_add_chatgpt_command(api_key_fixture, tmp_path: Path, monkeypatch):
     # Arrange
     file_path = tmp_path / ".saved_data.json"
+    monkeypatch.setattr(omnibridge.saved_data.json_data_manager, "FILE_PATH", file_path)
     key_name = "mock_key_name"
     model_name = 'gpt_model'
     model = 1
@@ -39,12 +44,13 @@ def test_add_chatgpt_command(api_key_fixture, tmp_path: Path):
     args = {
         'model': model,
         'name': model_name,
-        'key': key_name
+        'key': key_name,
+        'sub_model': 1
     }
 
 
     # Act
-    add_chatgpt('test', args, file_path)
+    add_chatgpt(args)
 
     with open(file_path, 'r') as f:
         saved_data = json.load(f)
@@ -67,9 +73,10 @@ def test_add_chatgpt_command(api_key_fixture, tmp_path: Path):
     }
 
     
-def test_add_dalle_command(api_key_fixture, tmp_path: Path):
+def test_add_dalle_command(api_key_fixture, tmp_path: Path, monkeypatch):
     # Arrange
     file_path = tmp_path / ".saved_data.json"
+    monkeypatch.setattr(omnibridge.saved_data.json_data_manager, "FILE_PATH", file_path)
     key_name = "mock_key_name"
     model_name = 'dalle_model'
     num_of_images = 4
@@ -84,7 +91,7 @@ def test_add_dalle_command(api_key_fixture, tmp_path: Path):
     }
 
     # Act
-    add_dalle('test', args, file_path)
+    add_dalle(args)
 
     with open(file_path, 'r') as f:
         saved_data = json.load(f)
