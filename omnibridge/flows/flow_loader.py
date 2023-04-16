@@ -16,11 +16,3 @@ class FlowLoader:
         flow_type = flow_type_names[class_type_name]
         flow = JsonDataManager.load(["flows", flow_name], flow_type)
         return flow
-
-class FlowLoader:
-    @staticmethod
-    def load_flow(flow_name: str) -> ModelWrapper:
-        class_type_name = JsonDataManager.get_json_value(["flows", flow_name, "_class_type"])
-        flow_type = flow_type_names[class_type_name]
-        flow = JsonDataManager.load(["flows", flow_name], flow_type)
-        return flow

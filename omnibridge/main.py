@@ -8,7 +8,6 @@ from omnibridge.cli.create.create_command_handler import handle_create_command
 from omnibridge.cli.run.run_command_handler import handle_run_flow_command
 from omnibridge.cli.list.list_command_handler import handle_list_command
 from omnibridge.wrappers.wrapper_instances.type_name_to_wrapper import ModelLoader
-from omnibridge.wrappers.wrapper_instances.hugging_face_wrappers import HuggingFaceWrapper
 
 
 def run() -> int:
