@@ -25,7 +25,7 @@ class FileInputHandler:
         _, file_extension = os.path.splitext(file_path)
 
         if file_extension.lower() not in allowed_extensions.keys():
-            raise ValueError("Error: The provided file is not a .txt file.")
+            raise ValueError(f"Error: The provided file must be of the following types: {allowed_extensions.keys()}.")
 
         file_conversion_func = allowed_extensions[file_extension]
 
