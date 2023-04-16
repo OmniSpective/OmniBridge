@@ -8,8 +8,9 @@ def api_key_fixture():
     def _save_api_key_for_tests(file_path: Path, key_name: str):
         args = {
             'value': 'api_key_mock',
-            'name': key_name
+            'name': key_name,
+            'saved_data_file_path': file_path
         }
-        add_key(args, file_path)
+        add_key(args)
 
     return _save_api_key_for_tests

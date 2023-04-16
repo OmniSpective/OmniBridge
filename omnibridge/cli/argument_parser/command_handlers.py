@@ -5,16 +5,16 @@ from omnibridge.model_entities.models_io.base_model_io import TextualIO
 from omnibridge.wrappers.wrapper_instances.type_name_to_wrapper import type_names
 
 
-def handle_create_command(args: Dict[str, Any], saved_data_file_path: str):
+def handle_create_command(args: Dict[str, Any]):
     if args['object_to_create'] == 'model':
         creation_function = MODEL_TYPE_TO_CREATION_FUNCTION.get(args['model_type'])
-        creation_function(args, saved_data_file_path)
+        creation_function(args)
 
     elif args['object_to_create'] == 'flow':
-        add_flow(args, saved_data_file_path)
+        add_flow(args)
 
     elif args['object_to_create'] == 'key':
-        add_key(args, saved_data_file_path)
+        add_key(args)
 
 
 def handle_list_wrappers_command():
@@ -22,8 +22,8 @@ def handle_list_wrappers_command():
         print (f'Wrapper: {type}')
 
 
-def handle_run_flow_command(args: Dict[str, Any], saved_data_file_path: str):
-    flow = FlowLoader.load_flow(args['name'], saved_data_file_path)
+def handle_run_flow_command(args: Dict[str, Any]):
+    flow = FlowLoader.load_flow(args['name'], args['saved_data_file_path'])
     flow_input = TextualIO(args['prompt'])
     flow_output = flow.process(flow_input)
     print(flow_output)

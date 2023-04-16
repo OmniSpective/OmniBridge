@@ -8,11 +8,12 @@ def test_add_key_command(tmp_path: Path):
     file_path = tmp_path / ".saved_data.json"
     args = {
         'value': 'value_mock',
-        'name': 'name_mock'
+        'name': 'name_mock',
+        'saved_data_file_path': file_path
     }
 
     # Act
-    add_key(args, file_path)
+    add_key(args)
 
     with open(file_path, 'r') as f:
         saved_data = json.load(f)
@@ -40,12 +41,13 @@ def test_add_chatgpt_command(api_key_fixture, tmp_path: Path):
         'model': model,
         'name': model_name,
         'key': key_name,
-        'sub_model': 1
+        'sub_model': 1,
+        'saved_data_file_path': file_path
     }
 
 
     # Act
-    add_chatgpt(args, file_path)
+    add_chatgpt(args)
 
     with open(file_path, 'r') as f:
         saved_data = json.load(f)
@@ -81,11 +83,12 @@ def test_add_dalle_command(api_key_fixture, tmp_path: Path):
         'key': key_name,
         'num_images': num_of_images,
         'res': resolution,
-        'name': model_name
+        'name': model_name,
+        'saved_data_file_path': file_path
     }
 
     # Act
-    add_dalle(args, file_path)
+    add_dalle(args)
 
     with open(file_path, 'r') as f:
         saved_data = json.load(f)
