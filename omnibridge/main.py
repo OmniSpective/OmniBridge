@@ -4,8 +4,8 @@ from omnibridge.model_entities.models_io.base_model_io import TextualIO
 from omnibridge.saved_data.json_data_manager import JsonDataManager
 from omnibridge.cli.banner import banner
 from omnibridge.wrappers.wrapper_instances.type_name_to_wrapper import type_names
-from omnibridge.cli.argument_parser.argument_parser import add_api_key_arguments, \
-      add_chatgpt_arguments, add_dalle_arguments
+from omnibridge.cli.argument_parser.argument_parser import add_create_model_sub_parser, \
+      add_create_key_sub_parser
 from omnibridge.cli.argument_parser.commands import COMMAND_TO_FUNCTION
 from omnibridge.saved_data.json_data_manager import FILE_PATH
 
@@ -15,16 +15,18 @@ SAVED_DATA_FILE_PATH = os.getenv("SAVED_DATE_FILE_PATH", FILE_PATH)
 def run() -> int:
     parser = argparse.ArgumentParser(description='AI integration tool.')
     parser.add_argument('-p', '--prompt', help="prompt for model", type=str, default=[])
-    parser.add_argument('-l', "--load-config", help="absolute path to models configuration file")
     parser.add_argument('-n', "--model-name", help="which model to use.")
 
     subparsers = parser.add_subparsers(help='sub-command help', dest='command')
 
-    add_api_key_arguments(subparsers)
-    add_chatgpt_arguments(subparsers)
-    add_dalle_arguments(subparsers)
+    create_parser = subparsers.add_parser("create", help="Create models/keys")
+    create_subparsers = create_parser.add_subparsers(help='Create models/keys', dest='create_command')
+
+    add_create_model_sub_parser(create_subparsers)
+    add_create_key_sub_parser(create_subparsers)
 
     args = vars(parser.parse_args())
+    print(args)
     command_function = COMMAND_TO_FUNCTION.get(args['command'])
     if command_function:
         command_function(args, SAVED_DATA_FILE_PATH)
