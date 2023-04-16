@@ -34,12 +34,3 @@ def add_create_key_sub_parser(parser: Any) -> None:
     create_key_parser.add_argument('-n', '--name', help="name of the api key.", type=str, required=True)
     create_key_parser.add_argument('-v', '--value', help="value of the api key.", type=str, required=True)
 
-
-def add_run_flow_sub_parser(parser: Any) -> None:
-    run_flow_parser = parser.add_parser("run-flow", help="run flow.")
-    run_flow_parser.add_argument('-n', '--name', type=str, required=True, help="name of the flow.")
-    run_flow_parser.add_argument('-p', '--prompt', help="prompt for flow", type=str, required=True)
-
-
-def add_list_wrappers_arguments(parser: Any) -> None:
-    parser.add_parser("list-wrappers", help="list wrappers.")

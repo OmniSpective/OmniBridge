@@ -6,14 +6,14 @@ from omnibridge.wrappers.wrapper_instances.type_name_to_wrapper import type_name
 
 
 def handle_create_command(args: Dict[str, Any], saved_data_file_path: str):
-    if args['create_command'] == 'model':
+    if args['object_to_create'] == 'model':
         creation_function = MODEL_TYPE_TO_CREATION_FUNCTION.get(args['model_type'])
         creation_function(args, saved_data_file_path)
 
-    elif args['create_command'] == 'flow':
+    elif args['object_to_create'] == 'flow':
         add_flow(args, saved_data_file_path)
 
-    elif args['create_command'] == 'key':
+    elif args['object_to_create'] == 'key':
         add_key(args, saved_data_file_path)
 
 

@@ -8,28 +8,31 @@ from omnibridge.wrappers.wrapper_instances.dalle_wrapper import DALLEWrapper
 from omnibridge.wrappers.wrapper_instances.type_name_to_wrapper import ModelLoader
 
 
-def add_key(args: Dict[str, Any], file_path: str = '') -> None:
+def add_key(args: Dict[str, Any]) -> None:
     api_key = ApiKey(args['value'])
-    JsonDataManager.save(["api keys", args['name']], api_key, file_path=file_path)
+    JsonDataManager.save(["api keys", args['name']], api_key, file_path=args['saved-data-file-path'])
 
 
-def add_chatgpt(args: Dict[str, Any], file_path: str = '') -> None:
+def add_chatgpt(args: Dict[str, Any]) -> None:
     print(args)
     name = args['name']
+    file_path = args['saved-data-file-path']
     api_key: ApiKey = JsonDataManager.load(["api keys", args['key']], ApiKey, file_path=file_path)
     wrapper: GPTWrapper = GPTWrapper(name, api_key.value, args['sub_model'])
     JsonDataManager.save(["models", name], wrapper, file_path=file_path)
 
 
-def add_dalle(args: Dict[str, Any], file_path: str = '') -> None:
+def add_dalle(args: Dict[str, Any]) -> None:
     name = args['name']
+    file_path = args['saved-data-file-path']
     api_key: ApiKey = JsonDataManager.load(["api keys", args['key']], ApiKey, file_path=file_path)
     wrapper: DALLEWrapper = DALLEWrapper(name, api_key=api_key.value, number_of_images=args['num_images'],
                                             resolution=args['res'])
     JsonDataManager.save(["models", name], wrapper, file_path=file_path)
 
 
-def add_flow(args: Dict[str, Any], file_path: str = '') -> None:
+def add_flow(args: Dict[str, Any]) -> None:
+    file_path = args['saved-data-file-path']
     if args['type'] == 'branching':
             instructions = args['instruction']
             model = ModelLoader.load_model(args['model'])
