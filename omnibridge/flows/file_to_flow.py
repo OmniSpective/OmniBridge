@@ -6,7 +6,7 @@ from typing import Dict, List, Tuple
 # require - pip install pyyaml
 
 
-def read_flow_from_json(file_path: str) -> Tuple(Dict[str, List[str]], str):
+def read_flow_from_json(file_path: str) -> Tuple[Dict[str, List[str]], str]:
     with open(file_path, 'r') as json_file:
         json_data = json.load(json_file)
 
@@ -17,7 +17,7 @@ def read_flow_from_json(file_path: str) -> Tuple(Dict[str, List[str]], str):
 
     return flow, flow_name
 
-def read_flow_from_yaml(file_path: str) -> Tuple(Dict[str, List[str]], str):
+def read_flow_from_yaml(file_path: str) -> Tuple[Dict[str, List[str]], str]:
     with open(file_path, 'r') as yaml_file:
         yaml_data = yaml.safe_load(yaml_file)
 
