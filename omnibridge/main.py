@@ -41,7 +41,9 @@ def run() -> int:
     
 
     add_chatgpt_model_parser = subparsers.add_parser("add-flow", help="add flow.")
-    add_chatgpt_model_parser.add_argument('-n', '--name', type=str, required=True, help="name of the flow.")
+    required_group = add_chatgpt_model_parser.add_mutually_exclusive_group(required=True)
+    required_group.add_argument('-f', '--file', type=str, help="add flow from file.")
+    required_group.add_argument('-n', '--name', type=str, help="name of the flow.")
     add_chatgpt_model_parser.add_argument('-t', '--type', type=str, choices=['seq', 'branching'], default='branching',
                                           help="type of the flow.")
     add_chatgpt_model_parser.add_argument('-m', '--model', type=str,
