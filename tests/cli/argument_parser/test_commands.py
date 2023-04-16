@@ -44,7 +44,7 @@ def test_add_chatgpt_command(api_key_fixture, tmp_path: Path):
 
 
     # Act
-    add_chatgpt(args, file_path)
+    add_chatgpt('test', args, file_path)
 
     with open(file_path, 'r') as f:
         saved_data = json.load(f)
@@ -84,7 +84,7 @@ def test_add_dalle_command(api_key_fixture, tmp_path: Path):
     }
 
     # Act
-    add_dalle(args, file_path)
+    add_dalle('test', args, file_path)
 
     with open(file_path, 'r') as f:
         saved_data = json.load(f)

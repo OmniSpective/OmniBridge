@@ -13,5 +13,5 @@ class ApiKey(JsonConvertable):
         }
 
     @classmethod
-    def create_from_json(cls, json_data: Dict[str, str]) -> Any:
+    def create_from_json(cls, json_key: str, json_data: Dict[str, str]) -> Any:
         return ApiKey(json_data['value'])

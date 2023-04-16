@@ -34,7 +34,7 @@ def bad_structured_response():
 def test_gpt_wrapper(well_structured_response):
     # Arrange
     responses.add(responses.POST, COMPLETIONS_API_URL, json=well_structured_response)
-    wrapper = GPTWrapper(api_key='abc', model='gpt-4')
+    wrapper = GPTWrapper(name='testgpt', api_key='abc', model='gpt-4')
 
     # Act
     res = wrapper.process(TextualIO('send_mock'))
@@ -49,7 +49,7 @@ def test_gpt_wrapper(well_structured_response):
 def test_gpt_wrapper_fail(bad_structured_response):
     # Arrange
     responses.add(responses.POST, COMPLETIONS_API_URL, json=bad_structured_response)
-    wrapper = GPTWrapper(api_key='abc', model='gpt-4')
+    wrapper = GPTWrapper(name='testgpt', api_key='abc', model='gpt-4')
 
     # Act
     with pytest.raises(KeyError) as exc_info:
@@ -63,7 +63,7 @@ def test_gpt_wrapper_fail(bad_structured_response):
 def test_gpt_wrapper_api_call_fails():
     # Arrange
     responses.add(responses.POST, COMPLETIONS_API_URL, json={}, status=500)
-    wrapper = GPTWrapper(api_key='abc', model='gpt-4')
+    wrapper = GPTWrapper(name='testgpt', api_key='abc', model='gpt-4')
 
     # Act
     with pytest.raises(WrapperException) as exc_info:
