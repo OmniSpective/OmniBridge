@@ -5,17 +5,21 @@ from typing import Dict, List, Tuple
 
 # require - pip install pyyaml
 
+class FlowJsonLoader:
+    def __init__(self, file_path: str) -> None:
+        self.file_path = file_path
 
-def read_flow_from_json(file_path: str) -> Tuple[Dict[str, List[str]], str]:
-    with open(file_path, 'r') as json_file:
-        json_data = json.load(json_file)
+    def load(self) -> Tuple[Dict[str, List[str]], str]:
+        with open(self.file_path, 'r') as json_file:
+            json_data = json.load(json_file)
 
-    flow_name = json_data['name']
-    flow = {}
-    for node, node_info in json_data['steps'].items():
-        flow[node] = node_info["depends_on"]
+        flow_name = json_data['name']
+        flow = {}
+        for node, node_info in json_data['steps'].items():
+            flow[node] = node_info["depends_on"]
 
-    return flow, flow_name
+        return flow, flow_name
+
 
 def read_flow_from_yaml(file_path: str) -> Tuple[Dict[str, List[str]], str]:
     with open(file_path, 'r') as yaml_file:

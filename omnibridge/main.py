@@ -11,6 +11,7 @@ from omnibridge.cli.banner import banner
 from omnibridge.wrappers.wrapper_instances.dalle_wrapper import DALLEWrapper
 from omnibridge.wrappers.wrapper_instances.gpt_wrapper import GPTWrapper
 from omnibridge.wrappers.wrapper_instances.type_name_to_wrapper import ModelLoader
+from omnibridge.wrappers.wrapper_instances.hugging_face_wrapper import HuggingFaceWrapper
 
 
 def run() -> int:
@@ -38,6 +39,11 @@ def run() -> int:
                                           help="number of images per prompt, default 4.")
     add_chatgpt_model_parser.add_argument('-r', '--res', type=str, default="256x256", help="resolution of images.")
 
+    add_chatgpt_model_parser = subparsers.add_parser("add-hugging-face", help="add dalle model.")
+    add_chatgpt_model_parser.add_argument('-n', '--name', type=str, required=True, help="name of the model.")
+    add_chatgpt_model_parser.add_argument('-k', '--key', type=str, required=True, help="api key name.")
+    add_chatgpt_model_parser.add_argument('-m', '--model', type=str, default="gpt2",
+                                          help="repo id")
     
 
     add_chatgpt_model_parser = subparsers.add_parser("add-flow", help="add flow.")
@@ -81,6 +87,12 @@ def run() -> int:
     if args['command'] == 'add-key':
         api_key = ApiKey(args['value'])
         JsonDataManager.save(["api keys", args['name']], api_key)
+        return 0
+        
+    elif args['command'] == 'add-hugging-face':
+        api_key: ApiKey = JsonDataManager.load(["api keys", args['key']], ApiKey)
+        wrapper: HuggingFaceWrapper = HuggingFaceWrapper(args['name'], api_key.value, args['model'])
+        JsonDataManager.save(["models", args['name']], wrapper)
         return 0
     elif args['command'] == 'add-chatgpt':
         api_key: ApiKey = JsonDataManager.load(["api keys", args['key']], ApiKey)
