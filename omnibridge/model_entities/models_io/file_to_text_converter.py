@@ -17,7 +17,10 @@ class FileInputHandler:
             TextualIO: The content of the file ready to be consumed by models.
         """
 
-        allowed_extensions = {'.txt': FileInputHandler.convert_txt_file}
+        allowed_extensions = {
+            '.txt': FileInputHandler.convert_txt_file,
+            '.py': FileInputHandler.convert_txt_file
+        }
 
         _, file_extension = os.path.splitext(file_path)
 
