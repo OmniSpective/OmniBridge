@@ -1,7 +1,7 @@
 import responses
 import pytest
 
-from omnibridge.wrappers.wrapper_instances.hugging_face_wrapper import HUGGING_FACE_BASE_URL, HuggingFaceWrapper
+from omnibridge.wrappers.wrapper_instances.hugging_face_wrappers import HUGGING_FACE_BASE_URL, HuggingFaceWrapper
 from omnibridge.wrappers.wrapper_instances.rest_api_wrapper import WrapperException
 
 

@@ -1,7 +1,0 @@
-name: test_flow
-steps:
-  step1:
-    depends_on: []
-  step2:
-    depends_on:
-      - step1

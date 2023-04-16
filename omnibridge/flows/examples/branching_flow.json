@@ -1,0 +1,24 @@
+{
+  "version": "beta",
+  "name": "explainer",
+  "description": "Ask a question and get summarization, confidence, and other related topics",
+  "models": [
+      {
+          "name": "gpt3.5",
+          "models": [
+            {
+              "name": "gpt3.5",
+              "instruction": "summarize please."
+            },
+            {
+              "name": "gpt3.5",
+              "instruction": "are you sure about your answer? Answer with yes, maybe or no."
+            },
+            {
+              "name": "gpt3.5",
+              "instruction": "provide related topics."
+            }
+          ]
+      }   
+  ]
+}

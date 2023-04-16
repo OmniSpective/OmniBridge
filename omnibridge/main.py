@@ -2,6 +2,7 @@ import argparse
 
 from omnibridge.flows.branching_flow import BranchingFlow
 from omnibridge.flows.flow_loader import FlowLoader
+from omnibridge.flows.file_to_flow import FlowJsonParser
 from omnibridge.flows.sequential_flow import SequentialFlow
 from omnibridge.model_entities.models_io.base_model_io import TextualIO
 from omnibridge.saved_data.json_data_manager import JsonDataManager
@@ -73,17 +74,25 @@ def run() -> int:
         print(flow_output)
         return 0
     if args['command'] == 'add-flow':
-        if args['type'] == 'branching':
-            instructions = args['instruction']
-            model = ModelLoader.load_model(args['model'])
-            b_flow = BranchingFlow(args['name'], model, instructions)
-            JsonDataManager.save(["flows", args["name"]], b_flow)
+        if args.get('file'):
+            print ('Adding new flow from file')
+            flow_json_parser = FlowJsonParser(file_path=args['file'])
+            flow, flow_name = flow_json_parser.load()
+            print (flow)
+            JsonDataManager.save(["flows", flow_name], flow)
             return 0
-        if args['type'] == 'seq':
-            models = [ModelLoader.load_model(model_name) for model_name in args['multi']]
-            flow = SequentialFlow(args['name'], models)
-            JsonDataManager.save(["flows", args["name"]], flow)
-            return 0
+        else:
+            if args['type'] == 'branching':
+                instructions = args['instruction']
+                model = ModelLoader.load_model(args['model'])
+                b_flow = BranchingFlow(args['name'], model, instructions)
+                JsonDataManager.save(["flows", args["name"]], b_flow)
+                return 0
+            if args['type'] == 'seq':
+                models = [ModelLoader.load_model(model_name) for model_name in args['multi']]
+                flow = SequentialFlow(args['name'], models)
+                JsonDataManager.save(["flows", args["name"]], flow)
+                return 0
     if args['command'] == 'add-key':
         api_key = ApiKey(args['value'])
         JsonDataManager.save(["api keys", args['name']], api_key)

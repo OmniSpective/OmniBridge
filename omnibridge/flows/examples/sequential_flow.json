@@ -1,11 +1,20 @@
 {
+    "version": "beta",
     "name": "seq flow",
-    "steps": {
-        "step1": {
-            "depends_on": []
-        },
-        "step2": {
-            "depends_on": ["step1"]
-        }
-    }
+    "description": "sequential flow",
+    "models": [
+        {
+            "name": "gpt3.5",
+            "models": [
+                {
+                    "name": "gpt3.5",
+                    "models": [
+                        {
+                            "name": "gpt3.5"
+                        }
+                    ]
+                }
+            ]
+        }   
+    ]
 }
