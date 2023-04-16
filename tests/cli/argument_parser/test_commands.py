@@ -40,7 +40,7 @@ def test_add_chatgpt_command(api_key_fixture, tmp_path: Path):
         'model': model,
         'name': model_name,
         'key': key_name,
-        'sub_model': None
+        'sub_model': 1
     }
 
 
