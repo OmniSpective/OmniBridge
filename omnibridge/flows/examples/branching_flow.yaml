@@ -1,0 +1,12 @@
+steps:
+  step1:
+    depends_on: []
+  step2.1:
+    depends_on:
+      - step1
+  step2.2:
+    depends_on:
+      - step1
+  step2.3:
+    depends_on:
+      - step1
