@@ -5,7 +5,6 @@ from omnibridge.wrappers.api_key import ApiKey
 from omnibridge.saved_data.json_data_manager import JsonDataManager
 from omnibridge.wrappers.wrapper_instances.gpt_wrapper import GPTWrapper
 from omnibridge.wrappers.wrapper_instances.dalle_wrapper import DALLEWrapper
-
 from omnibridge.wrappers.wrapper_instances.type_name_to_wrapper import ModelLoader
 
 

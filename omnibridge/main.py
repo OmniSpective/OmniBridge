@@ -8,7 +8,6 @@ from omnibridge.cli.argument_parser.argument_parser import add_create_key_sub_pa
 from omnibridge.cli.argument_parser.command_handlers import handle_create_command, \
     handle_list_wrappers_command, handle_run_flow_command
 from omnibridge.saved_data.json_data_manager import FILE_PATH
-
 from omnibridge.wrappers.wrapper_instances.type_name_to_wrapper import ModelLoader
 
 SAVED_DATA_FILE_PATH = os.getenv('SAVED_DATA_FILE_PATH', FILE_PATH)
@@ -36,7 +35,6 @@ def run() -> int:
         handle_list_wrappers_command()
     elif args['command'] == 'run-flow':
         handle_run_flow_command(args, SAVED_DATA_FILE_PATH)
-
     elif args['prompt'] and args['model_name']:
         wrapper = ModelLoader.load_model(model_name=args['model_name'])
         response = wrapper.process(TextualIO(args['prompt']))
