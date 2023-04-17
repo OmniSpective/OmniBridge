@@ -24,11 +24,17 @@ setup(
     description='Bridging AI models',
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url='https://github.com/tmpOrgName/OmniBridge',
+    url='https://github.com/OmniSpective/OmniBridge',
     packages=find_packages(exclude=["cli*", "version*", "main*"]),
     install_requires=[
         'requests',
         'ruff',
         'argparse'
     ],
+    entry_points={
+            "console_scripts": [
+                "omnibridge=omnibridge.main:main",
+                "obr=omnibridge.main:main",
+            ]
+        },
 )
