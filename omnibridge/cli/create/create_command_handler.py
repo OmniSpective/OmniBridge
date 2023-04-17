@@ -5,6 +5,7 @@ from omnibridge.wrappers.api_key import ApiKey
 from omnibridge.saved_data.json_data_manager import JsonDataManager
 from omnibridge.wrappers.wrapper_instances.gpt_wrapper import GPTWrapper
 from omnibridge.wrappers.wrapper_instances.dalle_wrapper import DALLEWrapper
+from omnibridge.wrappers.wrapper_instances.hugging_face_wrappers import HuggingFaceWrapper
 from omnibridge.wrappers.wrapper_instances.type_name_to_wrapper import ModelLoader
 
 
@@ -36,6 +37,12 @@ def add_chatgpt(args: Dict[str, Any]) -> None:
         wrapper = GPTWrapper(name, api_key.value, sub_model)
     JsonDataManager.save(["models", name], wrapper)
 
+def add_huggingface(args: Dict[str, Any]) -> None:
+    name = args['name']
+    api_key: ApiKey = JsonDataManager.load(["api keys", args['key']], ApiKey)
+    wrapper: HuggingFaceWrapper = HuggingFaceWrapper(name, api_key.value, args['sub_model'])
+    JsonDataManager.save(["models", name], wrapper)
+
 
 def add_dalle(args: Dict[str, Any]) -> None:
     name = args['name']
@@ -59,5 +66,6 @@ def add_flow(args: Dict[str, Any]) -> None:
 
 MODEL_TYPE_TO_CREATION_FUNCTION = {
     'chatgpt': add_chatgpt,
-    'dalle': add_dalle
+    'dalle': add_dalle,
+    'huggingface': add_huggingface,
 }

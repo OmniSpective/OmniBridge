@@ -3,7 +3,7 @@ from typing import Type
 from omnibridge.saved_data.json_data_manager import JsonDataManager, JsonConvertable
 from omnibridge.wrappers.wrapper_instances.dalle_wrapper import DALLEWrapper
 from omnibridge.wrappers.wrapper_instances.gpt_wrapper import GPTWrapper
-from omnibridge.wrappers.wrapper_instances.hugging_face_wrapper import HuggingFaceWrapper
+from omnibridge.wrappers.wrapper_instances.hugging_face_wrappers import HuggingFaceWrapper
 from omnibridge.wrappers.wrapper_interfaces.model_wrapper import ModelWrapper
 
 type_names = {
