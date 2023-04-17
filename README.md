@@ -40,7 +40,7 @@ Add your model
 python main.py create model chatgpt --name gpt3.5 --key open_ai
 ```
 
-Now you can run chatGPT from your cli!
+You can now run chatGPT from your cli!
 ```
 python main.py run model --name gpt3.5 --prompt "tell me a joke"
 ```
