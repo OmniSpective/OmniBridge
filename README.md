@@ -6,56 +6,62 @@
 
 # OmniBridge
 
-OmniBridge is a CLI tool that bridges between different AI models. It helps you can access different AI models in a centralized place.
+OmniBridge wrap and connects different AI models. It helps access different AI models in a centralized place.
+
 
 # Install
+Clone the repository
+```
+git clone https://github.com/OmniSpective/OmniBridge.git
+```
 
 ```
-> pip install omnibridge
+cd OmniBridge/
 ```
+Inside the repository, install pipenv dependencies and launch the environment
+```
+pipenv install
+```
+```
+pipenv shell
+```
+
+Now you can start using OmniBridge! 
 
 # Usage
 
-Available in CLI with the following arguments:
-
-* -m / --model
-* -p / --prompt
-* -l / --load-config
-
-single model example:
+Add your key
 ```
-python main.py -m chatgpt -p hello
+python main.py create key --name open_ai --value <value>
 ```
 
-multi model example:
+Add your model
 ```
-python main.py -m chatgpt -p hello -m dalle -p goodbye
-```
-
-Note that the order of specification matters, meaning that in the above example, chatgpt will get the prompt `hello` and dalle will get the prompt `goodbye`
-
-The configurations can be set in a .json file and given to the CLI tool with the flag `-l <PATH_TO_CONFIG_FILE>`.
-
-For example:
-
-```
-{
-    "chatgpt": {
-        "api_key": "...",
-        "model": "..."
-    },
-    "hugging_face": {
-        "api_key": "...",
-        "model_id": "..."
-    },
-    "dalle": {
-        "api_key": "...",
-        "num_of_images": ...,
-        "resolution": "..."
-    }
-}
+python main.py create model chatgpt --name gpt3.5 --key open_ai
 ```
 
+Now you can run chatGPT from your cli!
+```
+python main.py run model --name gpt3.5 --prompt "tell me a joke"
+```
+
+You can also use the model you created to build flows (aka Auto-GPT), passing the output of one model to several others!
+```
+python main.py create flow --name chef --model gpt3.5 -i "what ingridients do I need for the dishes?" 
+"what wine would you suggest to pair with the dishes" "how much time does it take to prepare?"
+```
+This command set up four instances of your model, the first instance will handle your prompt as you would expect 
+regularly, however, instead of returning the output, it will pass it to the other three, adding a specific instruction
+for each!
+
+Understand it best with an example -
+(Notice it may take a short while to generate a response.)
+```
+python main.py run flow --name chef --prompt "suggest two dishes for a romantic date"
+```
+<br/><br/>
+We are working on more cool stuff, and we are sure you may have some suggestions or ideas of your own, 
+reach out and share it with us!
 
 # Community 
 <a href="https://discord.gg/RjPHfAKd7D"><img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a69f118df70ad7828d4_icon_clyde_blurple_RGB.svg" alt="Discord Icon" width="40" height="20"></a>
