@@ -19,7 +19,7 @@ def list_wrappers() -> None:
 
 def list_keys() -> None:
     try:
-        keys = JsonDataManager.get_json_value(['keys'])
+        keys = JsonDataManager.get_json_value(['api keys'])
         print(json.dumps(keys, indent=2))
     except KeyError:
         print('No keys were found in your saved data')
