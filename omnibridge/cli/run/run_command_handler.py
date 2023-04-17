@@ -5,20 +5,14 @@ from omnibridge.wrappers.wrapper_instances.type_name_to_wrapper import ModelLoad
 
 
 def handle_run_command(args: Dict[str, Any]) -> None:
+    object_to_run = None
     if args['object_to_run'] == 'model':
-        run_model(args)
+        object_to_run = ModelLoader.load_model(model_name=args['name'])
     elif args['object_to_run'] == 'flow':
-        run_flow(args)
+        object_to_run = FlowLoader.load_flow(args['name'])
 
-
-def run_flow(args: Dict[str, Any]) -> None:
-    flow = FlowLoader.load_flow(args['name'])
-    flow_input = TextualIO(args['prompt'])
-    flow_output = flow.process(flow_input)
-    print(flow_output)
-
-
-def run_model(args: Dict[str, Any]) -> None:
-    wrapper = ModelLoader.load_model(model_name=args['name'])
-    response = wrapper.process(TextualIO(args['prompt']))
+    if not object_to_run:
+        return
+    
+    response = object_to_run.process(TextualIO(args['prompt']))
     print(response)
