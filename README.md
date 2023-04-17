@@ -59,13 +59,31 @@ Understand it best with an example -
 ```
 python main.py run flow --name chef --prompt "suggest two dishes for a romantic date"
 ```
+
+This should return
+```
+1. Filet Mignon with Roasted Vegetables: <description>
+2. Lobster Risotto: <description>
+******************************************************************
+
+Ingridients:
+< a list of ingridients>
+******************************************************************
+
+1. Filet Mignon with Roasted Vegetables: A red wine like a Cabernet Sauvignon or a Merlot...
+2. Lobster Risotto: A white wine like a Chardonnay or a Sauvignon Blanc...
+******************************************************************
+
+Typical cooking times for a filet mignon can range from 8 to 12 minutes, and for lobster risotto, 
+it can take around 30-40 minutes.
+```
 <br/><br/>
-We are working on more cool stuff, and we are sure you may have some suggestions or ideas of your own, 
-reach out and share it with us!
+We are working on more cool stuff! 
 
 # Community 
-<a href="https://discord.gg/RjPHfAKd7D"><img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a69f118df70ad7828d4_icon_clyde_blurple_RGB.svg" alt="Discord Icon" width="40" height="20"></a>
+Come share your ideas, usage, and thoughts! <br/>
 Join our <a href=https://discord.gg/RjPHfAKd7D>discord server</a>  and share your feedback and ideas with us! 
+<a href="https://discord.gg/RjPHfAKd7D"><img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a69f118df70ad7828d4_icon_clyde_blurple_RGB.svg" alt="Discord Icon" width="40" height="20"></a>
 
 
 # Contribute:
