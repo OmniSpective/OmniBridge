@@ -1,5 +1,4 @@
 import subprocess
-from pathlib import Path
 from omnibridge.wrappers.wrapper_instances.type_name_to_wrapper import type_names
 from omnibridge.cli.banner import banner
 from omnibridge.saved_data.json_data_manager import FILE_PATH
