@@ -81,7 +81,7 @@ it can take around 30-40 minutes.
 We are working on more cool stuff! 
 
 # Community 
-Come share your ideas, usage, and thoughts! <br/>
+Come share your ideas, usage, and suggestions! <br/>
 Join our <a href=https://discord.gg/RjPHfAKd7D>discord server</a>  and share your feedback and ideas with us! 
 <a href="https://discord.gg/RjPHfAKd7D"><img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a69f118df70ad7828d4_icon_clyde_blurple_RGB.svg" alt="Discord Icon" width="40" height="20"></a>
 
