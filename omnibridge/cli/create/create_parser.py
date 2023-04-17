@@ -16,7 +16,7 @@ def add_create_model_sub_parser(parser: Any) -> None:
     create_model_parser.add_argument('-k', '--key', type=str, required=True, help="api key name.")
     create_model_parser.add_argument('--sub-model', type=str,
                                       help="the sub model of the model youv'e chosen, for example" \
-                                        "'gpt-3.5-turbo' if chatgpt is chosen, or 'repo_id' if huggingface is chosen")
+                                         "'gpt-3.5-turbo' if chatgpt is chosen, or 'repo_id' if huggingface is chosen")
     create_model_parser.add_argument('--num-images', type=str, default="4",
                                       help="number of images per prompt, default 4.")
     create_model_parser.add_argument('-r', '--res', type=str, default="256x256", help="resolution of images.")
@@ -24,12 +24,7 @@ def add_create_model_sub_parser(parser: Any) -> None:
 
 def add_create_flow_sub_parser(parser: Any) -> None:
     create_flow_parser = parser.add_parser("flow", help="Create a new flow.")
-
-    # Flow from file or from cli, at least on is required.
-    required_group = create_flow_parser.add_mutually_exclusive_group(required=True)
-    required_group.add_argument('-f', '--file', type=str, help="add flow from file.")
-    required_group.add_argument('-n', '--name', type=str, help="name of the flow.")
-
+    create_flow_parser.add_argument('-n', '--name', type=str, required=True, help="name of the flow.")
     create_flow_parser.add_argument('-t', '--type', type=str, choices=['seq', 'branching'], default='branching',
                                           help="type of the flow.")
     create_flow_parser.add_argument('-m', '--model', type=str,
