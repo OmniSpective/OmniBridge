@@ -28,7 +28,12 @@ def add_key(args: Dict[str, Any]) -> None:
 def add_chatgpt(args: Dict[str, Any]) -> None:
     name = args['name']
     api_key: ApiKey = JsonDataManager.load(["api keys", args['key']], ApiKey)
-    wrapper: GPTWrapper = GPTWrapper(name, api_key.value, args['sub_model'])
+    sub_model = args.get('sub_model')
+    wrapper: GPTWrapper
+    if not sub_model:
+        wrapper = GPTWrapper(name, api_key.value)
+    else:
+        wrapper = GPTWrapper(name, api_key.value, sub_model)
     JsonDataManager.save(["models", name], wrapper)
 
 
