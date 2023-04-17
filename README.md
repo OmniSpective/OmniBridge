@@ -60,6 +60,7 @@ For example:
 # Community 
 <a href="https://discord.gg/RjPHfAKd7D"><img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a69f118df70ad7828d4_icon_clyde_blurple_RGB.svg" alt="Discord Icon" width="40" height="20"></a>
 Join our discord server and share your feedback and ideas with us!  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;https://discord.gg/RjPHfAKd7D
 
 
 # Contribute:
