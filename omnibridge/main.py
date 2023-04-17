@@ -35,7 +35,7 @@ def run() -> int:
     args = vars(parser.parse_args())
 
     handler = COMMAND_TO_HANDLER[args['command']]
-    handler()
+    handler(args)
 
     return 0
 
