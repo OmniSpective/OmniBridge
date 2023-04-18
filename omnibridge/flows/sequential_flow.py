@@ -35,7 +35,7 @@ class SequentialFlow(ModelWrapper, Flow):
         }
 
     @classmethod
-    def create_from_json(cls, json_key, json_data: Dict[str, str]):
+    def create_from_json(cls, json_key, json_data: Dict[str, str]) -> Flow:
         name = json_key
         models_names = json_data['models'].split(', ')
         models = [ModelLoader.load_model(model_name) for model_name in models_names]
@@ -45,5 +45,5 @@ class SequentialFlow(ModelWrapper, Flow):
         return self.name
 
     @classmethod
-    def get_class_type_field(cls):
+    def get_class_type_field(cls) -> str:
         return "sequential"

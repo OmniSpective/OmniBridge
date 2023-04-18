@@ -1,7 +1,8 @@
 from typing import Dict, List
 
 from omnibridge.flows.flow import Flow
-from omnibridge.model_entities.models_io.base_model_io import ModelIO, TextualIO, FlowTextIO
+from omnibridge.model_entities.models_io.base_model_io import ModelIO, TextualIO
+from omnibridge.model_entities.models_io.flow_io import FlowIO
 from omnibridge.wrappers.wrapper_instances.type_name_to_wrapper import ModelLoader
 from omnibridge.wrappers.wrapper_interfaces.model_wrapper import ModelWrapper
 
@@ -22,7 +23,7 @@ class BranchingFlow(ModelWrapper, Flow):
     def process(self, model_input: ModelIO) -> ModelIO:
         root_output = self.root_model.process(model_input)
         assert isinstance(root_output, TextualIO)
-        flow_output = FlowTextIO(root_output.get_text())
+        flow_output = FlowIO(root_output)
         for model, instruction in zip(self.branched_models, self.instructions):
             model_input = TextualIO(root_output.get_text() + "\n" + instruction)
             model_output = model.process(model_input)
