@@ -1,6 +1,8 @@
 import subprocess
+from omnibridge.flows.branching_flow import BranchingFlow
 from omnibridge.saved_data.json_data_manager import JsonDataManager
-
+from omnibridge.wrappers.api_key import ApiKey
+from omnibridge.wrappers.wrapper_instances.gpt_wrapper import GPTWrapper
 
 def test_create_key():
     # Arrange
@@ -8,10 +10,10 @@ def test_create_key():
 
     # Act
     subprocess.run(command)
-    result = JsonDataManager.get_json_value(["api keys", "test_key"])
+    key = JsonDataManager.load(["api keys", "test_key"], ApiKey)
 
     # Assert
-    assert result == {'value': 'mock'}
+    assert key.value == 'mock'
 
 
 def test_create_model(create_key_fixture):
@@ -21,14 +23,11 @@ def test_create_model(create_key_fixture):
 
     # Act
     subprocess.run(command)
-    result = JsonDataManager.get_json_value(["models", model_name])
+    model = JsonDataManager.load(["models", model_name], GPTWrapper)
 
     # Assert
-    assert result == {
-        "api key": "mock",
-        "model": "gpt-3.5-turbo",
-        "_class_type": "chat_gpt"
-    }
+    assert model.api_key == 'mock'
+    assert model.model == 'gpt-3.5-turbo'
 
 
 def test_create_model_with_sub_model(create_key_fixture):
@@ -39,14 +38,11 @@ def test_create_model_with_sub_model(create_key_fixture):
 
     # Act
     subprocess.run(command)
-    result = JsonDataManager.get_json_value(["models", model_name])
+    model = JsonDataManager.load(["models", model_name], GPTWrapper)
 
     # Assert
-    assert result == {
-        "api key": "mock",
-        "model": "gpt-4",
-        "_class_type": "chat_gpt"
-    }
+    assert model.api_key == 'mock'
+    assert model.model == 'gpt-4'
 
 
 def test_create_flow(create_model_fixture):
@@ -60,12 +56,20 @@ def test_create_flow(create_model_fixture):
 
     # Act
     subprocess.run(command)
-    result = JsonDataManager.get_json_value(["flows", flow_name])
+    flow = JsonDataManager.load(["flows", flow_name], BranchingFlow)
 
     # Assert
-    assert result == {
-        '_class_type': 'branching',
-        'root_model': model_name,
-        'branched_models': f'{model_name}, {model_name}',
-        'instructions': f'{prompt1}$$${prompt2}'
-    }
+    assert flow.name == flow_name
+    assert flow.instructions == [prompt1, prompt2]
+
+    assert isinstance(flow.root_model, GPTWrapper)
+    assert flow.root_model.name == model_name
+    
+    assert len(flow.branched_models) == 2
+    assert isinstance(flow.branched_models[0], GPTWrapper)
+    assert isinstance(flow.branched_models[1], GPTWrapper)
+    assert flow.branched_models[0].name == model_name
+    assert flow.branched_models[1].name == model_name
+
+
+
