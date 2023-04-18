@@ -10,44 +10,34 @@ OmniBridge wrap and connects different AI models. It helps access different AI m
 
 
 # Install
-Clone the repository
 ```
-git clone https://github.com/OmniSpective/OmniBridge.git
-```
-
-```
-cd OmniBridge/
-```
-Inside the repository, install pipenv dependencies and launch the environment
-```
-pipenv install
-```
-```
-pipenv shell
+pip install omnibridge
 ```
 
 Now you can start using OmniBridge! 
+
+> **_NOTE:_** Once installed, you can use omnibridge with both `omnibridge` and `obr` commands.
 
 # Usage
 
 Add your key
 ```
-python main.py create key --name open_ai --value <value>
+obr create key --name open_ai --value <value>
 ```
 
 Add your model
 ```
-python main.py create model chatgpt --name gpt3.5 --key open_ai
+obr create model chatgpt --name gpt3.5 --key open_ai
 ```
 
 You can now run chatGPT from your cli!
 ```
-python main.py run model --name gpt3.5 --prompt "tell me a joke"
+obr run model --name gpt3.5 --prompt "tell me a joke"
 ```
 
 You can also use the model you created to build flows (aka Auto-GPT), passing the output of one model to several others!
 ```
-python main.py create flow --name chef --model gpt3.5 -i "what ingridients do I need for the dishes?" 
+obr create flow --name chef --model gpt3.5 -i "what ingridients do I need for the dishes?" 
 "what wine would you suggest to pair with the dishes" "how much time does it take to prepare?"
 ```
 This command set up four instances of your model, the first instance will handle your prompt as you would expect 
@@ -57,7 +47,7 @@ for each!
 Understand it best with an example -
 (Notice it may take a short while to generate a response.)
 ```
-python main.py run flow --name chef --prompt "suggest two dishes for a romantic date"
+obr run flow --name chef --prompt "suggest two dishes for a romantic date"
 ```
 
 This should return
