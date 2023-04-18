@@ -52,12 +52,14 @@ def saved_data_fixture(saved_data):
 
 @pytest.fixture
 def create_key_fixture():
-    command = ["pipenv", "run", "python", "./main.py", "create", "key", "-n", "test_key", "-v", "mock"]
+    command = ["pipenv", "run", "python", "./main.py", "create", "key",
+                "-n", "test_key", "-v", "mock"]
     subprocess.run(command)
 
 
 @pytest.fixture
 def create_model_fixture(create_key_fixture):
-    command = ["pipenv", "run", "python", "./main.py", "create", "model", "chatgpt", "-n", "test_model", "-k", "test_key"]
+    command = ["pipenv", "run", "python", "./main.py", "create", "model",
+                "chatgpt", "-n", "test_model", "-k", "test_key"]
     subprocess.run(command)
     
