@@ -68,7 +68,7 @@ Typical cooking times for a filet mignon can range from 8 to 12 minutes, and for
 it can take around 30-40 minutes.
 ```
 
-## Combining two models in a flow
+## Combining two models in a sequential flow
 
 Add your key
 ```
@@ -90,6 +90,10 @@ Finally, run the flow with a prompt
 ```
 obr run flow --name image_flow -i "create a prompt to an image that will amaze me"
 ```
+
+> **_NOTE:_** As of now, we will create the images in your current working directory and print the paths. Tell us if you would want to receive the output of image creation models differently!
+
+
 
 <br/><br/>
 We are working on more cool stuff! 
