@@ -1,7 +1,7 @@
 import pytest
 import json
 import subprocess
-
+from omnibridge.saved_data.json_data_manager import FILE_PATH
 
 @pytest.fixture
 def saved_data():
@@ -52,6 +52,10 @@ def saved_data_fixture(saved_data):
 
 @pytest.fixture
 def create_key_fixture():
+    with open(FILE_PATH, 'w'):
+        # Guarentees saved data file is created and empty
+        pass
+
     command = ["pipenv", "run", "python", "./main.py", "create", "key",
                 "-n", "test_key", "-v", "mock"]
     subprocess.run(command)
