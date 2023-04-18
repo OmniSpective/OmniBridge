@@ -1,5 +1,6 @@
 import pytest
 import json
+import subprocess
 
 
 @pytest.fixture
@@ -47,3 +48,16 @@ def saved_data_fixture(saved_data):
             f.write(json.dumps(saved_data, indent=2))
 
     return _saved_data_for_tests
+
+
+@pytest.fixture
+def create_key_fixture():
+    command = ["pipenv", "run", "python", "./main.py", "create", "key", "-n", "test_key", "-v", "mock"]
+    subprocess.run(command)
+
+
+@pytest.fixture
+def create_model_fixture(create_key_fixture):
+    command = ["pipenv", "run", "python", "./main.py", "create", "model", "chatgpt", "-n", "test_model", "-k", "test_key"]
+    subprocess.run(command)
+    
