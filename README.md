@@ -67,6 +67,30 @@ Ingridients:
 Typical cooking times for a filet mignon can range from 8 to 12 minutes, and for lobster risotto, 
 it can take around 30-40 minutes.
 ```
+
+## Combining two models in a flow
+
+Add your key
+```
+obr create key --name open_ai --value <value>
+```
+
+Create two models
+```
+obr create model dalle --name gpt_model -k open_ai  
+obr create model dalle --name dalle_model -k open_ai  
+```
+
+Now combine both models in a sequential flow
+```
+obr create flow --name image_flow --multi gpt_model dalle_model -t seq
+```
+
+Finally, run the flow with a prompt
+```
+obr run flow --name image_flow -i "create a prompt to an image that will amaze me"
+```
+
 <br/><br/>
 We are working on more cool stuff! 
 
