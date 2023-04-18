@@ -77,7 +77,7 @@ obr create key --name open_ai --value <value>
 
 Create two models
 ```
-obr create model dalle --name gpt_model -k open_ai  
+obr create model chatgpt --name gpt_model -k open_ai  
 obr create model dalle --name dalle_model -k open_ai  
 ```
 
