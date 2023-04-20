@@ -13,6 +13,7 @@ class ImageGenerationRequestBody(TypedDict):
     n: int
     size: str
 
+
 class DALLEWrapper(RestAPIWrapper):
     def __init__(self, name: str, api_key: str, number_of_images: int, resolution: str,
                  logger: logging.Logger = logging.getLogger()) -> None:
