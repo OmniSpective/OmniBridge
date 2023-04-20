@@ -15,7 +15,7 @@ class Node(JsonConvertable):
 
     def process(self, model_input: ModelIO) -> ModelIO:
         assert isinstance(model_input, TextualIO)
-        model_input = TextualIO(model_input.get_text() + "\n" + self.instruction)
+        model_input = TextualIO(f"{model_input.get_text()} \n{self.instruction}")
         model_output = self.model.process(model_input)
         aggregate_output = FlowIO(model_output)
         for next_model in self.next_nodes:
@@ -32,16 +32,12 @@ class Node(JsonConvertable):
         model_name = json_data['name']
         model = ModelLoader.load_model(model_name)
 
-        instruction = ""
-        if 'instruction' in json_data:
-            instruction = json_data['instruction']
+        instruction = json_data.get('instruction', "")
 
         next_models = []
-        if 'models' in json_data:
-            next_models_data = json_data['models']
-            for next_model_data in next_models_data:
-                next_model = Node.create_from_json("", next_model_data)
-                next_models.append(next_model)
+        for next_model_data in json_data.get('models', []):
+            next_model = Node.create_from_json("", next_model_data)
+            next_models.append(next_model)
 
         return Node(model, instruction, next_models)
 
