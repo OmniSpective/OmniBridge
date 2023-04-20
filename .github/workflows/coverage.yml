@@ -30,7 +30,9 @@ jobs:
         pipenv install --dev --deploy
 
     - name: Run tests with coverage
-      run: pipenv run coverage run -m pytest
+      run: |
+        pipenv run coverage run -m pytest/unit
+        pipenv run coverage run -m pytest/e2e
 
     - name: Generate coverage report
       run: pipenv run coverage report -m
