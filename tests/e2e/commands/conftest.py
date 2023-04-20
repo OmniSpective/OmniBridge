@@ -67,5 +67,26 @@ def create_model_fixture(create_key_fixture, cwd):
 
 
 @pytest.fixture
+def create_flow_fixture(create_model_fixture, cwd):
+    command = ["pipenv", "run", "python", "./main.py", "create", "flow",
+               "-n", "test_flow", "-t", "seq", "--multi", "test_model", "test_model",
+               "-i", "mock_instruction"]
+    subprocess.run(command, cwd=cwd)
+
+
+@pytest.fixture
 def cwd():
     return Path(__file__).parents[3]
+
+
+@pytest.fixture
+def mock_chatgpt_response():
+    return {
+        "choices": [
+            {
+                "message": {
+                    "content": "mock"
+                }
+            }
+        ]
+    }

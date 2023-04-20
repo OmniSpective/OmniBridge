@@ -37,6 +37,7 @@ def add_chatgpt(args: Dict[str, Any]) -> None:
         wrapper = GPTWrapper(name, api_key.value, sub_model)
     JsonDataManager.save(["models", name], wrapper)
 
+
 def add_huggingface(args: Dict[str, Any]) -> None:
     name = args['name']
     api_key: ApiKey = JsonDataManager.load(["api keys", args['key']], ApiKey)
@@ -48,16 +49,16 @@ def add_dalle(args: Dict[str, Any]) -> None:
     name = args['name']
     api_key: ApiKey = JsonDataManager.load(["api keys", args['key']], ApiKey)
     wrapper: DALLEWrapper = DALLEWrapper(name, api_key=api_key.value, number_of_images=args['num_images'],
-                                            resolution=args['res'])
+                                         resolution=args['res'])
     JsonDataManager.save(["models", name], wrapper)
 
 
 def add_flow(args: Dict[str, Any]) -> None:
     if args['type'] == 'branching':
-            instructions = args['instruction']
-            model = ModelLoader.load_model(args['model'])
-            b_flow = BranchingFlow(args['name'], model, instructions)
-            JsonDataManager.save(["flows", args["name"]], b_flow)
+        instructions = args['instruction']
+        model = ModelLoader.load_model(args['model'])
+        b_flow = BranchingFlow(args['name'], model, instructions)
+        JsonDataManager.save(["flows", args["name"]], b_flow)
     elif args['type'] == 'seq':
         models = [ModelLoader.load_model(model_name) for model_name in args['multi']]
         flow = SequentialFlow(args['name'], models)
