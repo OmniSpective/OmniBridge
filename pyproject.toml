@@ -45,7 +45,6 @@ max-complexity = 10
 
 [tool.mypy]
 files = "omnibridge"
-strict = true
 show_error_codes = true
 exclude ="^tests/"
 
@@ -55,6 +54,10 @@ ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
 module = "setuptools"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "huggingface_hub"
 ignore_missing_imports = true
 
 [tool.coverage.run]

@@ -5,25 +5,25 @@ from omnibridge.saved_data.json_data_manager import FILE_PATH
 import json
 
 
-def test_list_wrappers():
+def test_list_wrappers(cwd):
     # Arrange
     command = ["pipenv", "run", "python", "./main.py", "list", "wrappers"]
 
     # Act
-    result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, cwd=cwd)
     result_without_banner = result.stdout.strip(banner)
 
     # Assert
-    assert result_without_banner == f'{[type for type in type_names.keys()]}'
+    assert result_without_banner == f'{[_type for _type in type_names.keys()]}'
 
 
-def test_list_keys(saved_data_fixture):
+def test_list_keys(saved_data_fixture, cwd):
     # Arrange
     command = ["pipenv", "run", "python", "./main.py", "list", "keys"]
     saved_data_fixture(FILE_PATH)
 
     # Act
-    result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, cwd=cwd)
     result_without_banner = result.stdout.strip(banner)
 
     # Assert
@@ -36,26 +36,27 @@ def test_list_keys(saved_data_fixture):
         indent=2
     )
 
-def test_list_keys_empty(saved_data_fixture):
+
+def test_list_keys_empty(saved_data_fixture, cwd):
     # Arrange
     command = ["pipenv", "run", "python", "./main.py", "list", "keys"]
     saved_data_fixture(FILE_PATH, no_keys=True)
 
     # Act
-    result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, cwd=cwd)
     result_without_banner = result.stdout.strip(banner)
 
     # Assert
     assert result_without_banner == 'No keys were found in your saved data'
 
 
-def test_list_models(saved_data_fixture):
+def test_list_models(saved_data_fixture, cwd):
     # Arrange
     command = ["pipenv", "run", "python", "./main.py", "list", "models"]
     saved_data_fixture(FILE_PATH)
 
     # Act
-    result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, cwd=cwd)
     result_without_banner = result.stdout.strip(banner)
 
     # Assert
@@ -75,26 +76,27 @@ def test_list_models(saved_data_fixture):
         indent=2
     )
 
-def test_list_models_empty(saved_data_fixture):
+
+def test_list_models_empty(saved_data_fixture, cwd):
     # Arrange
     command = ["pipenv", "run", "python", "./main.py", "list", "models"]
     saved_data_fixture(FILE_PATH, no_models=True)
 
     # Act
-    result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, cwd=cwd)
     result_without_banner = result.stdout.strip(banner)
 
     # Assert
     assert result_without_banner == 'No models were found in your saved data'
 
 
-def test_list_flows(saved_data_fixture):
+def test_list_flows(saved_data_fixture, cwd):
     # Arrange
     command = ["pipenv", "run", "python", "./main.py", "list", "flows"]
     saved_data_fixture(FILE_PATH)
 
     # Act
-    result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, cwd=cwd)
     result_without_banner = result.stdout.strip(banner)
 
     # Assert
@@ -110,13 +112,14 @@ def test_list_flows(saved_data_fixture):
         indent=2
     )
 
-def test_list_flows_empty(saved_data_fixture):
+
+def test_list_flows_empty(saved_data_fixture, cwd):
     # Arrange
     command = ["pipenv", "run", "python", "./main.py", "list", "flows"]
     saved_data_fixture(FILE_PATH, no_flows=True)
 
     # Act
-    result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, cwd=cwd)
     result_without_banner = result.stdout.strip(banner)
 
     # Assert
