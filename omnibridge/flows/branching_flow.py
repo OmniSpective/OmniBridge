@@ -3,11 +3,12 @@ from typing import Dict, List, Union
 from omnibridge.flows.flow import Flow
 from omnibridge.model_entities.models_io.base_model_io import ModelIO, TextualIO
 from omnibridge.model_entities.models_io.flow_io import FlowIO
+from omnibridge.saved_data.json_data_manager import JsonConvertable
 from omnibridge.wrappers.wrapper_instances.type_name_to_wrapper import ModelLoader
 from omnibridge.wrappers.wrapper_interfaces.model_wrapper import ModelWrapper
 
 
-class BranchingFlow(Flow):
+class BranchingFlow(Flow, JsonConvertable):
     def __init__(self, name: str, root_model: ModelWrapper, branched_instructions: List[str],
                  branched_models: Union[List[ModelWrapper], None] = None):
         if branched_models is None:

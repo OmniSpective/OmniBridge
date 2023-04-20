@@ -1,4 +1,3 @@
-import json
 from typing import List, Dict, Any, Union
 
 from omnibridge.model_entities.models_io.base_model_io import ModelIO, TextualIO
@@ -37,7 +36,7 @@ class Node(JsonConvertable):
 
         next_models = []
         for next_model_data in json_data.get('models', []):
-            next_model = Node.create_from_json("", json.loads(next_model_data))
+            next_model = Node.create_from_json("", next_model_data) # type: ignore[arg-type]
             next_models.append(next_model)
 
         return Node(model, instruction, next_models)
@@ -65,6 +64,6 @@ class GraphFlow(JsonConvertable):
         models_json = json_data['models']
         nodes = []
         for child_data in models_json:
-            node = Node.create_from_json("", json.loads(child_data))
+            node = Node.create_from_json("", child_data)  # type: ignore[arg-type]
             nodes.append(node)
         return GraphFlow(nodes)
