@@ -25,6 +25,10 @@ jobs:
           pipenv install
           pipenv install --dev
           
-      - name: Run tests
+      - name: Run unit-tests
         run: |
-          pipenv run python -m pytest tests
+          pipenv run python -m pytest tests/unit
+
+      - name: Run e2e-tests
+        run: |
+          pipenv run python -m pytest tests/e2e
