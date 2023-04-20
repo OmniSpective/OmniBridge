@@ -12,6 +12,7 @@ SUPPORTED_TASKS = [
     "text-generation"
 ]
 
+
 class HuggingFaceWrapper(RestAPIWrapper):
     def __init__(self, name: str, api_key: str, model: str, logger: logging.Logger = logging.getLogger()) -> None:
         """
@@ -24,19 +25,19 @@ class HuggingFaceWrapper(RestAPIWrapper):
 
         from huggingface_hub import HfApi
         api = HfApi()
-        model = api.model_info(repo_id=model)
+        model_info = api.model_info(repo_id=model)
 
-        if model is None:
+        if model_info is None:
             raise Exception('Repo id do not exists')
-        
+
         self.task = None
         for task in SUPPORTED_TASKS:
-            if task in model.tags:
+            if task in model_info.tags:
                 self.task = task
                 break
-        
+
         if self.task is None:
-            raise Exception('Task is not supported')            
+            raise Exception('Task is not supported')
 
     def _get_api_key(self) -> str:
         return self.api_key
@@ -44,7 +45,7 @@ class HuggingFaceWrapper(RestAPIWrapper):
     def process(self, model_input: ModelIO) -> ModelIO:
         if not isinstance(model_input, TextualIO):
             raise NotImplementedError
-        
+
         response = self.prompt(prompt_message=model_input.text)
 
         if "error" in response:
@@ -54,14 +55,13 @@ class HuggingFaceWrapper(RestAPIWrapper):
 
         if self.task == "text-generation":
             # Text response includes the prompt text.
-            data = response[0]["generated_text"][len(model_input.text) :]
+            data = response[0]["generated_text"][len(model_input.text):]
         elif self.task == "text2text-generation":
             data = response[0]["generated_text"]
         else:
             raise Exception(f'Task {self.task} is not supported')
 
         return TextualIO(data)
-        
 
     def to_json(self) -> Dict[str, Union[str, int]]:
         return {

@@ -56,6 +56,10 @@ ignore_missing_imports = true
 module = "setuptools"
 ignore_missing_imports = true
 
+[[tool.mypy.overrides]]
+module = "huggingface_hub"
+ignore_missing_imports = true
+
 [tool.coverage.run]
 omit = [
     "tests/*",

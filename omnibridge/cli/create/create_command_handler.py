@@ -9,9 +9,12 @@ from omnibridge.wrappers.wrapper_instances.hugging_face_wrappers import HuggingF
 from omnibridge.wrappers.wrapper_instances.type_name_to_wrapper import ModelLoader
 
 
-def handle_create_command(args: Dict[str, Any]):
+def handle_create_command(args: Dict[str, Any]) -> None:
     if args['object_to_create'] == 'model':
         creation_function = MODEL_TYPE_TO_CREATION_FUNCTION.get(args['model_type'])
+        if not creation_function:
+            print('model type is not supported')
+            return
         creation_function(args)
 
     elif args['object_to_create'] == 'flow':
