@@ -29,7 +29,8 @@ setup(
     install_requires=[
         'requests',
         'ruff',
-        'argparse'
+        'argparse',
+        'huggingface_hub'
     ],
     entry_points={
             "console_scripts": [

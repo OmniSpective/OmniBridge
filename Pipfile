@@ -16,6 +16,7 @@ ruff = "*"
 argparse = "*"
 pydantic = "*"
 fastapi = "*"
+huggingface_hub = "*"
 
 [requires]
 python_version = "3.8"

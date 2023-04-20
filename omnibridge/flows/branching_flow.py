@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Dict, List, Union
 
 from omnibridge.flows.flow import Flow
 from omnibridge.model_entities.models_io.base_model_io import ModelIO, TextualIO, FlowTextIO
@@ -8,7 +8,7 @@ from omnibridge.wrappers.wrapper_interfaces.model_wrapper import ModelWrapper
 
 class BranchingFlow(ModelWrapper, Flow):
     def __init__(self, name: str, root_model: ModelWrapper, branched_instructions: List[str],
-                 branched_models: List[ModelWrapper] = None):
+                 branched_models: Union[List[ModelWrapper], None] = None):
         if branched_models is None:
             self.branched_models = [root_model for _ in range(len(branched_instructions))]
         elif len(branched_instructions) != len(branched_models):
@@ -37,7 +37,7 @@ class BranchingFlow(ModelWrapper, Flow):
     def get_class_type_field(cls):
         return "branching"
 
-    def to_json(self) -> Dict[str, str]:
+    def to_json(self) -> Dict[str, Union[str, int]]:
         return {
             '_class_type': self.get_class_type_field(),
             'root_model': self.root_model.get_name(),

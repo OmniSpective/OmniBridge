@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import List, Dict, Union
 
 from omnibridge.flows.flow import Flow
 from omnibridge.model_entities.models_io.base_model_io import ModelIO
@@ -7,11 +7,9 @@ from omnibridge.wrappers.wrapper_interfaces.model_wrapper import ModelWrapper
 
 
 class SequentialFlow(ModelWrapper, Flow):
-    def __init__(self, name: str, models: List[ModelWrapper] = None):
+    def __init__(self, name: str, models: Union[List[ModelWrapper], None] = None):
         self.name = name
-        self.models = models
-        if self.models is None:
-            self.models = []
+        self.models = models or []
 
     def add(self, new_model: ModelWrapper, instruction: str) -> None:
         self.models.append(new_model)
@@ -28,7 +26,7 @@ class SequentialFlow(ModelWrapper, Flow):
 
         return model_output
 
-    def to_json(self) -> Dict[str, str]:
+    def to_json(self) -> Dict[str, Union[str, int]]:
         return {
             '_class_type': self.get_class_type_field(),
             'models': ', '.join(model.get_name() for model in self.models)
