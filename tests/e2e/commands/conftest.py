@@ -1,7 +1,9 @@
+from pathlib import Path
+
 import pytest
 import json
 import subprocess
-from omnibridge.saved_data.json_data_manager import FILE_PATH
+
 
 @pytest.fixture
 def saved_data():
@@ -20,10 +22,10 @@ def saved_data():
         },
         "flows": {
             "flow-mock": {
-            "_class_type": "branching",
-            "root_model": "gpt3.5",
-            "branched_models": "gpt3.5, gpt3.5, gpt3.5",
-            "instructions": "expand point 1$$$expand point 2$$$expand point 3"
+                "_class_type": "branching",
+                "root_model": "gpt3.5",
+                "branched_models": "gpt3.5, gpt3.5, gpt3.5",
+                "instructions": "expand point 1$$$expand point 2$$$expand point 3"
             }
         },
         "api keys": {
@@ -36,14 +38,14 @@ def saved_data():
 
 @pytest.fixture
 def saved_data_fixture(saved_data):
-    def _saved_data_for_tests(file_path, no_keys = False, no_models = False, no_flows = False):
+    def _saved_data_for_tests(file_path, no_keys=False, no_models=False, no_flows=False):
         if no_keys:
             del saved_data['api keys']
         if no_flows:
             del saved_data['flows']
         if no_models:
             del saved_data['models']
-            
+
         with open(file_path, 'w') as f:
             f.write(json.dumps(saved_data, indent=2))
 
@@ -51,19 +53,19 @@ def saved_data_fixture(saved_data):
 
 
 @pytest.fixture
-def create_key_fixture():
-    with open(FILE_PATH, 'w'):
-        # Guarentees saved data file is created and empty
-        pass
-
+def create_key_fixture(cwd):
     command = ["pipenv", "run", "python", "./main.py", "create", "key",
-                "-n", "test_key", "-v", "mock"]
-    subprocess.run(command)
+               "-n", "test_key", "-v", "mock"]
+    subprocess.run(command, cwd=cwd)
 
 
 @pytest.fixture
-def create_model_fixture(create_key_fixture):
+def create_model_fixture(create_key_fixture, cwd):
     command = ["pipenv", "run", "python", "./main.py", "create", "model",
-                "chatgpt", "-n", "test_model", "-k", "test_key"]
-    subprocess.run(command)
-    
+               "chatgpt", "-n", "test_model", "-k", "test_key"]
+    subprocess.run(command, cwd=cwd)
+
+
+@pytest.fixture
+def cwd():
+    return Path(__file__).parents[3]
