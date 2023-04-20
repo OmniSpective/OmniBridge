@@ -31,9 +31,12 @@ jobs:
 
     - name: Run tests with coverage
       run: |
-        pipenv run coverage run -m pytest tests/unit
-        pipenv run coverage run -m pytest tests/e2e
-
+        pipenv run coverage run --parallel-mode -m pytest tests/unit
+        pipenv run coverage run --parallel-mode -m pytest tests/e2e
+        
+    - name: Combine coverage reports
+      run: pipenv run coverage combine
+      
     - name: Generate coverage report
       run: pipenv run coverage report -m
 
