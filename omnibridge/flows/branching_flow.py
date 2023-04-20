@@ -7,7 +7,7 @@ from omnibridge.wrappers.wrapper_instances.type_name_to_wrapper import ModelLoad
 from omnibridge.wrappers.wrapper_interfaces.model_wrapper import ModelWrapper
 
 
-class BranchingFlow(ModelWrapper, Flow):
+class BranchingFlow(Flow):
     def __init__(self, name: str, root_model: ModelWrapper, branched_instructions: List[str],
                  branched_models: Union[List[ModelWrapper], None] = None):
         if branched_models is None:
@@ -20,7 +20,7 @@ class BranchingFlow(ModelWrapper, Flow):
         self.root_model = root_model
         self.instructions = branched_instructions
 
-    def process(self, model_input: ModelIO) -> ModelIO:
+    def process(self, model_input: ModelIO) -> FlowIO:
         root_output = self.root_model.process(model_input)
         assert isinstance(root_output, TextualIO)
         flow_output = FlowIO(root_output)

@@ -1,3 +1,4 @@
+import json
 from typing import List, Dict, Any, Union
 
 from omnibridge.model_entities.models_io.base_model_io import ModelIO, TextualIO
@@ -13,9 +14,9 @@ class Node(JsonConvertable):
         self.model = model
         self.instruction = instruction
 
-    def process(self, model_input: ModelIO) -> ModelIO:
+    def process(self, model_input: ModelIO) -> FlowIO:
         assert isinstance(model_input, TextualIO)
-        model_input = TextualIO(model_input.get_text() + "\n" + self.instruction)
+        model_input = TextualIO(f"{model_input.get_text()} \n{self.instruction}")
         model_output = self.model.process(model_input)
         aggregate_output = FlowIO(model_output)
         for next_model in self.next_nodes:
@@ -32,16 +33,12 @@ class Node(JsonConvertable):
         model_name = json_data['name']
         model = ModelLoader.load_model(model_name)
 
-        instruction = ""
-        if 'instruction' in json_data:
-            instruction = json_data['instruction']
+        instruction = json_data.get('instruction', "")
 
         next_models = []
-        if 'models' in json_data:
-            next_models_data = json_data['models']
-            for next_model_data in next_models_data:
-                next_model = Node.create_from_json("", next_model_data)
-                next_models.append(next_model)
+        for next_model_data in json_data.get('models', []):
+            next_model = Node.create_from_json("", json.loads(next_model_data))
+            next_models.append(next_model)
 
         return Node(model, instruction, next_models)
 
@@ -50,7 +47,7 @@ class GraphFlow(JsonConvertable):
     def __init__(self, nodes: List[Node]):
         self.nodes = nodes
 
-    def process(self, model_input: ModelIO) -> ModelIO:
+    def process(self, model_input: ModelIO) -> FlowIO:
         if len(self.nodes) == 0:
             raise ValueError("Cannot run flow with zero models!")
 
@@ -68,6 +65,6 @@ class GraphFlow(JsonConvertable):
         models_json = json_data['models']
         nodes = []
         for child_data in models_json:
-            node = Node.create_from_json("", child_data)
+            node = Node.create_from_json("", json.loads(child_data))
             nodes.append(node)
         return GraphFlow(nodes)
