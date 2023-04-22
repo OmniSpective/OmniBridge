@@ -62,13 +62,14 @@ def add_sagemaker(args: Dict[str, Any]) -> None:
 
     preprocess = MAP_PREPROCESS_TYPE_TO_HANDLER[args.get('preprocess', 'JSONPreprocessor')]
     postprocess = MAP_POSTPROCESS_TYPE_TO_HANDLER[args.get('postprocess', 'JSONPostprocessor')]
+    credentials_profile_name = args.get('profile_name', None)
     wrapper: SagemakerEndpointWrapper = SagemakerEndpointWrapper(name=args['name'],
                                                                  region=args['region'],
                                                                  endpoint_name = args['endpoint_name'],
                                                                  content_handlers=(preprocess, postprocess),
                                                                  model_kwargs=args.get('model_kwargs', None),
                                                                  endpoint_kwargs=args.get('endpoint_kwargs', None),
-                                                                 credentials_profile_name=args.get('profile_name', None))
+                                                                 credentials_profile_name=credentials_profile_name)
     JsonDataManager.save(["models", args['name']], wrapper)
 
 

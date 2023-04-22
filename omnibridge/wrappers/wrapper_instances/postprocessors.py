@@ -1,6 +1,6 @@
 import json
 from abc import ABC, abstractmethod
-from typing import Optional, Dict
+from typing import Optional
 
 from omnibridge.model_entities.models_io.base_model_io import ModelIO, TextualIO
 

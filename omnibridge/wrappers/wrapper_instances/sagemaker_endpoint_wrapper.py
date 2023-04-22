@@ -4,7 +4,7 @@ from typing import Any, Dict, Tuple, Optional, Union
 from ..wrapper_interfaces.model_wrapper import ModelWrapper
 from .preprocessors import PreprocessorBase, MAP_PREPROCESS_TYPE_TO_HANDLER
 from .postprocessors import PostprocessorBase, MAP_POSTPROCESS_TYPE_TO_HANDLER
-from omnibridge.model_entities.models_io.base_model_io import ModelIO, TextualIO
+from omnibridge.model_entities.models_io.base_model_io import ModelIO
 import boto3
 
 
