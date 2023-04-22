@@ -60,8 +60,8 @@ def add_sagemaker(args: Dict[str, Any]) -> None:
     from omnibridge.wrappers.wrapper_instances.preprocessors import MAP_PREPROCESS_TYPE_TO_HANDLER
     from omnibridge.wrappers.wrapper_instances.postprocessors import MAP_POSTPROCESS_TYPE_TO_HANDLER
 
-    preprocess = MAP_PREPROCESS_TYPE_TO_HANDLER[args.get('preprocess', 'JSONPreprocessor')]
-    postprocess = MAP_POSTPROCESS_TYPE_TO_HANDLER[args.get('postprocess', 'JSONPostprocessor')]
+    preprocess = MAP_PREPROCESS_TYPE_TO_HANDLER[args.get('preprocess', 'JSONPreprocessor')]()
+    postprocess = MAP_POSTPROCESS_TYPE_TO_HANDLER[args.get('postprocess', 'JSONPostprocessor')]()
     credentials_profile_name = args.get('profile_name', None)
     wrapper: SagemakerEndpointWrapper = SagemakerEndpointWrapper(name=args['name'],
                                                                  region=args['region'],

@@ -1,11 +1,11 @@
 """Wrapper around Sagemaker InvokeEndpoint API."""
-from typing import Any, Dict, Tuple, Optional, Union
+from typing import Any, Dict, Optional, Tuple
 
 from ..wrapper_interfaces.model_wrapper import ModelWrapper
 from .preprocessors import PreprocessorBase, MAP_PREPROCESS_TYPE_TO_HANDLER
 from .postprocessors import PostprocessorBase, MAP_POSTPROCESS_TYPE_TO_HANDLER
 from omnibridge.model_entities.models_io.base_model_io import ModelIO
-import boto3
+import boto3 # type: ignore
 
 
 
@@ -36,23 +36,33 @@ class SagemakerEndpointWrapper(ModelWrapper):
             )
     """
 
-    def __init__(self, 
+    def __init__(self,
                  name: str,
                  region: str, 
                  endpoint_name: str, 
                  content_handlers: Tuple[PreprocessorBase, PostprocessorBase],
                  model_kwargs: Optional[Dict] = None,
                  endpoint_kwargs: Optional[Dict] = None,
-                 credentials_profile_name: Optional[str] = None) -> None:
+                 credentials_profile_name: Optional[str] = None) -> None: 
         super().__init__()
-        self.name = name
-        self.region = region
-        self.endpoint_name = endpoint_name
-        self.content_handlers = content_handlers
-        self.credentials_profile_name = credentials_profile_name
-        self.endpoint_kwargs = endpoint_kwargs or {}
-        self.model_kwargs = model_kwargs or {}
-        self.client = None
+
+        # enfore content_handlers
+        if len(content_handlers) != 2:
+            raise Exception(f"content_handlers has len {len(content_handlers)}, must have exactly 2 items")
+        if not (isinstance(content_handlers[0], PreprocessorBase) and \
+                isinstance(content_handlers[1], PostprocessorBase)):
+            raise Exception("""
+                content_handlers[0] must inherit from PreprocessorBase, 
+                content_handlers[1] must inherit from PostprocessorBase.
+            """)
+
+        self.name: str = name
+        self.region: str = region
+        self.endpoint_name: str = endpoint_name
+        self.content_handlers: Tuple[PreprocessorBase, PostprocessorBase] = content_handlers
+        self.credentials_profile_name: Optional[str] = credentials_profile_name
+        self.endpoint_kwargs: Dict = endpoint_kwargs or {}
+        self.model_kwargs: Dict = model_kwargs or {}
 
         self.initialize()
 
@@ -67,7 +77,7 @@ class SagemakerEndpointWrapper(ModelWrapper):
                 session = boto3.Session(profile_name=self.credentials_profile_name)
             else:
                 session = boto3.Session()
-            self.clinet = session.client(
+            self.client = session.client(
                 "sagemaker-runtime", region_name=self.region
             )
 
@@ -89,11 +99,11 @@ class SagemakerEndpointWrapper(ModelWrapper):
         return "sagemaker_endpoint"
 
 
-    def to_json(self) -> Dict[str, Union[str, int]]:
+    def to_json(self) -> Dict[str, Any]:
         return {
             "region": self.region, 
             "endpoint_name": self.endpoint_kwargs, 
-            "content_handler": {
+            "content_handlers": {
                 "preprocess": self.content_handlers[0].get_name(),
                 "postprocess": self.content_handlers[1].get_name()
             },
@@ -104,9 +114,9 @@ class SagemakerEndpointWrapper(ModelWrapper):
         }
 
     @classmethod
-    def create_from_json(cls, json_key: str, json_data: Dict[str, str]) -> Any:
-        preprocessor = MAP_PREPROCESS_TYPE_TO_HANDLER(json_data["content_handler"]["preprocess"])()
-        postprocessor = MAP_POSTPROCESS_TYPE_TO_HANDLER(json_data["content_handler"]["postprocess"])()
+    def create_from_json(cls, json_key: str, json_data: Dict[str, Any]) -> Any:
+        preprocessor = MAP_PREPROCESS_TYPE_TO_HANDLER[json_data["content_handlers"]["preprocess"]]()
+        postprocessor = MAP_POSTPROCESS_TYPE_TO_HANDLER[json_data["content_handlers"]["postprocess"]]()
 
         return SagemakerEndpointWrapper(name=json_key, 
                                         region=json_data["region"], 
@@ -125,8 +135,8 @@ class SagemakerEndpointWrapper(ModelWrapper):
             response = self.client.invoke_endpoint(
                 EndpointName=self.endpoint_name,
                 Body=body,
-                ContentType=self.content_handler.content_type,
-                Accept=self.content_handler.accepts,
+                ContentType=self.content_handlers[0].content_type,
+                Accept=self.content_handlers[1].accepts,
                 **self.endpoint_kwargs,
             )
         except Exception as e:
