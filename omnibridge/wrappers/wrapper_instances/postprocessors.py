@@ -38,7 +38,7 @@ class JsonToTextPostprocessor(PostprocessorBase):
     accepts = "application/json"
     
     def transform_output(self, output: bytes) -> ModelIO:
-        response_json = json.loads(output.read().decode("utf-8"))
+        response_json = json.loads(output.decode("utf-8"))
         return TextualIO(response_json[0]["generated_text"])
 
     @classmethod
