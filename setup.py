@@ -30,7 +30,8 @@ setup(
         'requests',
         'ruff',
         'argparse',
-        'huggingface_hub'
+        'huggingface_hub',
+        'boto3'
     ],
     entry_points={
             "console_scripts": [
