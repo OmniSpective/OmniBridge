@@ -4,3 +4,4 @@ class SupportedModels(str, Enum):
     CHATGPT = 'chatgpt'
     DALLE = 'dalle'
     HUGGINGFACE = 'huggingface'
+    SAGEMAKER = 'sagemaker'

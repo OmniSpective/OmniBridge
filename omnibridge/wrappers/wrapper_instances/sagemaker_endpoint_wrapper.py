@@ -1,72 +1,13 @@
 """Wrapper around Sagemaker InvokeEndpoint API."""
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Mapping, Optional, Union
+from typing import Any, Dict, Tuple, Optional, Union
 
 from ..wrapper_interfaces.model_wrapper import ModelWrapper
-from omnibridge.model_entities.models_io.base_model_io import ModelIO
+from .preprocessors import PreprocessorBase, MAP_PREPROCESS_TYPE_TO_HANDLER
+from .postprocessors import PostprocessorBase, MAP_POSTPROCESS_TYPE_TO_HANDLER
+from omnibridge.model_entities.models_io.base_model_io import ModelIO, TextualIO
 import boto3
-import json
 
 
-class ContentHandlerBase(ABC):
-    """A handler class to transform ModelIO to a
-    format that SageMaker endpoint expects. Similarily,
-    the class also handles transforming output from the
-    SageMaker endpoint to a ModelIO.
-    """
-
-    """
-    Example:
-        .. code-block:: python
-            class ContentHandler(ContentHandlerBase):
-                content_type = "application/json"
-                accepts = "application/json"
-                def transform_input(self, prompt: str, model_kwargs: Dict) -> bytes:
-                    input_str = json.dumps({prompt: prompt, **model_kwargs})
-                    return input_str.encode('utf-8')
-                
-                def transform_output(self, output: bytes) -> str:
-                    response_json = json.loads(output.read().decode("utf-8"))
-                    return response_json[0]["generated_text"]
-    """
-
-    content_type: Optional[str] = "text/plain"
-    """The MIME type of the input data passed to endpoint"""
-
-    accepts: Optional[str] = "text/plain"
-    """The MIME type of the response data returned from endpoint"""
-
-    @abstractmethod
-    def transform_input(
-        self, prompt: ModelIO, model_kwargs: Dict
-    ) -> bytes:
-        """Transforms the input to a format that model can accept
-        as the request Body. Should return bytes or seekable file
-        like object in the format specified in the content_type
-        request header.
-        """
-
-    @abstractmethod
-    def transform_output(self, output: bytes) -> ModelIO:
-        """Transforms the output from the model to string that
-        the LLM class expects.
-        """
-
-class ContentHandler(ContentHandlerBase):
-    content_type = "application/json"
-    accepts = "application/json"
-    def transform_input(self, prompt: ModelIO, model_kwargs: Dict) -> bytes:
-        input_str = json.dumps({prompt: prompt, **model_kwargs})
-        return input_str.encode('utf-8')
-    
-    def transform_output(self, output: bytes) -> ModelIO:
-        response_json = json.loads(output.read().decode("utf-8"))
-        return response_json[0]["generated_text"]
-
-
-MAP_TYPE_TO_HANDLER = {
-    type(ContentHandler): ContentHandler
-}
 
 
 class SagemakerEndpointWrapper(ModelWrapper):
@@ -99,7 +40,7 @@ class SagemakerEndpointWrapper(ModelWrapper):
                  name: str,
                  region: str, 
                  endpoint_name: str, 
-                 content_handler: ContentHandlerBase,
+                 content_handlers: Tuple[PreprocessorBase, PostprocessorBase],
                  model_kwargs: Optional[Dict] = None,
                  endpoint_kwargs: Optional[Dict] = None,
                  credentials_profile_name: Optional[str] = None) -> None:
@@ -107,7 +48,7 @@ class SagemakerEndpointWrapper(ModelWrapper):
         self.name = name
         self.region = region
         self.endpoint_name = endpoint_name
-        self.content_handler = content_handler
+        self.content_handlers = content_handlers
         self.credentials_profile_name = credentials_profile_name
         self.endpoint_kwargs = endpoint_kwargs or {}
         self.model_kwargs = model_kwargs or {}
@@ -115,6 +56,8 @@ class SagemakerEndpointWrapper(ModelWrapper):
 
         self.initialize()
 
+    def get_name(self) -> str:
+        return self.name
 
     def initialize(self) -> None:
         """Validate that AWS credentials to and python package exists in environment."""
@@ -135,8 +78,7 @@ class SagemakerEndpointWrapper(ModelWrapper):
                 "profile name are valid."
             ) from e
 
-
-    classmethod
+    @classmethod
     def get_description(cls) -> str:
         return """
             Sagemaker endpoint wrapper, allow accessing any model deployed in AWS Sagemaker using boto3
@@ -151,7 +93,10 @@ class SagemakerEndpointWrapper(ModelWrapper):
         return {
             "region": self.region, 
             "endpoint_name": self.endpoint_kwargs, 
-            "content_handler": type(self.content_handler),
+            "content_handler": {
+                "preprocess": self.content_handlers[0].get_name(),
+                "postprocess": self.content_handlers[1].get_name()
+            },
             "model_kwargs": self.model_kwargs,
             "endpoint_kwargs": self.endpoint_kwargs,
             "credentials_profile_name": self.credentials_profile_name,
@@ -160,18 +105,20 @@ class SagemakerEndpointWrapper(ModelWrapper):
 
     @classmethod
     def create_from_json(cls, json_key: str, json_data: Dict[str, str]) -> Any:
-        content_handler = MAP_TYPE_TO_HANDLER(json_data["content_handler"])()
+        preprocessor = MAP_PREPROCESS_TYPE_TO_HANDLER(json_data["content_handler"]["preprocess"])()
+        postprocessor = MAP_POSTPROCESS_TYPE_TO_HANDLER(json_data["content_handler"]["postprocess"])()
+
         return SagemakerEndpointWrapper(name=json_key, 
                                         region=json_data["region"], 
                                         endpoint_name=json_data["endpoint_name"],
-                                        content_handler=content_handler,
+                                        content_handlers=(preprocessor, postprocessor),
                                         model_kwargs=json_data["model_kwargs"],
                                         endpoint_kwargs=json_data["endpoint_kwargs"],
                                         credentials_profile_name=json_data["credentials_profile_name"])
 
 
     def process(self, model_input: ModelIO) -> ModelIO:
-        body = self.transform_input(model_input, self.model_kwargs)
+        body = self.content_handlers[0].transform_input(prompt=model_input, model_kwargs=self.model_kwargs)
 
         # send request
         try:
@@ -185,7 +132,7 @@ class SagemakerEndpointWrapper(ModelWrapper):
         except Exception as e:
             raise ValueError(f"Error raised by inference endpoint: {e}")
 
-        text = self.content_handler.transform_output(response["Body"])
+        result = self.content_handlers[1].transform_output(output=response["Body"])
 
-        return text
+        return result
 

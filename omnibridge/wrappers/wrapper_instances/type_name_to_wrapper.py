@@ -4,12 +4,14 @@ from omnibridge.saved_data.json_data_manager import JsonDataManager, JsonConvert
 from omnibridge.wrappers.wrapper_instances.dalle_wrapper import DALLEWrapper
 from omnibridge.wrappers.wrapper_instances.gpt_wrapper import GPTWrapper
 from omnibridge.wrappers.wrapper_instances.hugging_face_wrappers import HuggingFaceWrapper
+from omnibridge.wrappers.wrapper_instances.sagemaker_endpoint_wrapper import SagemakerEndpointWrapper
 from omnibridge.wrappers.wrapper_interfaces.model_wrapper import ModelWrapper
 
 type_names: Dict[str, Type[JsonConvertable]] = {
     GPTWrapper.get_class_type_field(): GPTWrapper,
     DALLEWrapper.get_class_type_field(): DALLEWrapper,
-    HuggingFaceWrapper.get_class_type_field(): HuggingFaceWrapper
+    HuggingFaceWrapper.get_class_type_field(): HuggingFaceWrapper,
+    SagemakerEndpointWrapper.get_class_type_field(): SagemakerEndpointWrapper,
 }
 
 
