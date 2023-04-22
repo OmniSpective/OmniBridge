@@ -4,11 +4,11 @@ from omnibridge.model_entities.models_io.base_model_io import ModelIO, TextualIO
 from omnibridge.model_entities.models_io.flow_io import FlowIO
 from omnibridge.saved_data.json_data_manager import JsonConvertable
 from omnibridge.wrappers.wrapper_instances.type_name_to_wrapper import ModelLoader
-from omnibridge.wrappers.wrapper_interfaces.model_wrapper import ModelWrapper
+from omnibridge.wrappers.wrapper_interfaces.processor import Processor
 
 
-class Node(JsonConvertable):
-    def __init__(self, model: ModelWrapper, instruction: str, next_nodes: List[ModelWrapper]):
+class Node(JsonConvertable, Processor):
+    def __init__(self, model: Processor, instruction: str = "", next_nodes: List[Processor] = []):
         self.next_nodes = next_nodes
         self.model = model
         self.instruction = instruction
@@ -36,7 +36,7 @@ class Node(JsonConvertable):
 
         next_models = []
         for next_model_data in json_data.get('models', []):
-            next_model = Node.create_from_json("", next_model_data) # type: ignore[arg-type]
+            next_model = Node.create_from_json("", next_model_data)  # type: ignore[arg-type]
             next_models.append(next_model)
 
         return Node(model, instruction, next_models)

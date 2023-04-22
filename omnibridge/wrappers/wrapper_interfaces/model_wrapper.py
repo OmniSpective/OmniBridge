@@ -1,14 +1,10 @@
 from abc import abstractmethod
 
-from omnibridge.model_entities.models_io.base_model_io import ModelIO
 from omnibridge.saved_data.json_data_manager import JsonConvertable
+from omnibridge.wrappers.wrapper_interfaces.processor import Processor
 
 
-class ModelWrapper(JsonConvertable):
-    @abstractmethod
-    def process(self, model_input: ModelIO) -> ModelIO:
-        pass
-
+class ModelWrapper(JsonConvertable, Processor):
     @abstractmethod
     def get_name(self) -> str:
         pass

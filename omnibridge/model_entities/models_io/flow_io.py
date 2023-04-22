@@ -3,17 +3,22 @@ from typing import List
 from omnibridge.model_entities.models_io.base_model_io import ModelIO, TextualIO, ImageIO
 
 
-class FlowIO:
+class FlowIO(ModelIO):
     def __init__(self, model_io: ModelIO):
         self.text = ""
         self.image_paths = []
         self.pretty_text = ""
+
         if isinstance(model_io, TextualIO):
             self.text = model_io.get_text()
             self.pretty_text = self.text
+
         elif isinstance(model_io, ImageIO):
             self.image_paths = model_io.image_paths()
             self.pretty_text = repr(model_io)
+
+        else:
+            raise NotImplementedError()
 
     def get_text(self) -> str:
         return self.text
