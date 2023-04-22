@@ -16,7 +16,7 @@ def add_create_model_sub_parser(parser: Any) -> None:
     create_model_parser.add_argument('-k', '--key', type=str, required=True, help="api key name.")
     create_model_parser.add_argument('--sub-model', type=str,
                                       help="the sub model of the model youv'e chosen, for example" \
-                                        "'gpt-3.5-turbo' if chatgpt is chosen")
+                                         "'gpt-3.5-turbo' if chatgpt is chosen, or 'repo_id' if huggingface is chosen")
     create_model_parser.add_argument('--num-images', type=str, default="4",
                                       help="number of images per prompt, default 4.")
     create_model_parser.add_argument('-r', '--res', type=str, default="256x256", help="resolution of images.")

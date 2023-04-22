@@ -1,9 +1,10 @@
-from omnibridge.model_entities.models_io.base_model_io import FlowTextIO, TextualIO
+from omnibridge.model_entities.models_io.base_model_io import TextualIO
+from omnibridge.model_entities.models_io.flow_io import FlowIO
 
 
 def test_flow_text_io_succeed():
     # Arrange
-    flow_io = FlowTextIO("hello")
+    flow_io = FlowIO(TextualIO("hello"))
     model_text_io = TextualIO("world")
 
     # Act

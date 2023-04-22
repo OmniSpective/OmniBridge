@@ -1,3 +1,4 @@
+import time
 from typing import Any, Dict
 import requests
 from abc import abstractmethod
@@ -41,13 +42,23 @@ class RestAPIWrapper(ModelWrapper):
         raises GPTWrapperException if request failed
         returns string response from chatgpt completions api
         """
-        self.logger.debug(f'Sending prompt to API: {prompt_message}')
-        response = requests.post(
-            self._get_api_url(),
-            headers=self._get_headers(),
-            data=self._get_body(prompt_message)
-        )
+        retries = 2
+        retry_delay = 30  # seconds
+        for attempt in range(retries):
+            self.logger.debug(f'Sending prompt to API: {prompt_message}')
+            response = requests.post(
+                self._get_api_url(),
+                headers=self._get_headers(),
+                data=self._get_body(prompt_message)
+            )
 
+            if response.status_code == 429:
+                self.logger.warning(
+                    f"429 error: Too Many Requests. Retrying in {retry_delay} seconds. Attempt {attempt + 1}.")
+                time.sleep(retry_delay)
+                continue
+            else:
+                break
         try:
             response.raise_for_status()
         except Exception as e:
