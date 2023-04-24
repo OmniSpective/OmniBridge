@@ -30,3 +30,12 @@ def test_py_file_conversion_to_textual_io():
 
     # Assert
     assert text_io.get_text() == content
+
+
+def test_pdf_file_conversion_to_textual_io():
+    file_name = 'tests/unit/file_handling/dummy.pdf'
+    # Act
+    text_io = FileInputHandler.convert_file(file_name)
+    
+    # Assert
+    assert text_io.get_text() == 'Dummy PDF file\n\n\x0c'
