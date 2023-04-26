@@ -17,6 +17,8 @@ argparse = "*"
 pydantic = "*"
 fastapi = "*"
 huggingface_hub = "*"
+"pdfminer.six" = "*"
+beautifulsoup4 = "*"
 
 [requires]
 python_version = "3.8"

@@ -15,6 +15,7 @@ def add_run_flow_sub_parser(parser: Any) -> None:
     group = run_flow_parser.add_mutually_exclusive_group(required=True)
     group.add_argument('-p', '--prompt', help="prompt for flow", type=str)
     group.add_argument('-fp', '--file-prompt', help="file prompt for flow", type=str,)
+    group.add_argument('-wp', '--web-prompt', help="web prompt for flow", type=str,)
 
 def add_run_model_sub_parser(parser: Any) -> None:
     run_flow_parser = parser.add_parser("model", help="run flow.")
@@ -23,3 +24,4 @@ def add_run_model_sub_parser(parser: Any) -> None:
     group = run_flow_parser.add_mutually_exclusive_group(required=True)
     group.add_argument('-p', '--prompt', help="prompt for flow", type=str)
     group.add_argument('-fp', '--file-prompt', help="file prompt for flow", type=str,)
+    group.add_argument('-wp', '--web-prompt', help="web prompt for flow", type=str,)

@@ -5,6 +5,8 @@ from omnibridge.flows.graph_flow import GraphFlow
 from omnibridge.model_entities.models_io.base_model_io import TextualIO
 from omnibridge.wrappers.wrapper_instances.type_name_to_wrapper import ModelLoader
 from omnibridge.model_entities.models_io.file_to_text_converter import FileInputHandler
+from omnibridge.model_entities.models_io.web_to_text_converter import WebInputHandler
+
 
 def handle_run_command(args: Dict[str, Any]) -> None:
     object_to_run = None
@@ -25,6 +27,8 @@ def handle_run_command(args: Dict[str, Any]) -> None:
         data = TextualIO(args['prompt'])
     elif args.get('file_prompt'):
         data = FileInputHandler().convert_file(file_path=args['file_prompt'])
+    elif args.get('web_prompt'):
+        data = WebInputHandler().convert_url_page(url=args['web_prompt'])
     else:
         raise Exception('Prompt or File-prompt must be provided')
 
