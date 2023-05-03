@@ -6,6 +6,7 @@ from omnibridge.saved_data.json_data_manager import JsonDataManager
 from omnibridge.wrappers.wrapper_instances.gpt_wrapper import GPTWrapper
 from omnibridge.wrappers.wrapper_instances.dalle_wrapper import DALLEWrapper
 from omnibridge.wrappers.wrapper_instances.hugging_face_wrappers import HuggingFaceWrapper
+from omnibridge.wrappers.wrapper_instances.sagemaker_endpoint_wrapper import SagemakerEndpointWrapper
 from omnibridge.wrappers.wrapper_instances.type_name_to_wrapper import ModelLoader
 
 
@@ -53,6 +54,23 @@ def add_dalle(args: Dict[str, Any]) -> None:
     wrapper: DALLEWrapper = DALLEWrapper(name, api_key=api_key.value, number_of_images=args['num_images'],
                                             resolution=args['res'])
     JsonDataManager.save(["models", name], wrapper)
+
+
+def add_sagemaker(args: Dict[str, Any]) -> None:
+    from omnibridge.wrappers.wrapper_instances.preprocessors import MAP_PREPROCESS_TYPE_TO_HANDLER
+    from omnibridge.wrappers.wrapper_instances.postprocessors import MAP_POSTPROCESS_TYPE_TO_HANDLER
+
+    preprocess = MAP_PREPROCESS_TYPE_TO_HANDLER[args.get('preprocess', 'JSONPreprocessor')]()
+    postprocess = MAP_POSTPROCESS_TYPE_TO_HANDLER[args.get('postprocess', 'JSONPostprocessor')]()
+    credentials_profile_name = args.get('profile_name', None)
+    wrapper: SagemakerEndpointWrapper = SagemakerEndpointWrapper(name=args['name'],
+                                                                 region=args['region'],
+                                                                 endpoint_name = args['endpoint_name'],
+                                                                 content_handlers=(preprocess, postprocess),
+                                                                 model_kwargs=args.get('model_kwargs', None),
+                                                                 endpoint_kwargs=args.get('endpoint_kwargs', None),
+                                                                 credentials_profile_name=credentials_profile_name)
+    JsonDataManager.save(["models", args['name']], wrapper)
 
 
 def add_flow(args: Dict[str, Any]) -> None:
